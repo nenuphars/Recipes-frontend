@@ -1,10 +1,39 @@
-#eachPhoto{
-  width: 200px;
-  height: 200px;
-}
-#eachRecipe{
-  background-color: aqua;
-  display:flex;
+#eachRecipeContainer {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente fila */
+  gap: 10px; /* Espacio entre los elementos */
   justify-content: space-around;
-  display: inline
+  
+  
+}
+#eachPhoto{
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+}
+#eachRecipe {
+  display: flex;
+  flex-direction: column; /* Apila los elementos verticalmente */
+  align-items: center; /* Centra los elementos horizontalmente */
+  background-color: beige;
+  border-radius: 20px;
+  margin: 10px;
+}
+
+
+
+ #tagContainer{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente fila */
+  gap: 1px; /* Espacio entre los elementos */
+  justify-content: space-around;
+  margin-bottom: 10px;
+ }
+#eachRecipe h2,
+#eachRecipe h4 {
+  margin-top: 0px; /* Elimina el margen predeterminado de h2 y h4 */
+}
+#eachRecipe img{
+  margin-bottom: 0px;
 }
