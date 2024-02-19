@@ -5,9 +5,6 @@ function HomePage() {
   const [allRecipes, setAllRecipes] = useState([])
   const [randomRecipe, setRandomRecipe] = useState(null)
 
-
-
-
   useEffect(()=>{
     axios.get(`${import.meta.env.VITE_BASE_URL}/Recipes`)
     .then((recipesFromAPI)=>{
