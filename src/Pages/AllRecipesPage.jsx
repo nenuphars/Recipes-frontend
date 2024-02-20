@@ -2,6 +2,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import "../App.css";
+import Card from '@mui/material/Card';
+import { Link } from "react-router-dom";
+
 function AllRecipesPage() {
   const [allRecipes, setAllRecipes] = useState([]);
 
@@ -22,7 +25,9 @@ function AllRecipesPage() {
       <div id="eachRecipeContainer">
         {allRecipes.map((eachRecipe) => {
           return (
-            <div id="eachRecipe" className="eachRecipeItem" key={eachRecipe.id}>
+            <Link to={`/Allrecipes/${eachRecipe.id}`}  key={eachRecipe.id} style={{textDecoration:"none"}}>
+            <Card id="eachCard" >
+            
               <img
                 id="eachPhoto"
                 src={eachRecipe.photo_URL}
@@ -30,13 +35,14 @@ function AllRecipesPage() {
               />
               <h2>{eachRecipe.name}</h2>
 
-              <h4>⏱️ {eachRecipe.duration}</h4>
+              <h4 >⏱️ {eachRecipe.duration}</h4>
               <div id="tagContainer">
                 {eachRecipe.tags.map((eachTag) => {
                   return <div key={eachTag}>{eachTag}</div>;
                 })}
               </div>
-            </div>
+            </Card>
+            </Link>
           );
         })}
       </div>
