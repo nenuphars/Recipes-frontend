@@ -45,3 +45,6 @@
 #eachRecipe img{
   margin-bottom: 0px;
 }
+#eachCard:hover {
+  transform: scale(1.1); /* Ajusta el nivel de zoom según tus necesidades */
+}
