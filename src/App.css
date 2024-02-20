@@ -1,42 +1,50 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+#eachRecipeContainer {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente fila */
+  gap: 10px; /* Espacio entre los elementos */
+  justify-content: space-around;
+  text-decoration: none; /* Quitar subrayado de los enlaces */
+  color: inherit; 
+  
+}
+#eachPhoto{
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+}
+#eachCard {
+  display: flex;
+  flex-direction: column; /* Apila los elementos verticalmente */
+  align-items: center; /* Centra los elementos horizontalmente */
+  background-color: beige;
+  border-radius: 20px;
+  margin: 10px;
+  font: white;
+}
+#eachCard h2,
+#eachCard h4 {
+  margin: 12px;
+  color: black;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+ #tagContainer{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente fila */
+  gap: 1px; /* Espacio entre los elementos */
+  justify-content: space-around;
+  margin-bottom: 10px;
+  font-style: normal;
+ }
+#eachCard h2,
+#eachCard h4 {
+  margin-top: 0px;
+  font-style: initial; /* Elimina el margen predeterminado de h2 y h4 */
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+#eachRecipe img{
+  margin-bottom: 0px;
 }
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+#eachCard:hover {
+  transform: scale(1.1); /* Ajusta el nivel de zoom según tus necesidades */
 }
