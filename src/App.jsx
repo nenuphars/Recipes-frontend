@@ -5,6 +5,8 @@ import HomePage from "./Pages/HomePage"
 import AllRecipesPage from "./Pages/AllRecipesPage"
 import RecipeDetailsPage from './Pages/RecipeDetailsPage'
 import CreateRecipePage from './Pages/CreateRecipePage'
+import EditRecipe from './Pages/EditRecipe'
+import Dashboard from './Pages/Dashboard'
 
 function App() {
 
@@ -13,10 +15,12 @@ function App() {
     <>
       <Navbar></Navbar>
       <Routes>
-        <Route path='/' element={<HomePage></HomePage>}></Route>
-        <Route path='/Allrecipes' element={<AllRecipesPage></AllRecipesPage>}></Route>
-        <Route path='/Allrecipes/:id' element={<RecipeDetailsPage></RecipeDetailsPage>}></Route>
-        <Route path='/CreateRecipe' element={<CreateRecipePage></CreateRecipePage>}></Route>
+        <Route path='/' element={<HomePage />}></Route>
+        <Route path='/Allrecipes' element={<AllRecipesPage />}></Route>
+        <Route path='/Allrecipes/:id' element={<RecipeDetailsPage />}></Route>
+        <Route path='/dashboard' element={<Dashboard />}></Route>
+        <Route path='/dashboard/edit/:id' element={<EditRecipe />}></Route>
+        <Route path='/dashboard/CreateRecipe' element={<CreateRecipePage />}></Route>
       </Routes>
     </>
   )
