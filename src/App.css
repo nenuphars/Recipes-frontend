@@ -48,3 +48,47 @@
 #eachCard:hover {
   transform: scale(1.1); /* Ajusta el nivel de zoom según tus necesidades */
 }
+#recipeContainer{
+ background-color: beige;
+ border-bottom: 2px solid black;
+  border-radius: 20px;
+  display: block;
+  display: flex; /* Usar flexbox para diseño flexible */
+  align-items: center;
+  flex-direction: column; /* Apilar los elementos en columna */
+  text-align: center; /
+  
+}
+#recipeContainer img{
+ width: 550px;
+ height: 550px;
+  border-radius: 20px;
+  margin: 0, 10, 10, 0; 
+ 
+}
+#backgroundDetails{
+border-radius: 20px;
+}
+#ingredientListDetails{
+  text-align:left
+}
+#first-recipe-bloq{
+  background-color: beige;
+  border-bottom: 2px solid black;
+  border-radius: 20px;
+  display: flex;
+  align-items: flex-start; /* Ajustado para alinear los elementos en la parte superior */
+  justify-content: space-between; /* Ajustado para separar los elementos a los extremos */
+  flex-direction: row; /* Cambiado a fila para alinear los elementos en una fila */
+  text-align: left; /* Alinea el texto a la izquierda */
+}
+#first-recipe-bloq-text{
+  margin: 10px;
+  border-radius: 20px;
+  display: block;
+  display: flex; /* Usar flexbox para diseño flexible */
+  align-items: center;
+  flex-direction: column; /* Apilar los elementos en columna */
+  text-align: center; /
+  
+}
