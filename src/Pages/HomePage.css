@@ -1,26 +1,29 @@
-html, body {
-    font-family: sans-serif;
+html,
+body {
+  font-family: "Roboto", sans-serif;
 }
 
-#homepage-container{
-    display:flex;
-    flex-direction: row;
+#homepage-container {
+  display: flex;
+  flex-direction: row;
 }
 
-.homepage-wrapper{
-    margin: 40px;
-    display:flex;
-    flex-direction:column;
-    align-items: center;
-    justify-content: center;
-    width: 50vw;
+.homepage-wrapper {
+  margin: 40px;
+  display: flex;
+  text-decoration: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
 }
 
 .random-img-wrapper {
-    width: 400px;
-    height:400px;
+  width: 360px;
+  height: 360px;
+  border-radius: 20px;
 }
- .random-recipe-img {
-    width:400px;
-    height: 400px;
- }
+.random-recipe-img {
+  width: 400px;
+  height: 400px;
+}
