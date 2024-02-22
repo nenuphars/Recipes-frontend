@@ -1,0 +1,94 @@
+#eachRecipeContainer {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente fila */
+  gap: 10px; /* Espacio entre los elementos */
+  justify-content: space-around;
+  text-decoration: none; /* Quitar subrayado de los enlaces */
+  color: inherit; 
+  
+}
+#eachPhoto{
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+}
+#eachCard {
+  display: flex;
+  flex-direction: column; /* Apila los elementos verticalmente */
+  align-items: center; /* Centra los elementos horizontalmente */
+  background-color: beige;
+  border-radius: 20px;
+  margin: 10px;
+  font: white;
+}
+#eachCard h2,
+#eachCard h4 {
+  margin: 12px;
+  color: black;
+}
+
+
+ #tagContainer{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente fila */
+  gap: 1px; /* Espacio entre los elementos */
+  justify-content: space-around;
+  margin-bottom: 10px;
+  font-style: normal;
+ }
+#eachCard h2,
+#eachCard h4 {
+  margin-top: 0px;
+  font-style: initial; /* Elimina el margen predeterminado de h2 y h4 */
+}
+#eachRecipe img{
+  margin-bottom: 0px;
+}
+#eachCard:hover {
+  transform: scale(1.1); /* Ajusta el nivel de zoom según tus necesidades */
+}
+#recipeContainer{
+ background-color: beige;
+ border-bottom: 2px solid black;
+  border-radius: 20px;
+  display: block;
+  display: flex; /* Usar flexbox para diseño flexible */
+  align-items: center;
+  flex-direction: column; /* Apilar los elementos en columna */
+  text-align: center; /
+  
+}
+#recipeContainer img{
+ width: 550px;
+ height: 550px;
+  border-radius: 20px;
+  margin: 0, 10, 10, 0; 
+ 
+}
+#backgroundDetails{
+border-radius: 20px;
+}
+#ingredientListDetails{
+  text-align:left
+}
+#first-recipe-bloq{
+  background-color: beige;
+  border-bottom: 2px solid black;
+  border-radius: 20px;
+  display: flex;
+  align-items: flex-start; /* Ajustado para alinear los elementos en la parte superior */
+  justify-content: space-between; /* Ajustado para separar los elementos a los extremos */
+  flex-direction: row; /* Cambiado a fila para alinear los elementos en una fila */
+  text-align: left; /* Alinea el texto a la izquierda */
+}
+#first-recipe-bloq-text{
+  margin: 10px;
+  border-radius: 20px;
+  display: block;
+  display: flex; /* Usar flexbox para diseño flexible */
+  align-items: center;
+  flex-direction: column; /* Apilar los elementos en columna */
+  text-align: center; /
+  
+}
