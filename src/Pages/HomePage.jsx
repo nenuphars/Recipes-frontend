@@ -1,12 +1,8 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
-import { Card } from '@mui/material'
+import { Card, Button } from '@mui/material'
 import './HomePage.css'
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 
 
 function HomePage() {
@@ -35,20 +31,20 @@ function HomePage() {
   return (
     <div id="homepage-container">
       <div className="homepage-wrapper">
-        <h3>When you look into your fridge, you have no inspiration? 
-        <span className="cursive"> What the Fridge </span>
+        <h3 className="homepage-description">When you look into your fridge, you have no inspiration? 
+        <span className="homepage-description cursive-animated"> What the Fridge </span>
          wants to help you get out of this misery and prevent any hangriness due to not being able to decide what to cook.</h3>
-        <h4>Feeling insecure?</h4>
-        <button onClick={()=>{setRandomRecipe(allRecipes[Math.floor(Math.random() * allRecipes.length)])}}>Get a random recipe</button>
+        <h3 >Feeling insecure?</h3>
+        <Button variant="contained" size="large" onClick={()=>{setRandomRecipe(allRecipes[Math.floor(Math.random() * allRecipes.length)])}}>Get a random recipe</Button>
       </div>
       <div className="homepage-wrapper">
       {!randomRecipe && <p>...loading</p>}
       {randomRecipe && (
         <Link to={`/Allrecipes/${randomRecipe.id}`}  key={randomRecipe.id} style={{textDecoration:"none"}}>
-            <Card id="eachCard" >
+            <Card id="recipeCard" >
             
               <img
-              className="random-img-wrapper"
+              id="random-recipe-img"
                 src={randomRecipe.photo_URL}
                 alt={`${randomRecipe.name} dish`}
               />
