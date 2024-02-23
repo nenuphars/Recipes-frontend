@@ -12,6 +12,31 @@
   height: 300px;
   border-radius: 20px;
 }
+#AddCardPhoto{
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.87);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#addCard{
+  display: flex;
+  flex-direction: column; /* Apila los elementos verticalmente */
+  align-items: center; /* Centra los elementos horizontalmente */
+  background-color: beige;
+  border-radius: 20px;
+  margin: 10px;
+  font: white;
+}
+#AddCardText{
+display: flex;
+  margin: 48px
+}
+#addCard:hover {
+  transform: scale(1.1); /* Ajusta el nivel de zoom según tus necesidades */
+}
 #eachCard {
   display: flex;
   flex-direction: column; /* Apila los elementos verticalmente */

@@ -7,24 +7,24 @@ import { Link } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
 function Dashboard() {
   const [allRecipes, setAllRecipes] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const deleteFields = (index) => {
-    
     axios
-    .delete(`${import.meta.env.VITE_BASE_URL}/Recipes/${index}`)
-    .then((recipes) => {
-      setAllRecipes(recipes.data);
-      navigate('/dashboard')
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
+      .delete(`${import.meta.env.VITE_BASE_URL}/Recipes/${index}`)
+      .then((recipes) => {
+        setAllRecipes(recipes.data);
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BASE_URL}/Recipes`)
@@ -39,6 +39,13 @@ function Dashboard() {
   return (
     <>
       <div id="eachRecipeContainer">
+        <Link to={'/dashboard/CreateRecipe'} style={{ textDecoration: "none" }}><Card id="addCard">
+          <div id="AddCardPhoto">
+            <AddRoundedIcon color='primary' style={{ fontSize: 175 }} ></AddRoundedIcon>
+          </div>
+
+          <h2 id="AddCardText">Add a new recipe </h2>
+        </Card></Link>
         {allRecipes.map((eachRecipe) => {
           return (
             <Link
@@ -56,14 +63,15 @@ function Dashboard() {
 
                 <h4>
                   {" "}
+                  <Link to={`/dashboard/edit/${eachRecipe.id}`} style={{ textDecoration: "none" }}>
                   <IconButton
                     aria-label="edit"
                     onClick={() => {
                       deleteFields(eachRecipe);
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>{" "}
+                    }} 
+                  > 
+                    <EditIcon /> 
+                  </IconButton> </Link>{" "}
                   ⏱️ {eachRecipe.duration}{" "}
                   <IconButton
                     aria-label="delete"
