@@ -21,7 +21,7 @@ function AllRecipesPage() {
   }, []);
   return (
     <>
-      <h1>All recipes Page</h1>
+    
       <div id="eachRecipeContainer">
         {allRecipes.map((eachRecipe) => {
           return (
