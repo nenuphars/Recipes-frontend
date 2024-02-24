@@ -26,108 +26,89 @@ function EditRecipe() {
   const [tags, setTags] = useState([]);
   
   // state for ingredients and amount
-  const [inputFields, setInputFields] = useState([{ingredient:"", amount:""}])
+  const [ingredients, setIngredients] = useState([{ingredient:"", amount:""}])
 
   // get data for the current recipe to be modified
   useEffect(()=>{
     axios.get(`${import.meta.env.VITE_BASE_URL}/Recipes/${id}`)
     .then((recipeDetails)=>{
       console.log(recipeDetails.data)
-      setRecipeData(recipeDetails.data)
 
-      // split the data for the duration so you end up with a number (works only minutes)
-      let splitDuration = recipeData.duration.split(" ")
-      setDuration(splitDuration)
-      console.log(splitDuration)
+      setName(recipeDetails.data.name)
+      setPhotoURL(recipeDetails.data.photo_URL)
+      setDuration(recipeDetails.data.duration)
+      setPreparation(recipeDetails.data.preparation)
+      setDescription(recipeDetails.data.description)
+      setServings(recipeDetails.data.servings)
+      setTags(recipeDetails.data.tags)
+      setIngredients(recipeDetails.data.ingredientsList)
 
-      // create ingredient and quantity pairs
-      let ingredientsAmountsArray = []
-      let ingredientsArray = [...recipeData.ingredients]
-      ingredientsArray.forEach((oneIngredient)=>{
-        ingredientsAmountsArray.push({ingredient: oneIngredient})
-      })
-      
-      let amountsArray = [...recipeData.quantity]
-      amountsArray.forEach((oneAmount)=>{
-        ingredientsAmountsArray.forEach((oneObj)=>{
-          console.log(oneObj.amount)
-          oneObj.amount = oneAmount
-        })
-      })
-      console.log(ingredientsAmountsArray)
     })
     .catch((err)=>{
       console.log(err)
     })
   }, [id])
-  
+
   
 
   // function that updates data when the user is typing
   const handleInputFields = (index, event) =>{
-    let data = [...inputFields]
+    let data = [...ingredients]
     data[index][event.target.name] = event.target.value
     console.log(data)
-    setInputFields(data)
+    setIngredients(data)
   }
 
   // function that adds a new input field when the user clicks the button
   const addFields = () => {
     let newField = {ingredient:"", amount:""}
-    setInputFields([...inputFields, newField])
+    setIngredients([...recipeData.ingredientsList, newField])
   }
 
   // function that deletes an input fields if the user clicks the button
   const deleteFields = (index) => {
-    let data = [...inputFields]
+    let data = [...recipeData.ingredientsList]
     data.splice(index,1)
-    setInputFields(data)
+    setIngredients(data)
   }
 
   // function that handles the submit 
   function handleSubmit(e) {
     e.preventDefault();
 
-    // returns all ingredients to the ingredients state
-    const ingredientsArray = inputFields.map((oneIngredient)=>{
-      return oneIngredient.ingredient;
-    })
-    
-    // returns all the amounts to the quantity array
-    const quantityArray = inputFields.map((oneAmount)=>{
-      return oneAmount.amount;
-    })
+
+
+
 
     // object that contains a new/edited recipe
     const newRecipe = {
       name: name,
       photo_URL: photoURL,
       duration: duration + " mins",
-      ingredients: ingredientsArray,
-      quantity: quantityArray,
+      ingredientsList: ingredients,
       preparation: preparation,
       description: description,
       servings: servings,
       tags: tags,
     };
 
-    // axios
-    //   .put(`${import.meta.env.VITE_BASE_URL}/Recipes`, newRecipe)
-    //   .then(() => {})
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios
+      .put(`${import.meta.env.VITE_BASE_URL}/Recipes/${id}`, newRecipe)
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
     <>
       <h1>Edit Recipe</h1>
-      {!recipeData && <p>...loading</p>}
-      {recipeData && <Stack id="AddRecipesPage" spacing={2}>
+      {(!name || !photoURL || !duration || !ingredients || !preparation || !description || !servings || !tags) && <p>...loading</p>}
+      {(name || photoURL || duration || ingredients || preparation || description || servings || tags) && <Stack id="AddRecipesPage" spacing={2}>
         <FormControl onSubmit={handleSubmit}>
           <FormLabel htmlFor="name">Name</FormLabel>
           <OutlinedInput
-          value={`${recipeData.name}`}
+          value={`${name}`}
             name="name"
             variant="filled"
             size="small"
@@ -139,7 +120,7 @@ function EditRecipe() {
           />
           <FormLabel htmlFor="photo">Photo URL</FormLabel>
           <OutlinedInput
-          value={`${recipeData.photo_URL}`}
+          value={`${photoURL}`}
             name="photo"
             variant="filled"
             size="small"
@@ -150,7 +131,7 @@ function EditRecipe() {
           />
           <FormLabel htmlFor="duration">Duration</FormLabel>
             <OutlinedInput
-            value={`${duration[0]}`}
+            value={`${duration.split(" ")[0]}`}
               name="duration"
               variant="filled"
               type="number"
@@ -161,21 +142,11 @@ function EditRecipe() {
               endAdornment={<InputAdornment position="end">mins</InputAdornment>}
             />
 
-            <Stack key="" id="ingredients-amounts-stack" direction="row">
-            <Stack id="ingredients-stack">
-            {recipeData.ingredients.map((ingredient, index)=>{
+            <Stack key="" id="ingredients-amounts-stack" direction="column">
+            {ingredients.map((oneItem, index)=>{
               return (<Stack key={"ingredient" + index} direction="row" spacing={2}>
-                <OutlinedInput value={`${ingredient}`} name="ingredient" placeholder="ingredient" onChange={event => handleInputFields(index, event)} />
-              
-              </Stack>)
-            })}
-
-                <Button variant="text" onClick={e => addFields(e)}>Add more</Button>
-            </Stack>
-            <Stack id="amounts-stack">
-            {recipeData.quantity.map((quantity, index)=>{
-              return (<Stack key={"quantity" + index} direction="row" spacing={2}>
-                <OutlinedInput value={`${quantity}`} name="amount" placeholder="amount" onChange={event => handleInputFields(index, event)} />
+                <OutlinedInput value={`${oneItem.ingredient}`} name="ingredient" placeholder="ingredient" onChange={event => handleInputFields(index, event)} />
+                <OutlinedInput value={`${oneItem.amount}`} name="amount" placeholder="amount" onChange={event => handleInputFields(index, event)} />
                 <IconButton aria-label="delete" onClick={()=>{deleteFields(index)}}>
         <DeleteIcon />
       </IconButton>
@@ -184,13 +155,12 @@ function EditRecipe() {
 
                 <Button variant="text" onClick={e => addFields(e)}>Add more</Button>
             </Stack>
-            </Stack>
 
     
 
           <FormLabel htmlFor="preparation">Preparation method</FormLabel>
             <OutlinedInput
-            value={`${recipeData.preparation}`}
+            value={`${preparation}`}
               name="preparation"
               variant="filled"
               size="normal"
@@ -202,7 +172,7 @@ function EditRecipe() {
             />
           <FormLabel htmlFor="servings">Servings</FormLabel>
             <OutlinedInput
-            value={`${recipeData.servings}`}
+            value={`${servings}`}
               name="servings"
               variant="filled"
               size="small"
@@ -213,7 +183,7 @@ function EditRecipe() {
             />
           <FormLabel htmlFor="description">Description</FormLabel>
           <OutlinedInput
-          value={`${recipeData.description}`}
+          value={`${description}`}
             name="description"
             variant="filled"
             size="normal"
@@ -223,7 +193,7 @@ function EditRecipe() {
             }}
           />
           <FormLabel htmlFor="Tags">Tags</FormLabel>
-          {recipeData.tags.map((oneTag)=>{
+          {tags.map((oneTag)=>{
             return (
           <OutlinedInput key={oneTag}
           value={`${oneTag}`}
