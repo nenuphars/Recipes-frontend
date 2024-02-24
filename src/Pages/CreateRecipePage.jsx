@@ -14,20 +14,18 @@ function CreateRecipePage() {
   const [name, setName] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [duration, setDuration] = useState(0);
-  // const [ingredients, setIngredients] = useState([]);
-  // const [quantity, setQuantity] = useState([]);
   const [preparation, setPreparation] = useState("");
   const [description, setDescription] = useState("");
   const [servings, setServings] = useState("");
   const [tags, setTags] = useState([""]);
-  const [inputFields, setInputFields] = useState([{ingredient:"", amount:""}])
+  const [ingredients, setIngredients] = useState([{ingredient:"", amount:""}])
   const navigate = useNavigate()
 
-  const handleInputFields = (index, event) =>{
-    let data = [...inputFields]
+  const handleIngredientFields = (index, event) =>{
+    let data = [...ingredients]
     data[index][event.target.name] = event.target.value
     console.log(data)
-    setInputFields(data)
+    setIngredients(data)
   }
 
   const handleTagField = (index, event) =>{
@@ -39,7 +37,7 @@ function CreateRecipePage() {
 
   const addFields = () => {
     let newField = {ingredient:"", amount:""}
-    setInputFields([...inputFields, newField])
+    setIngredients([...ingredients, newField])
   }
 
   const addTagField = () => {
@@ -47,10 +45,13 @@ function CreateRecipePage() {
     setTags([...tags, newField])
   }
 
-  const deleteFields = (index) => {
-    let data = [...inputFields]
+  const deleteIngredientFields = (index) => {
+    if(ingredients.length===1){
+      return setIngredients([{ingredient: "", amount: ""}])
+    }
+    let data = [...ingredients]
     data.splice(index,1)
-    setInputFields(data)
+    setIngredients(data)
   }
   const deleteTagField = (index) => {
     let data = [...tags]
@@ -60,20 +61,12 @@ function CreateRecipePage() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const ingredientsArray = inputFields.map((oneIngredient)=>{
-      return oneIngredient.ingredient;
-    })
-
-    const quantityArray = inputFields.map((oneAmount)=>{
-      return oneAmount.amount;
-    })
     
     const newRecipe = {
       name: name,
       photo_URL: photoURL,
       duration: duration + " mins",
-      ingredients: ingredientsArray,
-      quantity: quantityArray,
+      ingredientsList: ingredients,
       preparation: preparation,
       description: description,
       servings: servings,
@@ -127,16 +120,16 @@ function CreateRecipePage() {
               }}
               endAdornment={<InputAdornment position="end">mins</InputAdornment>}
             />
-            {inputFields.map((input, index)=>{
+            {ingredients.map((input, index)=>{
               return (<Stack key={index} direction="row" spacing={2}>
-                <OutlinedInput name="ingredient" placeholder="ingredient" value={input.ingredient} onChange={event => handleInputFields(index, event)} />
-                <OutlinedInput name="amount" placeholder="amount" value={input.amount} onChange={event => handleInputFields(index, event)} />
-                <IconButton aria-label="delete" onClick={()=>{deleteFields(index)}}>
+                <OutlinedInput name="ingredient" placeholder="ingredient" value={input.ingredient} onChange={event => handleIngredientFields(index, event)} />
+                <OutlinedInput name="amount" placeholder="amount" value={input.amount} onChange={event => handleIngredientFields(index, event)} />
+                <IconButton aria-label="delete" onClick={()=>{deleteIngredientFields(index)}}>
         <DeleteIcon />
       </IconButton>
-                <Button variant="text" onClick={e => addFields(e)}>Add more</Button>
               </Stack>)
             })}
+                <Button variant="text" onClick={e => addFields(e)}>Add more</Button>
 
           <FormLabel htmlFor="preparation">Preparation method</FormLabel>
             <OutlinedInput
