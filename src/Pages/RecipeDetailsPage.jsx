@@ -20,14 +20,7 @@ function RecipeDetailsPage() {
   }, [id]);
   console.log(recipe);
 
-  function servingsAndQuantity() {
-    if (!recipe) return [];
 
-    return recipe.ingredients.map((ingredient, index) => {
-      const quantity = recipe.quantity[index];
-      return `${quantity} ${ingredient}`;
-    });
-  }
 
   return (
     <div id="backgroundDetails">
@@ -58,8 +51,8 @@ function RecipeDetailsPage() {
             </div>
             <h2>Ingredients and preparation for {recipe.servings} servings:</h2>
             <ul id="ingredientListDetails">
-              {servingsAndQuantity().map((item, index) => (
-                <li key={index}>{item}</li>
+              {recipe.ingredientsList.map((eachObject) => (
+                <li key={recipe.id}>{eachObject.ingredient} {eachObject.amount}</li>
               ))}
             </ul>
 

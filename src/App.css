@@ -117,3 +117,13 @@ border-radius: 20px;
   text-align: center; /
   
 }
+#search-bar{
+  width: 77%; /* Ocupa tres cuartos del ancho de la pantalla */
+  margin: 10px 10px 13px 20px; /* Centra la barra de búsqueda horizontalmente y agrega espacio en la parte superior e inferior */
+  padding: 10px;
+  border-radius: 20px; /* Bordes redondeados */
+  border: 1px solid #ccc; /* Borde con color gris claro */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para resaltar la barra de búsqueda */
+  padding: 15px;
+  font-size: 16px;
+}
