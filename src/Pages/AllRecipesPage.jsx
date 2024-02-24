@@ -5,25 +5,52 @@ import "../App.css";
 import Card from '@mui/material/Card';
 import { Link } from "react-router-dom";
 
+
 function AllRecipesPage() {
   const [allRecipes, setAllRecipes] = useState([]);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
 
+
+console.log(filteredRecipes)
   useEffect(() => {
-    axios
+        axios
       .get(`${import.meta.env.VITE_BASE_URL}/Recipes`)
       .then((recipes) => {
         setAllRecipes(recipes.data);
+        setFilteredRecipes(recipes.data)
         console.log(recipes.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+
+  function searchByName(nameImput) {
+    if (nameImput === ""){
+      setFilteredRecipes(allRecipes)
+    }
+    let resultFiltered = allRecipes.filter(recipe =>{
+     return recipe.name.toLowerCase().includes(nameImput)
+    
+    }) ;
+   
+    setFilteredRecipes(resultFiltered)
+    
+   }
+   
   return (
     <>
-    
+
+<div>
+      <form>
+        <input type="text" name="search" onChange={(e)=>{searchByName(e.target.value)}} />
+      </form>
+    </div>
+
       <div id="eachRecipeContainer">
-        {allRecipes.map((eachRecipe) => {
+        {filteredRecipes.map((eachRecipe) => {
+    
           return (
             <Link to={`/Allrecipes/${eachRecipe.id}`}  key={eachRecipe.id} style={{textDecoration:"none"}}>
             <Card id="eachCard" >
