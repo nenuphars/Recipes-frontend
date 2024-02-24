@@ -13,9 +13,6 @@ function EditRecipe() {
   // params to get the id of the recipe
   const { id } = useParams()
 
-  // state for current Recipe details
-  const [recipeData,setRecipeData] = useState(null)
-
   // states for all form inputs
   const [name, setName] = useState("");
   const [photoURL, setPhotoURL] = useState("");
@@ -62,12 +59,12 @@ function EditRecipe() {
   // function that adds a new input field when the user clicks the button
   const addFields = () => {
     let newField = {ingredient:"", amount:""}
-    setIngredients([...recipeData.ingredientsList, newField])
+    setIngredients([...ingredients, newField])
   }
 
   // function that deletes an input fields if the user clicks the button
   const deleteFields = (index) => {
-    let data = [...recipeData.ingredientsList]
+    let data = [...ingredients]
     data.splice(index,1)
     setIngredients(data)
   }
