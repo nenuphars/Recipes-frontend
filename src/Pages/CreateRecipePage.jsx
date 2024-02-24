@@ -3,58 +3,70 @@ import axios from "axios";
 import { Button, FormControl, FormLabel, Stack, InputAdornment, OutlinedInput, IconButton } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from "react-router-dom";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
+
 function CreateRecipePage() {
   const [name, setName] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [duration, setDuration] = useState(0);
-  // const [ingredients, setIngredients] = useState([]);
-  // const [quantity, setQuantity] = useState([]);
   const [preparation, setPreparation] = useState("");
   const [description, setDescription] = useState("");
   const [servings, setServings] = useState("");
-  const [tags, setTags] = useState("");
-  const [inputFields, setInputFields] = useState([{ingredient:"", amount:""}])
+  const [tags, setTags] = useState([""]);
+  const [ingredients, setIngredients] = useState([{ingredient:"", amount:""}])
+  const navigate = useNavigate()
 
-  const handleInputFields = (index, event) =>{
-    let data = [...inputFields]
+  const handleIngredientFields = (index, event) =>{
+    let data = [...ingredients]
     data[index][event.target.name] = event.target.value
     console.log(data)
-    setInputFields(data)
+    setIngredients(data)
+  }
+
+  const handleTagField = (index, event) =>{
+    let data = [...tags]
+    data[index] = event.target.value
+    console.log(data)
+    setTags(data)
   }
 
   const addFields = () => {
     let newField = {ingredient:"", amount:""}
-    setInputFields([...inputFields, newField])
+    setIngredients([...ingredients, newField])
   }
 
-  const deleteFields = (index) => {
-    let data = [...inputFields]
+  const addTagField = () => {
+    let newField = ""
+    setTags([...tags, newField])
+  }
+
+  const deleteIngredientFields = (index) => {
+    if(ingredients.length===1){
+      return setIngredients([{ingredient: "", amount: ""}])
+    }
+    let data = [...ingredients]
     data.splice(index,1)
-    setInputFields(data)
+    setIngredients(data)
   }
-
+  const deleteTagField = (index) => {
+    let data = [...tags]
+    data.splice(index,1)
+    setTags(data)
+  }
   function handleSubmit(e) {
     e.preventDefault();
 
-    const ingredientsArray = inputFields.map((oneIngredient)=>{
-      return oneIngredient.ingredient;
-    })
-
-    const quantityArray = inputFields.map((oneAmount)=>{
-      return oneAmount.amount;
-    })
-
+    
     const newRecipe = {
       name: name,
       photo_URL: photoURL,
       duration: duration + " mins",
-      ingredients: ingredientsArray,
-      quantity: quantityArray,
+      ingredientsList: ingredients,
       preparation: preparation,
       description: description,
       servings: servings,
@@ -63,7 +75,9 @@ function CreateRecipePage() {
 
     axios
       .post(`${import.meta.env.VITE_BASE_URL}/Recipes`, newRecipe)
-      .then(() => {})
+      .then(() => {
+        navigate("/dashboard")
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -106,16 +120,16 @@ function CreateRecipePage() {
               }}
               endAdornment={<InputAdornment position="end">mins</InputAdornment>}
             />
-            {inputFields.map((input, index)=>{
+            {ingredients.map((input, index)=>{
               return (<Stack key={index} direction="row" spacing={2}>
-                <OutlinedInput name="ingredient" placeholder="ingredient" value={input.ingredient} onChange={event => handleInputFields(index, event)} />
-                <OutlinedInput name="amount" placeholder="amount" value={input.amount} onChange={event => handleInputFields(index, event)} />
-                <IconButton aria-label="delete" onClick={()=>{deleteFields(index)}}>
+                <OutlinedInput name="ingredient" placeholder="ingredient" value={input.ingredient} onChange={event => handleIngredientFields(index, event)} />
+                <OutlinedInput name="amount" placeholder="amount" value={input.amount} onChange={event => handleIngredientFields(index, event)} />
+                <IconButton aria-label="delete" onClick={()=>{deleteIngredientFields(index)}}>
         <DeleteIcon />
       </IconButton>
-                <Button variant="text" onClick={e => addFields(e)}>Add more</Button>
               </Stack>)
             })}
+                <Button variant="text" onClick={e => addFields(e)}>Add more</Button>
 
           <FormLabel htmlFor="preparation">Preparation method</FormLabel>
             <OutlinedInput
@@ -148,16 +162,18 @@ function CreateRecipePage() {
               setDescription(e.target.value);
             }}
           />
-          <FormLabel htmlFor="Tags">Tags</FormLabel>
-          <OutlinedInput
-            name="Tags"
-            variant="filled"
-            size="normal"
-            type="text"
-            onChange={(e) => {
-              setTags(e.target.value);
-            }}
-          />
+          {tags.map((input, index)=>{
+              return (<Stack key={index} direction="row" spacing={2}>
+                <OutlinedInput name="Tag" placeholder="Tag" value={input} onChange={event => handleTagField(index, event)} />
+                <IconButton aria-label="delete" onClick={()=>{deleteTagField(index)}}>
+        <DeleteIcon />
+      </IconButton>
+                <Button variant="text" onClick={e => addTagField(e)}>Add more</Button>
+              </Stack>)
+            })}
+        
+          
+
           <Button onClick={handleSubmit} variant="contained" endIcon={<SendIcon />}>Create</Button>
         </FormControl>
       </Stack>
