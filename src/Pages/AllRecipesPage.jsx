@@ -43,8 +43,9 @@ console.log(filteredRecipes)
     <>
 
 <div>
-      <form>
-        <input type="text" name="search" onChange={(e)=>{searchByName(e.target.value)}} />
+      <form >
+        <input id="search-bar" placeholder="Search recipe"type="text" name="search" onChange={(e)=>{searchByName(e.target.value)}}/>
+        <span id="clear-search" className="clear-search-icon" onclick="">✕</span>
       </form>
     </div>
 
