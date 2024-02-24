@@ -3,10 +3,12 @@ import axios from "axios";
 import { Button, FormControl, FormLabel, Stack, InputAdornment, OutlinedInput, IconButton } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from "react-router-dom";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+
 
 function CreateRecipePage() {
   const [name, setName] = useState("");
@@ -17,8 +19,9 @@ function CreateRecipePage() {
   const [preparation, setPreparation] = useState("");
   const [description, setDescription] = useState("");
   const [servings, setServings] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([""]);
   const [inputFields, setInputFields] = useState([{ingredient:"", amount:""}])
+  const navigate = useNavigate()
 
   const handleInputFields = (index, event) =>{
     let data = [...inputFields]
@@ -27,9 +30,21 @@ function CreateRecipePage() {
     setInputFields(data)
   }
 
+  const handleTagField = (index, event) =>{
+    let data = [...tags]
+    data[index] = event.target.value
+    console.log(data)
+    setTags(data)
+  }
+
   const addFields = () => {
     let newField = {ingredient:"", amount:""}
     setInputFields([...inputFields, newField])
+  }
+
+  const addTagField = () => {
+    let newField = ""
+    setTags([...tags, newField])
   }
 
   const deleteFields = (index) => {
@@ -37,7 +52,11 @@ function CreateRecipePage() {
     data.splice(index,1)
     setInputFields(data)
   }
-
+  const deleteTagField = (index) => {
+    let data = [...tags]
+    data.splice(index,1)
+    setTags(data)
+  }
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -48,7 +67,7 @@ function CreateRecipePage() {
     const quantityArray = inputFields.map((oneAmount)=>{
       return oneAmount.amount;
     })
-
+    
     const newRecipe = {
       name: name,
       photo_URL: photoURL,
@@ -63,7 +82,9 @@ function CreateRecipePage() {
 
     axios
       .post(`${import.meta.env.VITE_BASE_URL}/Recipes`, newRecipe)
-      .then(() => {})
+      .then(() => {
+        navigate("/dashboard")
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -148,16 +169,18 @@ function CreateRecipePage() {
               setDescription(e.target.value);
             }}
           />
-          <FormLabel htmlFor="Tags">Tags</FormLabel>
-          <OutlinedInput
-            name="Tags"
-            variant="filled"
-            size="normal"
-            type="text"
-            onChange={(e) => {
-              setTags(e.target.value);
-            }}
-          />
+          {tags.map((input, index)=>{
+              return (<Stack key={index} direction="row" spacing={2}>
+                <OutlinedInput name="Tag" placeholder="Tag" value={input} onChange={event => handleTagField(index, event)} />
+                <IconButton aria-label="delete" onClick={()=>{deleteTagField(index)}}>
+        <DeleteIcon />
+      </IconButton>
+                <Button variant="text" onClick={e => addTagField(e)}>Add more</Button>
+              </Stack>)
+            })}
+        
+          
+
           <Button onClick={handleSubmit} variant="contained" endIcon={<SendIcon />}>Create</Button>
         </FormControl>
       </Stack>
