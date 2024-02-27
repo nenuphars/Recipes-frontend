@@ -1,0 +1,32 @@
+#eachObject {
+    display: flex;
+    align-items: center;
+    background-color: white; /* Cambia el color de fondo según tus preferencias */
+    border: 1px solid #ccc; /* Añade un borde para resaltar los resultados */
+    padding: 10px; /* Ajusta el espaciado interno según sea necesario */
+    /* Añade sombra para un efecto visual */
+width: 20%;
+position: relative;
+margin: 0 0 0 35px;
+
+  }
+  
+  
+  #eachObject img {
+    width: 40px; /* Ajusta el ancho de la imagen según tus necesidades */
+    height: 4f0px; /* Ajusta la altura de la imagen según tus necesidades */
+    margin-right: 10px; /* Espaciado entre la imagen y el texto */
+    border-radius: 50%; /* Añade un borde redondeado a la imagen (opcional) */
+  }
+  
+  #eachObject p {
+    margin: 0; /* Elimina el margen por defecto del párrafo */
+  }
+  #eachObject:hover {
+    transform: scale(1.1)
+  }
+  .eachObjectContainer {
+    margin-top: 0;
+    width: 1000px; 
+    position: absolute;/* Ajusta el ancho según sea necesario */
+}
