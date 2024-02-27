@@ -9,6 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import SearchBar from "../Components/SearchBar";
 
 function Dashboard() {
   const [allRecipes, setAllRecipes] = useState([]);
@@ -38,6 +39,7 @@ function Dashboard() {
   }, []);
   return (
     <>
+    <SearchBar></SearchBar>
       <div id="eachRecipeContainer">
         <Link to={'/dashboard/CreateRecipe'} style={{ textDecoration: "none" }}><Card id="addCard">
           <div id="AddCardPhoto">

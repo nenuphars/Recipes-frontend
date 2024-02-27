@@ -118,12 +118,31 @@ border-radius: 20px;
   
 }
 #search-bar{
-  width: 77%; /* Ocupa tres cuartos del ancho de la pantalla */
-  margin: 10px 10px 13px 20px; /* Centra la barra de búsqueda horizontalmente y agrega espacio en la parte superior e inferior */
+  width: 60%;
+  height: 6px; /* Ocupa tres cuartos del ancho de la pantalla */
+  margin: 10px 10px 13px 30px; /* Centra la barra de búsqueda horizontalmente y agrega espacio en la parte superior e inferior */
   padding: 10px;
   border-radius: 20px; /* Bordes redondeados */
   border: 1px solid #ccc; /* Borde con color gris claro */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para resaltar la barra de búsqueda */
   padding: 15px;
   font-size: 16px;
+  display: flex; /* Utiliza flexbox para el contenedor principal */
+  align-items: center; 
+  background-color: rgb(233, 230, 230);
+}
+#search-bar-icon{
+   /* Ocupa tres cuartos del ancho de la pantalla */
+
+ flex-direction: row
+ 
+  
+
+ 
+}#search-bar-text{
+  background-color: rgb(233, 230, 230);
+  width: 96%;
+  border: none;
+  font-size: 18px;
+  outline: none;
 }
