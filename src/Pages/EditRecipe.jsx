@@ -218,7 +218,7 @@ function EditRecipe() {
                 );
               })}
 
-              <Button className="add-button" variant="text" onClick={(e) => addIngredientFields(e)}>
+              <Button className="add-button" size="medium" variant="text" onClick={(e) => addIngredientFields(e)}>
                 Add more
               </Button>
             </Stack>
@@ -283,7 +283,7 @@ function EditRecipe() {
                   </Stack>
                 );
               })}
-              <Button className="add-button" variant="text" onClick={(event) => addTagField(event)}>
+              <Button className="add-button" size="medium" variant="text" onClick={(event) => addTagField(event)}>
                 Add more
               </Button>
             </Stack>
