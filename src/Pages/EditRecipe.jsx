@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Button,
-  FormControl,
   FormLabel,
   Stack,
   InputAdornment,
@@ -16,6 +15,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { useParams } from "react-router-dom";
+import "./EditRecipe.css";
 
 function EditRecipe() {
   // params to get the id of the recipe
@@ -44,12 +44,17 @@ function EditRecipe() {
 
         setName(recipeDetails.data.name);
         setPhotoURL(recipeDetails.data.photo_URL);
-        setDuration(recipeDetails.data.duration.split(" "));
+
+        // remove the "mins" from the duration
+        let numericDuration = recipeDetails.data.duration.split(" ")[0];
+        setDuration(numericDuration);
+
         setPreparation(recipeDetails.data.preparation);
         setDescription(recipeDetails.data.description);
         setServings(recipeDetails.data.servings);
         setTags(recipeDetails.data.tags);
         setIngredients(recipeDetails.data.ingredientsList);
+
       })
       .catch((err) => {
         console.log(err);
@@ -111,6 +116,8 @@ function EditRecipe() {
       tags: tags,
     };
 
+    console.log(newRecipe.duration);
+
     axios
       .put(`${import.meta.env.VITE_BASE_URL}/Recipes/${id}`, newRecipe)
       .then(() => {})
@@ -120,7 +127,7 @@ function EditRecipe() {
   }
 
   return (
-    <>
+    <div id="edit-recipe-container">
       <h1>Edit Recipe</h1>
       {(!name ||
         !photoURL ||
@@ -139,7 +146,7 @@ function EditRecipe() {
         servings ||
         tags) && (
         <Stack id="AddRecipesPage" spacing={2}>
-          <FormControl onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <FormLabel htmlFor="name">Name</FormLabel>
             <OutlinedInput
               value={`${name}`}
@@ -165,7 +172,7 @@ function EditRecipe() {
             />
             <FormLabel htmlFor="duration">Duration</FormLabel>
             <OutlinedInput
-              value={`${duration[0]}`}
+              value={duration}
               name="duration"
               variant="filled"
               type="number"
@@ -178,7 +185,12 @@ function EditRecipe() {
               }
             />
 
-            <Stack key="" id="ingredients-amounts-stack" direction="column">
+            <Stack
+              id="ingredients-amounts-stack"
+              direction="column"
+              spacing={2}
+            >
+              <FormLabel htmlFor="ingredient amount">Ingredient List</FormLabel>
               {ingredients.map((oneItem, index) => {
                 return (
                   <Stack key={"ingredient" + index} direction="row" spacing={2}>
@@ -206,13 +218,14 @@ function EditRecipe() {
                 );
               })}
 
-              <Button variant="text" onClick={(e) => addIngredientFields(e)}>
+              <Button className="add-button" variant="text" onClick={(e) => addIngredientFields(e)}>
                 Add more
               </Button>
             </Stack>
 
             <FormLabel htmlFor="preparation">Preparation method</FormLabel>
             <OutlinedInput
+              multiline
               value={`${preparation}`}
               name="preparation"
               variant="filled"
@@ -236,6 +249,7 @@ function EditRecipe() {
             />
             <FormLabel htmlFor="description">Description</FormLabel>
             <OutlinedInput
+              multiline
               value={`${description}`}
               name="description"
               variant="filled"
@@ -245,43 +259,46 @@ function EditRecipe() {
                 setDescription(e.target.value);
               }}
             />
-            <FormLabel htmlFor="Tags">Tags</FormLabel>
-            {tags.map((oneTag, index) => {
-              return (
-                <Stack key={oneTag} direction="row" spacing={2}>
-                  <OutlinedInput
-                    name="Tag"
-                    placeholder="Tag"
-                    value={oneTag}
-                    onChange={(event) => {
-                      handleTagField(index, event);
-                    }}
-                  />
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => {
-                      deleteTagField(index);
-                    }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                  <Button variant="text" onClick={(e) => addTagField(e)}>
-                    Add more
-                  </Button>
-                </Stack>
-              );
-            })}
-            <Button
+
+            <FormLabel htmlFor="Tag">Tags</FormLabel>
+            <Stack id="tags-stack" spacing={2}>
+              {tags.map((oneTag, index) => {
+                return (
+                  <Stack key={index} direction="row" spacing={2}>
+                    <OutlinedInput
+                      name="Tag"
+                      value={oneTag}
+                      onChange={(event) => {
+                        handleTagField(index, event);
+                      }}
+                    />
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => {
+                        deleteTagField(index);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Stack>
+                );
+              })}
+              <Button className="add-button" variant="text" onClick={(event) => addTagField(event)}>
+                Add more
+              </Button>
+            </Stack>
+            <Button id="submit-button"
+            size="large"
               onClick={handleSubmit}
               variant="contained"
               endIcon={<SendIcon />}
             >
-              Create
+              Submit
             </Button>
-          </FormControl>
+          </form>
         </Stack>
       )}
-    </>
+    </div>
   );
 }
 
