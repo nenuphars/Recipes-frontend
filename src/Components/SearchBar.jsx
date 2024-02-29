@@ -9,7 +9,12 @@ import { Link } from 'react-router-dom';
 function SearchBar() {
 const [allRecipes, setAllRecipes] = useState([]);
 const [filteredRecipes, setFilteredRecipes] = useState([]);
+const [searchType, setSearchType] = useState('name')
+
+// search query state
 const [valueEntered,setValueEntered] = useState("")
+
+
 useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BASE_URL}/Recipes`)
@@ -22,26 +27,68 @@ useEffect(() => {
         console.log(error);
       });
   }, []);
-  function searchByName(nameImput) {
-    if (nameImput === "") {
+
+  function nameSearch(e){
+    e.preventDefault()
+    setSearchType('name')
+  }
+
+  function ingredientsSearch(e){
+    e.preventDefault()
+    setSearchType('ingredients')
+  }
+
+  function searchFunction(query) {
+    console.log(searchType)
+   
+    if (query === "") {
       setFilteredRecipes(allRecipes);
     }
-    let resultFiltered = allRecipes.filter((recipe) => {
-      return recipe.name.toLowerCase().includes(nameImput);
-    });
-setValueEntered(nameImput)
-    setFilteredRecipes(resultFiltered);
-    console.log(resultFiltered)
+    if(searchType === 'name'){
+      setValueEntered(query)
+      let filteredByName = allRecipes.filter((recipe) => {
+        return recipe.name.toLowerCase().includes(query.toLowerCase());
+      });
+      setFilteredRecipes(filteredByName)
+
+    }
+    if(searchType === 'ingredients'){
+      setValueEntered(query)
+      // map through all recipes
+      let filteredByIngredient = allRecipes.filter((oneRecipe)=>{
+          // Check if any ingredient in the recipe matches the search ingredient
+          return oneRecipe.ingredientsList.some((ingredientObj) =>
+          {
+            console.log(ingredientObj)
+            return ingredientObj.ingredient.toLowerCase().includes(query.toLowerCase())
+
+          }
+          )
+        }
+        );
+        setFilteredRecipes(filteredByIngredient)
+      }
+    
+
+
   }
+
+
 function filterSearchbar(){
   setFilteredRecipes(allRecipes)
   setValueEntered("")
 }
+
+
   return (
-    <div>
-        <form>
-        
+    <>
+        <form id="search-form">
+        <div id='search-type-wrapper'>
+          <div className='search-by-name-wrapper'><button className='search-selection-box' onClick={e => nameSearch(e)}>Search by Name</button></div>
+          <div className='search-by-ingredient-wrapper'><button className='search-selection-box' onClick={e => ingredientsSearch(e)}>Search by Ingredient</button></div>
+        </div>
           <div id="search-bar" >
+        
           <SearchIcon id="search-bar-icon"></SearchIcon>
             <input
             value={valueEntered}
@@ -50,7 +97,7 @@ function filterSearchbar(){
               type="text"
               name="search"
               onChange={(e) => {
-                searchByName(e.target.value);
+                searchFunction(e.target.value);
               }}
             />
            {filteredRecipes.length <30  &&<CloseIcon onClick={filterSearchbar}></CloseIcon>}
@@ -65,7 +112,7 @@ function filterSearchbar(){
         })}
       </div>
     )}
-      </div>
+      </>
   );
 }
 
