@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { Button, FormControl, FormLabel, Stack, InputAdornment, OutlinedInput, IconButton } from "@mui/material";
+import { Button, FormLabel, Stack, InputAdornment, OutlinedInput, IconButton } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import './CreateRecipe.css'
 
 
 function CreateRecipePage() {
@@ -84,10 +85,10 @@ function CreateRecipePage() {
   }
 
   return (
-    <>
-      <h1>Create recipe Page</h1>
+    <div id="create-recipe-container">
+      <h1>Create a new recipe</h1>
       <Stack id="AddRecipesPage" spacing={2}>
-        <FormControl onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <FormLabel htmlFor="name">Name</FormLabel>
           <OutlinedInput
             name="name"
@@ -120,6 +121,8 @@ function CreateRecipePage() {
               }}
               endAdornment={<InputAdornment position="end">mins</InputAdornment>}
             />
+            <Stack id="ingredients-list-wrapper">
+            <FormLabel htmlFor="ingredient amount">Ingredient List</FormLabel>
             {ingredients.map((input, index)=>{
               return (<Stack key={index} direction="row" spacing={2}>
                 <OutlinedInput name="ingredient" placeholder="ingredient" value={input.ingredient} onChange={event => handleIngredientFields(index, event)} />
@@ -129,10 +132,13 @@ function CreateRecipePage() {
       </IconButton>
               </Stack>)
             })}
-                <Button variant="text" onClick={e => addFields(e)}>Add more</Button>
+                <Button className="add-button" size="medium" variant="text" onClick={e => addFields(e)}>Add more</Button>
+
+            </Stack>
 
           <FormLabel htmlFor="preparation">Preparation method</FormLabel>
             <OutlinedInput
+            multiline
               name="preparation"
               variant="filled"
               size="normal"
@@ -154,6 +160,7 @@ function CreateRecipePage() {
             />
           <FormLabel htmlFor="description">Description</FormLabel>
           <OutlinedInput
+          multiline
             name="description"
             variant="filled"
             size="normal"
@@ -162,22 +169,26 @@ function CreateRecipePage() {
               setDescription(e.target.value);
             }}
           />
+          <Stack className="tags-stack" spacing={2}>
+          <FormLabel htmlFor="tag">Tags</FormLabel>
           {tags.map((input, index)=>{
               return (<Stack key={index} direction="row" spacing={2}>
-                <OutlinedInput name="Tag" placeholder="Tag" value={input} onChange={event => handleTagField(index, event)} />
+                <OutlinedInput name="tag" placeholder="tag" value={input} onChange={event => handleTagField(index, event)} />
                 <IconButton aria-label="delete" onClick={()=>{deleteTagField(index)}}>
         <DeleteIcon />
       </IconButton>
-                <Button variant="text" onClick={e => addTagField(e)}>Add more</Button>
               </Stack>)
             })}
+                <Button className="add-button" size="medium" variant="text" onClick={e => addTagField(e)}>Add more</Button>
+
+          </Stack>
         
           
 
-          <Button onClick={handleSubmit} variant="contained" endIcon={<SendIcon />}>Create</Button>
-        </FormControl>
+          <Button className="submit-button" size="large" onClick={handleSubmit} variant="contained" endIcon={<SendIcon />}>Create</Button>
+        </form>
       </Stack>
-    </>
+    </div>
   );
 }
 
