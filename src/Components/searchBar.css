@@ -21,6 +21,7 @@ margin: 0 0 0 35px;
   
   #eachObject p {
     margin: 0; /* Elimina el margen por defecto del párrafo */
+    
   }
   #eachObject:hover {
     transform: scale(1.1)
