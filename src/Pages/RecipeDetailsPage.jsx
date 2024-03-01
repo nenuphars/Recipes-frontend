@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import "./RecipeDetailsPage.css";
 
 function RecipeDetailsPage() {
   const { id } = useParams();
@@ -20,14 +21,11 @@ function RecipeDetailsPage() {
   }, [id]);
   console.log(recipe);
 
-
-
   return (
     <div id="backgroundDetails">
       {!recipe && <p>loading...</p>}
       {recipe && (
         <div>
-      
           <div id="recipeContainer">
             <div id="first-recipe-bloq">
               <img
@@ -36,7 +34,7 @@ function RecipeDetailsPage() {
                 alt="Photo of this dish"
               />
               <div id="first-recipe-bloq-text">
-                <h1>{recipe.name}</h1>
+                <h1>{recipe.name}<br></br><br></br></h1>
                 <h3>
                   ⏱️{recipe.duration}
                   <br></br>
@@ -46,17 +44,25 @@ function RecipeDetailsPage() {
                     return `${eachTag}    `;
                   })}
                 </h3>
-                <h2><br></br><br></br>{recipe.description}</h2>
+                <h2>
+                  <br></br>
+                  <br></br>
+                  {recipe.description}
+                </h2>
               </div>
             </div>
-            <h2>Ingredients and preparation for {recipe.servings} servings:</h2>
+            <h2 className="subtitles2">Ingredients and preparation for {recipe.servings} servings:</h2>
             <ul id="ingredientListDetails">
               {recipe.ingredientsList.map((eachObject) => (
-                <li key={recipe.id}>{eachObject.ingredient} {eachObject.amount}</li>
+                <li key={recipe.id}>
+                  {eachObject.ingredient} : {eachObject.amount}
+                </li>
               ))}
             </ul>
 
-            <h3>Preparation: <h4>{recipe.preparation}</h4></h3>
+            <h3 className="subtitles2">
+              Preparation: <h4 id="preparation">{recipe.preparation}</h4>
+            </h3>
           </div>
         </div>
       )}

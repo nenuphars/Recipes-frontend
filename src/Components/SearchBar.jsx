@@ -38,7 +38,7 @@ function filterSearchbar(){
   setValueEntered("")
 }
   return (
-    <div>
+    <div id="searchbar-container">
         <form>
         
           <div id="search-bar" >

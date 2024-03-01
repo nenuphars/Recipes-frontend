@@ -31,3 +31,6 @@ margin: 0 0 0 35px;
     width: 1000px; 
     position: absolute;/* Ajusta el ancho según sea necesario */
 }
+#searchbar-container {
+  margin: 2% 3% 2% 1%;
+}
