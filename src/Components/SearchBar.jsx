@@ -115,11 +115,6 @@ function filterSearchbar(){
 
 
   return (
-<<<<<<< HEAD
-    <div id="searchbar-container">
-        <form>
-        
-=======
     <>
         <form id="search-form">
         <div id='search-type-wrapper'>
@@ -127,7 +122,6 @@ function filterSearchbar(){
           <div className='search-by-ingredient-wrapper'><button className='search-selection-box' onClick={e => ingredientsSearch(e)}>Search by Ingredient</button></div>
           <div className='search-by-tag-wrapper'><button className='search-selection-box' onClick={e => tagsSearch(e)}>Search by Tag</button></div>
         </div>
->>>>>>> searchByIngredient
           <div id="search-bar" >
         
           <SearchIcon id="search-bar-icon"></SearchIcon>
