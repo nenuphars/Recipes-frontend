@@ -23,7 +23,7 @@ function AllRecipesPage() {
 
   return (
     <>
-    <SearchBar></SearchBar>
+    <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
      
       <div id="eachRecipeContainer">
         {allRecipes.map((eachRecipe) => {

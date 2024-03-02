@@ -31,6 +31,45 @@ margin: 0 0 0 35px;
     width: 1000px; 
     position: absolute;/* Ajusta el ancho según sea necesario */
 }
-#searchbar-container {
-  margin: 2% 3% 2% 1%;
+
+#search-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0;
+  margin-left: 30px;
+}
+
+#search-type-wrapper{
+  display:flex;
+  flex-direction: row;
+  align-items: start;
+
+}
+
+#search-bar{
+  width: 60%;
+  height: 6px; /* Ocupa tres cuartos del ancho de la pantalla */
+  margin: 0px 10px 13px 0px; /* Centra la barra de búsqueda horizontalmente y agrega espacio en la parte superior e inferior */
+  padding: 10px;
+  border-radius: 20px; /* Bordes redondeados */
+  border: 1px solid #ccc; /* Borde con color gris claro */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para resaltar la barra de búsqueda */
+  padding: 15px;
+  font-size: 16px;
+  display: flex; /* Utiliza flexbox para el contenedor principal */
+  align-items: center; 
+  background-color: rgb(233, 230, 230);
+}
+#search-bar-icon{
+   /* Ocupa tres cuartos del ancho de la pantalla */
+
+ flex-direction: row
+ 
+}#search-bar-text{
+  background-color: rgb(233, 230, 230);
+  width: 96%;
+  border: none;
+  font-size: 18px;
+  outline: none;
 }
