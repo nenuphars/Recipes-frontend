@@ -1,42 +1,113 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+
+#eachRecipeContainer {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente fila */
+  gap: 10px; /* Espacio entre los elementos */
+  justify-content: space-around;
+  text-decoration: none; /* Quitar subrayado de los enlaces */
+  color: inherit; 
+  
+}
+#eachPhoto{
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+}
+#AddCardPhoto{
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.87);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#addCard{
+  display: flex;
+  flex-direction: column; /* Apila los elementos verticalmente */
+  align-items: center; /* Centra los elementos horizontalmente */
+  background-color: beige;
+  border-radius: 20px;
+  margin: 10px;
+  font: white;
+}
+#AddCardText{
+display: flex;
+  margin: 48px
+}
+#addCard:hover {
+  transform: scale(1.07); /* Ajusta el nivel de zoom según tus necesidades */
+}
+#eachCard {
+  display: flex;
+  flex-direction: column; /* Apila los elementos verticalmente */
+  align-items: center; /* Centra los elementos horizontalmente */
+  background-color: beige;
+  border-radius: 20px;
+  margin: 10px;
+  font: white;
+}
+#eachCard h2,
+#eachCard h4 {
+  margin: 12px;
+  color: black;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+
+ #tagContainer{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente fila */
+  gap: 1px; /* Espacio entre los elementos */
+  justify-content: space-around;
+  margin-bottom: 10px;
+  font-style: normal;
+ }
+#eachCard h2,
+#eachCard h4 {
+  margin-top: 0px;
+  font-style: initial; 
+  color:rgb(49, 49, 49);/* Elimina el margen predeterminado de h2 y h4 */
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+#eachRecipe img{
+  margin-bottom: 0px;
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+#eachCard:hover {
+  transform: scale(1.07); /* Ajusta el nivel de zoom según tus necesidades */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+#backgroundDetails{
+border-radius: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
 
-.card {
-  padding: 2em;
+#search-bar{
+  width: 60%;
+  height: 6px; /* Ocupa tres cuartos del ancho de la pantalla */
+  margin: 10px 10px 13px 30px; /* Centra la barra de búsqueda horizontalmente y agrega espacio en la parte superior e inferior */
+  padding: 10px;
+  border-radius: 20px; /* Bordes redondeados */
+  border: 1px solid #ccc; /* Borde con color gris claro */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para resaltar la barra de búsqueda */
+  padding: 15px;
+  font-size: 16px;
+  display: flex; /* Utiliza flexbox para el contenedor principal */
+  align-items: center; 
+  background-color: rgb(233, 230, 230);
 }
+#search-bar-icon{
+   /* Ocupa tres cuartos del ancho de la pantalla */
 
-.read-the-docs {
-  color: #888;
+ flex-direction: row
+ 
+  
+
+ 
+}#search-bar-text{
+  background-color: rgb(233, 230, 230);
+  width: 96%;
+  border: none;
+  font-size: 18px;
+  outline: none;
 }

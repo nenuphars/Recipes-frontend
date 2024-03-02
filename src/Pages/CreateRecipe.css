@@ -1,0 +1,17 @@
+#create-recipe-container{
+    margin: 20px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.add-button {
+    width: 130px;
+    height: 70px;
+}
+.submit-button{
+    align-self: center;
+    width: 300px;
+} 
