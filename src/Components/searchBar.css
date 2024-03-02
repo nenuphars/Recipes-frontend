@@ -32,21 +32,35 @@
 #search-form {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 0;
-  margin-left: 30px;
+  justify-content: start;
+  margin-left: 44px;
 }
 
 #search-type-wrapper {
   display: flex;
   flex-direction: row;
   align-items: start;
+  margin-bottom: 0;
+}
+.search-selection-box{
+  margin-top: 12px;
+  color: white;
+  background-color: #5971dd;
+  font-family: 'Space Grotesk', sans-serif;
+  border-style: none;
+  padding: 6px;
+  border-top-left-radius: 10px;
+  font-size: 14px;
+  width: 160px;
+}
+.search-selection-box:hover{
+  cursor:grab;
 }
 
 #search-bar {
   width: 60%;
   height: 6px; /* Ocupa tres cuartos del ancho de la pantalla */
-  margin: 0px 10px 13px 0px; /* Centra la barra de búsqueda horizontalmente y agrega espacio en la parte superior e inferior */
+  margin: 12px 10px 13px 0px; /* Centra la barra de búsqueda horizontalmente y agrega espacio en la parte superior e inferior */
   padding: 10px;
   border-radius: 20px; /* Bordes redondeados */
   border: 1px solid #ccc; /* Borde con color gris claro */
@@ -68,4 +82,7 @@
   border: none;
   font-size: 18px;
   outline: none;
+}
+#search-type-wrapper{
+  height: 18px;
 }
