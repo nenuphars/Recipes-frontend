@@ -115,7 +115,7 @@ function filterSearchbar(){
 
 
   return (
-    <>
+    <div id="search-bar-container">
         <form id="search-form">
         <div id='search-type-wrapper'>
           <div className='search-by-name-wrapper'><button className='search-selection-box' onClick={e => nameSearch(e)}>Search by Name</button></div>
@@ -148,7 +148,7 @@ function filterSearchbar(){
         })}
       </div>
     )}
-      </>
+      </div>
   );
 }
 

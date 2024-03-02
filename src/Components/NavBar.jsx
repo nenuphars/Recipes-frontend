@@ -11,7 +11,6 @@ function Navbar() {
         <nav id="nav-links-wrapper">
           <Link
             to="/"
-            style={{ color: "mediumspringgreen", textDecoration: "none" }}
             onClick={() => setCurrentPage('/')}
           >
             <img
@@ -24,7 +23,6 @@ function Navbar() {
 
           <Link
             to="/Allrecipes"
-            style={{ color: "black", textDecoration: "none" }}
             onClick={() => setCurrentPage('Allrecipes')}
           >
             <h4  className={currentPage === "Allrecipes" ? "selected-element" : 'nav-element' }>All Recipes</h4>

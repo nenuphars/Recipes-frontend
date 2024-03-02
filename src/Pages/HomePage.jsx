@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Card,} from "@mui/material";
 import "./HomePage.css";
-import Logo from "../Photos/Logo_fridge.png";
+// import Logo from "../Photos/Logo_fridge.png";
 
 function HomePage() {
   const [allRecipes, setAllRecipes] = useState([]);
@@ -29,20 +29,20 @@ function HomePage() {
   return (
     <div id="homepage-container">
       <div className="homepage-wrapper">
-        <img src={Logo} id="logo-homepage" alt="logo what the fridge" />
+      <div id="description-wrapper">
         <h1 className="homepage-description">
           When you look into your fridge, you have no inspiration? <br></br>
         </h1>
-        <h2 className="homepage-description">
-          {" "}
+          
+        {/* <img src={Logo} id="logo-homepage" alt="logo what the fridge" /> */}
           <span id="homepage-description-cursive-animated">
-            {" "}
-            What the Fridge{" "}
+            What the Fridge
           </span>
+        <h2 className="homepage-description">
           wants to help you get out of this misery and prevent any hangriness
-          due to not being able to decide what to cook.<br></br>
-          <br></br>
+          due to not being able to decide what to cook.
         </h2>
+        <div className="squiggly" />
         <h2 className="homepage-description">Feeling insecure?</h2>
         <button
           id="random-button"
@@ -55,6 +55,8 @@ function HomePage() {
         >
           Get a random recipe
         </button>
+
+      </div>
       </div>
       <div className="homepage-wrapper">
         {!randomRecipe && <p>...loading</p>}
