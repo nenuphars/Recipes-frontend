@@ -21,6 +21,7 @@ margin: 0 0 0 35px;
   
   #eachObject p {
     margin: 0; /* Elimina el margen por defecto del párrafo */
+    
   }
   #eachObject:hover {
     transform: scale(1.1)
@@ -29,4 +30,7 @@ margin: 0 0 0 35px;
     margin-top: 0;
     width: 1000px; 
     position: absolute;/* Ajusta el ancho según sea necesario */
+}
+#searchbar-container {
+  margin: 2% 3% 2% 1%;
 }

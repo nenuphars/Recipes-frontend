@@ -6,15 +6,23 @@
 }
 
 #homepage-container {
+  background-color: white;
   display: flex;
   flex-direction: row;
 }
 .homepage-description {
     line-height: 1.3;
     text-align: center;
+    font-family:Arial, Helvetica, sans-serif;
+  color:rgb(49, 49, 49);
+  margin-top: 5px;
+ 
 }
 
-.cursive-animated {
+.homepage-description h1 {font-size: 300px;
+}
+
+#homepage-description-cursive-animated{
   font-style: italic;
   font-weight: lighter;
   display: inline-block;
@@ -89,4 +97,26 @@
 }
 #recipeCard:hover {
   transform: scale(1.1); /* Ajusta el nivel de zoom según tus necesidades */
+}
+
+#logo-homepage{
+  width: 38%;
+  margin: 0px;
+}
+#random-button {
+  background-color: #77cdff; /* Color beige */
+  
+  color: rgb(49, 49, 49);; /* Texto en color blanco */
+  padding: 20px 20px; /* Ajusta según sea necesario */
+  font-size: 20px;
+  border-radius: 5px; /* Bordes ligeramente redondeados */
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  font-family:Arial, Helvetica, sans-serif;
+}
+#random-button:hover {
+  transform: scale(1.1);
+  background-color: #62add8;
 }

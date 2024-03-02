@@ -1,29 +1,35 @@
 import { Link } from "react-router-dom";
-import './NavBar.css'
-
+import "./NavBar.css";
+import Logo from "../Photos/wtf.png";
+import { useState } from "react";
 
 function Navbar() {
+  const [currentPage, setCurrentPage] = useState('home')
   return (
     <header>
-      <div id="navbar-container">
-      <nav id="nav-links-wrapper">
-                <Link to="/" style={{ color: "mediumspringgreen", textDecoration: "none" }}>
-                <h4 className="nav-element">Home</h4>
-  
-                </Link>
+      
+        <nav id="nav-links-wrapper">
+          <Link
+            to="/"
+            style={{ color: "mediumspringgreen", textDecoration: "none" }}
+            onClick={() => setCurrentPage('/')}
+          >
+            <img
+            id="logo"
+              src={Logo}
+              alt="What the fridge logo"
+              className="nav-element"
+            />
+          </Link>
 
-                <Link
-                  to="/Allrecipes"
-                  style={{ color: "black", textDecoration: "none" }}
-                >
-                <h4 className="nav-element">All Recipes</h4>
-                </Link>
-
-      </nav>
-
-
-      </div>
-
+          <Link
+            to="/Allrecipes"
+            style={{ color: "black", textDecoration: "none" }}
+            onClick={() => setCurrentPage('Allrecipes')}
+          >
+            <h4  className={currentPage === "Allrecipes" ? "selected-element" : 'nav-element' }>All Recipes</h4>
+          </Link>
+        </nav>
     </header>
   );
 }

@@ -1,3 +1,4 @@
+
 #eachRecipeContainer {
   display: flex;
   flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente fila */
@@ -35,7 +36,7 @@ display: flex;
   margin: 48px
 }
 #addCard:hover {
-  transform: scale(1.1); /* Ajusta el nivel de zoom según tus necesidades */
+  transform: scale(1.07); /* Ajusta el nivel de zoom según tus necesidades */
 }
 #eachCard {
   display: flex;
@@ -65,58 +66,22 @@ display: flex;
 #eachCard h2,
 #eachCard h4 {
   margin-top: 0px;
-  font-style: initial; /* Elimina el margen predeterminado de h2 y h4 */
+  font-style: initial; 
+  color:rgb(49, 49, 49);/* Elimina el margen predeterminado de h2 y h4 */
 }
 #eachRecipe img{
   margin-bottom: 0px;
 }
 #eachCard:hover {
-  transform: scale(1.1); /* Ajusta el nivel de zoom según tus necesidades */
+  transform: scale(1.07); /* Ajusta el nivel de zoom según tus necesidades */
 }
-#recipeContainer{
- background-color: beige;
- border-bottom: 2px solid black;
-  border-radius: 20px;
-  display: block;
-  display: flex; /* Usar flexbox para diseño flexible */
-  align-items: center;
-  flex-direction: column; /* Apilar los elementos en columna */
-  text-align: center; /
-  
-}
-#recipeContainer img{
- width: 550px;
- height: 550px;
-  border-radius: 20px;
-  margin: 0, 10, 10, 0; 
- 
-}
+
+
 #backgroundDetails{
 border-radius: 20px;
 }
-#ingredientListDetails{
-  text-align:left
-}
-#first-recipe-bloq{
-  background-color: beige;
-  border-bottom: 2px solid black;
-  border-radius: 20px;
-  display: flex;
-  align-items: flex-start; /* Ajustado para alinear los elementos en la parte superior */
-  justify-content: space-between; /* Ajustado para separar los elementos a los extremos */
-  flex-direction: row; /* Cambiado a fila para alinear los elementos en una fila */
-  text-align: left; /* Alinea el texto a la izquierda */
-}
-#first-recipe-bloq-text{
-  margin: 10px;
-  border-radius: 20px;
-  display: block;
-  display: flex; /* Usar flexbox para diseño flexible */
-  align-items: center;
-  flex-direction: column; /* Apilar los elementos en columna */
-  text-align: center; /
-  
-}
+
+
 #search-bar{
   width: 60%;
   height: 6px; /* Ocupa tres cuartos del ancho de la pantalla */
