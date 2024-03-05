@@ -31,19 +31,28 @@ function SearchBar(props) {
   }, []);
 
   // functions that change the state of the search type
-  function nameSearch(e) {
-    e.preventDefault();
-    setSearchType("name");
+  function nameSearch(e){
+    e.preventDefault()
+    setSearchType('name')
+    document.getElementById('search-by-name-wrapper').style.backgroundColor = '#dd596b'
+    document.getElementById('search-by-tag-wrapper').style.backgroundColor = '#5971dd'
+
   }
 
-  function ingredientsSearch(e) {
-    e.preventDefault();
-    setSearchType("ingredients");
+  function ingredientsSearch(e){
+    e.preventDefault()
+    setSearchType('ingredients')
+    document.getElementById('search-by-ingredient-wrapper').style.backgroundColor = '#dd596b'
+    document.getElementById('search-by-tag-wrapper').style.backgroundColor = '#5971dd'
+    document.getElementById('search-by-name-wrapper').style.backgroundColor = '#5971dd'
   }
 
-  function tagsSearch(e) {
-    e.preventDefault();
-    setSearchType("tags");
+  function tagsSearch(e){
+    e.preventDefault()
+    setSearchType('tags')
+    document.getElementById('search-by-tag-wrapper').style.backgroundColor = '#dd596b'
+    document.getElementById('search-by-name-wrapper').style.backgroundColor = '#5971dd'
+    document.getElementById('search-by-ingredient-wrapper').style.backgroundColor = '#5971dd'
   }
 
   // useEffect that keeps track of the search queries when they are typed
@@ -99,70 +108,39 @@ function SearchBar(props) {
 
 
   return (
-    <>
-      <form id="search-form">
-        <div id="search-type-wrapper">
-          <div className="search-by-name-wrapper">
-            <button
-              className="search-selection-box"
-              onClick={(e) => nameSearch(e)}
-            >
-              Search by Name
-            </button>
-          </div>
-          <div className="search-by-ingredient-wrapper">
-            <button
-              className="search-selection-box"
-              onClick={(e) => ingredientsSearch(e)}
-            >
-              Search by Ingredient
-            </button>
-          </div>
-          <div className="search-by-tag-wrapper">
-            <button
-              className="search-selection-box"
-              onClick={(e) => tagsSearch(e)}
-            >
-              Search by Tag
-            </button>
-          </div>
+    <div id="search-bar-container">
+        <form id="search-form">
+        <div id='search-type-wrapper'>
+          <div className='search-type-wrapper'><button id='search-by-name-wrapper' className='search-selection-box' onClick={e => nameSearch(e)}>Search by Name</button></div>
+          <div className='search-type-wrapper'><button id='search-by-ingredient-wrapper' className='search-selection-box' onClick={e => ingredientsSearch(e)}>Search by Ingredient</button></div>
+          <div className='search-type-wrapper'><button id='search-by-tag-wrapper' className='search-selection-box' onClick={e => tagsSearch(e)}>Search by Tag</button></div>
         </div>
         <div id="search-bar">
           <SearchIcon id="search-bar-icon"></SearchIcon>
           <input
             value={activeQuery}
-            id="search-bar-text"
-            placeholder="Search recipe"
-            type="text"
-            name="search"
-            onChange={(e) => {
-              setActiveQuery(e.target.value);
-            }}
-          />
-          {filteredRecipes.length < 30 && (
-            <CloseIcon onClick={filterSearchbar}></CloseIcon>
-          )}
-        </div>
-      </form>
-      {filteredRecipes.length < 30 && (
-        <div className="eachObjectContainer">
-          {filteredRecipes.map((eachRecipe) => {
-            return (
-              <Link
-                to={`/Allrecipes/${eachRecipe.id}`}
-                key={eachRecipe.id}
-                style={{ color: "black", textDecoration: "none" }}
-              >
-                <p id="eachObject">
-                  <img src={eachRecipe.photo_URL} alt={eachRecipe.name} />
-                  {eachRecipe.name}
-                </p>
-              </Link>
-            );
-          })}
-        </div>
-      )}
-    </>
+              id="search-bar-text"
+              placeholder="Search recipe"
+              type="text"
+              name="search"
+              onChange={(e) => {
+                setActiveQuery(e.target.value);
+              }}
+            />
+           {filteredRecipes.length < allRecipes.length  &&<CloseIcon onClick={filterSearchbar}></CloseIcon>}
+
+          </div>
+        </form>
+        {filteredRecipes.length < allRecipes.length && (
+      <div className="eachObjectContainer">
+        {filteredRecipes.map((eachRecipe) => {
+          return <Link to={`/Allrecipes/${eachRecipe.id}`} key={eachRecipe.id} style={{ color: "black", textDecoration: "none" }} ><p  id="eachObject">
+            <img src={eachRecipe.photo_URL} alt={eachRecipe.name} />
+            {eachRecipe.name}</p></Link>;
+        })}
+      </div>
+    )}
+      </div>
   );
 }
 

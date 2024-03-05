@@ -1,56 +1,66 @@
 #eachObject {
-    display: flex;
-    align-items: center;
-    background-color: white; /* Cambia el color de fondo según tus preferencias */
-    border: 1px solid #ccc; /* Añade un borde para resaltar los resultados */
-    padding: 10px; /* Ajusta el espaciado interno según sea necesario */
-    /* Añade sombra para un efecto visual */
-width: 20%;
-position: relative;
-margin: 0 0 0 35px;
-
-  }
-  
-  
-  #eachObject img {
-    width: 40px; /* Ajusta el ancho de la imagen según tus necesidades */
-    height: 4f0px; /* Ajusta la altura de la imagen según tus necesidades */
-    margin-right: 10px; /* Espaciado entre la imagen y el texto */
-    border-radius: 50%; /* Añade un borde redondeado a la imagen (opcional) */
-  }
-  
-  #eachObject p {
-    margin: 0; /* Elimina el margen por defecto del párrafo */
-    
-  }
-  #eachObject:hover {
-    transform: scale(1.1)
-  }
-  .eachObjectContainer {
-    margin-top: 0;
-    width: 1000px; 
-    position: absolute;/* Ajusta el ancho según sea necesario */
+  display: flex;
+  align-items: center;
+  background-color: white; /* Cambia el color de fondo según tus preferencias */
+  border: 1px solid #ccc; /* Añade un borde para resaltar los resultados */
+  padding: 10px; /* Ajusta el espaciado interno según sea necesario */
+  /* Añade sombra para un efecto visual */
+  width: 20%;
+  position: relative;
+  margin: 0 0 0 35px;
 }
 
-#search-form{
+#eachObject img {
+  width: 40px; /* Ajusta el ancho de la imagen según tus necesidades */
+  height: 4f0px; /* Ajusta la altura de la imagen según tus necesidades */
+  margin-right: 10px; /* Espaciado entre la imagen y el texto */
+  border-radius: 50%; /* Añade un borde redondeado a la imagen (opcional) */
+}
+
+#eachObject p {
+  margin: 0; /* Elimina el margen por defecto del párrafo */
+}
+#eachObject:hover {
+  transform: scale(1.1);
+}
+.eachObjectContainer {
+  margin-top: 0;
+  width: 1000px;
+  position: absolute; /* Ajusta el ancho según sea necesario */
+}
+
+#search-form {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 0;
-  margin-left: 30px;
+  justify-content: start;
+  margin-left: 44px;
 }
 
-#search-type-wrapper{
-  display:flex;
+#search-type-wrapper {
+  display: flex;
   flex-direction: row;
   align-items: start;
-
+  margin-bottom: 0;
+}
+.search-selection-box{
+  margin-top: 12px;
+  color: white;
+  background-color: #5971dd;
+  font-family: 'Space Grotesk', sans-serif;
+  border-style: none;
+  padding: 6px;
+  border-top-left-radius: 10px;
+  font-size: 14px;
+  width: 160px;
+}
+.search-selection-box:hover{
+  cursor:grab;
 }
 
-#search-bar{
+#search-bar {
   width: 60%;
   height: 6px; /* Ocupa tres cuartos del ancho de la pantalla */
-  margin: 0px 10px 13px 0px; /* Centra la barra de búsqueda horizontalmente y agrega espacio en la parte superior e inferior */
+  margin: 12px 10px 13px 0px; /* Centra la barra de búsqueda horizontalmente y agrega espacio en la parte superior e inferior */
   padding: 10px;
   border-radius: 20px; /* Bordes redondeados */
   border: 1px solid #ccc; /* Borde con color gris claro */
@@ -58,18 +68,21 @@ margin: 0 0 0 35px;
   padding: 15px;
   font-size: 16px;
   display: flex; /* Utiliza flexbox para el contenedor principal */
-  align-items: center; 
+  align-items: center;
   background-color: rgb(233, 230, 230);
 }
-#search-bar-icon{
-   /* Ocupa tres cuartos del ancho de la pantalla */
+#search-bar-icon {
+  /* Ocupa tres cuartos del ancho de la pantalla */
 
- flex-direction: row
- 
-}#search-bar-text{
+  flex-direction: row;
+}
+#search-bar-text {
   background-color: rgb(233, 230, 230);
   width: 96%;
   border: none;
   font-size: 18px;
   outline: none;
+}
+#search-type-wrapper{
+  height: 18px;
 }
