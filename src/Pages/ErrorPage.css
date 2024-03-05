@@ -1,0 +1,22 @@
+#errorPage-container{
+    margin-left: 25%;
+    margin-top: 10%;
+}
+#errorPage-button{
+    margin-left: 18%;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 23px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    background-color: rgb(247, 231, 231);
+    color: #333;
+    border: 2px solid #333;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+#errorPage-button:hover{
+    transform: scale(1.08)
+}

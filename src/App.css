@@ -119,3 +119,33 @@ border-radius: 20px;
   font-size: 18px;
   outline: none;
 }
+
+#circular-progress-allRecipes{
+display: flex;
+font-size: 300%;
+margin-left: 50%;
+margin-top: 15%;
+}
+#allrecipesPage-button-see-all{
+    margin-left: 6%;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 23px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    background-color: rgb(247, 231, 231);
+    color: #333;
+    border: 2px solid #333;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#allrecipesPage-button-see-all:hover{
+  transform: scale(1.08)
+}
+#no-recipe-macht-container-allrecipepage{
+  margin-left: 10%;
+  font-size: 18px;
+}
