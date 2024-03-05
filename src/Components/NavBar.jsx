@@ -27,6 +27,12 @@ function Navbar() {
           >
             <h4  className={currentPage === "Allrecipes" ? "selected-element" : 'nav-element' }>All Recipes</h4>
           </Link>
+          <Link
+            to="/FAQ"
+            onClick={() => setCurrentPage('FAQ')}
+          >
+            <h4  className={currentPage === "FAQ" ? "selected-element" : 'nav-element' }>FAQ</h4>
+          </Link>
         </nav>
     </header>
   );
