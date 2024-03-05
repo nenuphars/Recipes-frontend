@@ -6,14 +6,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 
-function SearchBar(props) {
+function SearchBar({ setPropsRecipes }) {
   const [allRecipes, setAllRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [searchType, setSearchType] = useState("name");
 
   // search query state
   const [activeQuery, setActiveQuery] = useState("");
-
+  const [queryArray, setQueryArray] = useState([]);
 
   // gets data once
   useEffect(() => {
@@ -21,7 +21,6 @@ function SearchBar(props) {
       .get(`${import.meta.env.VITE_BASE_URL}/Recipes`)
       .then((recipes) => {
         setAllRecipes(recipes.data);
-        props.setPropsRecipes(recipes.data);
         setFilteredRecipes(recipes.data);
         console.log(recipes.data);
       })
@@ -34,49 +33,88 @@ function SearchBar(props) {
   function nameSearch(e) {
     e.preventDefault();
     setSearchType("name");
+    setQueryArray([]);
+    setFilteredRecipes(allRecipes);
+    setPropsRecipes(allRecipes);
   }
 
   function ingredientsSearch(e) {
     e.preventDefault();
     setSearchType("ingredients");
+    setQueryArray([]);
+    setFilteredRecipes(allRecipes);
+    setPropsRecipes(allRecipes);
   }
 
   function tagsSearch(e) {
     e.preventDefault();
     setSearchType("tags");
+    setQueryArray([]);
+    setFilteredRecipes(allRecipes);
+    setPropsRecipes(allRecipes);
   }
 
-  // useEffect that keeps track of the search queries when they are typed
-  useEffect(() => {
-    // resets the recipes list when the search is empty
-    if (activeQuery === "") {
-      setFilteredRecipes(allRecipes);
-      props.setPropsRecipes(allRecipes);
-    }
+  useEffect(()=>{
+    console.log("content of query array: ", queryArray)
+
+  }, [queryArray])
+
+  // search function that keeps track of the search queries and handles the filters
+  function handleSearch(e) {
+    // set the value for search input
+    setActiveQuery(e.target.value);
 
     // handles the search for name
-    else if (searchType === "name") {
+    if (searchType === "name") {
       // setactiveQuery(query)
       let filteredByName = allRecipes.filter((recipe) => {
         return recipe.name.toLowerCase().includes(activeQuery.toLowerCase());
       });
       setFilteredRecipes(filteredByName);
-      props.setPropsRecipes(filteredByName);
+      setPropsRecipes(filteredByName);
     }
 
     // handles the search for ingredients
     else if (searchType === "ingredients") {
-      // filter the recipes into a new array
-      let filteredByIngredient = allRecipes.filter((oneRecipe) => {
-        // Check if any ingredient in the recipe matches the search term
-        return oneRecipe.ingredientsList.some((ingredientObj) => {
-          return ingredientObj.ingredient
-            .toLowerCase()
-            .includes(activeQuery.toLowerCase());
+      let filteredByOneIngredient;
+      let filteredByTwoIngredients;
+
+      //  if there is something in the query array
+      if (queryArray.length >= 1) {
+        // filter the previously filtered array again
+        filteredByTwoIngredients = queryArray.forEach((oneQuery, index) => {
+            filteredRecipes.some((ingredientObj) => {
+              return ingredientObj.ingredient
+                .toLowerCase()
+                .includes(oneQuery[index].toLowerCase());
+            });
+          
         });
-      });
-      setFilteredRecipes(filteredByIngredient);
-      props.setPropsRecipes(filteredByIngredient);
+
+        console.log(`filtered by ingredients ${activeQuery}`, filteredByTwoIngredients);
+        setFilteredRecipes(filteredByTwoIngredients);
+        setPropsRecipes(filteredByTwoIngredients);
+      }
+     
+        // filter by active query
+        filteredByOneIngredient = filteredRecipes.filter((oneRecipe) => {
+          // Check if any ingredient in the recipe matches the search term
+          return oneRecipe.ingredientsList.some((ingredientObj) => {
+            return ingredientObj.ingredient
+              .toLowerCase()
+              .includes(activeQuery.toLowerCase());
+          });
+        });
+        console.log("filtered by active query ingredient: ",filteredByOneIngredient)
+        setFilteredRecipes(filteredByOneIngredient);
+        setPropsRecipes(filteredByOneIngredient);
+      
+
+      // resets the recipes list when the search is empty and there is nothing in the query array
+      if (!queryArray) {
+        setFilteredRecipes(allRecipes);
+        setPropsRecipes(allRecipes);
+      }
     }
 
     // handles the search for tags
@@ -88,15 +126,33 @@ function SearchBar(props) {
         });
       });
       setFilteredRecipes(filteredByTags);
-      props.setPropsRecipes(filteredByTags);
+      setPropsRecipes(filteredByTags);
     }
-  }, [activeQuery, searchType]);
+  }
 
-  function filterSearchbar() {
+  function clearSearchbar() {
     setFilteredRecipes(allRecipes);
     setActiveQuery("");
   }
 
+  // handles the enter key press
+  function addQuery(event) {
+    if (event.key === "Enter") {
+      console.log("the array before: ", queryArray);
+      
+      setQueryArray([...queryArray, ...activeQuery]);
+      console.log("new content ", activeQuery);
+
+      setActiveQuery("");
+    }
+  }
+
+  // removes a query from the search bar and query array
+  function removeQuery(index) {
+    let data = [...queryArray];
+    data.splice(index, 1);
+    setQueryArray(data);
+  }
 
   return (
     <>
@@ -130,36 +186,57 @@ function SearchBar(props) {
         <div id="search-bar">
           <SearchIcon id="search-bar-icon"></SearchIcon>
           <input
+            onKeyUp={(e) => {
+              addQuery(e);
+            }}
             value={activeQuery}
             id="search-bar-text"
             placeholder="Search recipe"
             type="text"
             name="search"
             onChange={(e) => {
-              setActiveQuery(e.target.value);
+              handleSearch(e);
             }}
           />
+          {queryArray && (
+            <div className="queryBubble">
+              {queryArray.map((oneQuery, index) => {
+                return (
+                  <div key={index}>
+                    <p>{oneQuery}</p>
+                    <CloseIcon
+                      onClick={() => {
+                        removeQuery(index);
+                      }}
+                    ></CloseIcon>
+                  </div>
+                );
+              })}
+            </div>
+          )}
           {filteredRecipes.length < 30 && (
-            <CloseIcon onClick={filterSearchbar}></CloseIcon>
+            <CloseIcon onClick={clearSearchbar}></CloseIcon>
           )}
         </div>
       </form>
+      {/* show thumbnails of recipes below search input while typing */}
       {filteredRecipes.length < 30 && (
         <div className="eachObjectContainer">
-          {filteredRecipes.map((eachRecipe) => {
-            return (
-              <Link
-                to={`/Allrecipes/${eachRecipe.id}`}
-                key={eachRecipe.id}
-                style={{ color: "black", textDecoration: "none" }}
-              >
-                <p id="eachObject">
-                  <img src={eachRecipe.photo_URL} alt={eachRecipe.name} />
-                  {eachRecipe.name}
-                </p>
-              </Link>
-            );
-          })}
+          {activeQuery &&
+            filteredRecipes.map((eachRecipe) => {
+              return (
+                <Link
+                  to={`/Allrecipes/${eachRecipe.id}`}
+                  key={eachRecipe.id}
+                  style={{ color: "black", textDecoration: "none" }}
+                >
+                  <p id="eachObject">
+                    <img src={eachRecipe.photo_URL} alt={eachRecipe.name} />
+                    {eachRecipe.name}
+                  </p>
+                </Link>
+              );
+            })}
         </div>
       )}
     </>
