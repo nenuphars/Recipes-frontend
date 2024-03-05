@@ -2,12 +2,15 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import CircularProgress from '@mui/material/CircularProgress';
 import "./RecipeDetailsPage.css";
+import ErrorPage from "./ErrorPage";
 
 function RecipeDetailsPage() {
   const { id } = useParams();
 
   const [recipe, setRecipe] = useState(null);
+  const [fakeRecipe, setFakeRecipe] =useState(false)
 
   useEffect(() => {
     axios
@@ -17,13 +20,15 @@ function RecipeDetailsPage() {
       })
       .catch((error) => {
         console.log(error);
+        setFakeRecipe(true)
       });
   }, [id]);
   console.log(recipe);
 
   return (
     <div id="backgroundDetails">
-      {!recipe && <p>loading...</p>}
+      {!recipe && fakeRecipe && <ErrorPage></ErrorPage>}
+      {!recipe && !fakeRecipe &&<p><CircularProgress id="spiner-detailsPage" size={100} color="success"></CircularProgress></p>}
       {recipe && (
         <div>
           <div id="recipeContainer">
