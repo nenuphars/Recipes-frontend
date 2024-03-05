@@ -9,6 +9,7 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: start;
 }
 a {
   text-decoration: none;
@@ -27,6 +28,7 @@ a {
   color:white;
   font-size: 20px;
   text-align: center;
+  margin-right: 15vw;
 }
 
 .nav-element:hover {
@@ -43,10 +45,8 @@ a {
 
 .selected-element {
   padding: 12px 12px;
-  font-size: 21px;
-  line-height: 1.3;
+  font-size: 20px;
   text-align: center;
   color: rgb(255, 255, 255);
-  margin-top: 5px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
