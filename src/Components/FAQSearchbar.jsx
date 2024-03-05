@@ -27,14 +27,14 @@ setValueEntered(nameImput)
   }
 
   return (
-    <div id="searchbar-container">
+    <div id="FAQ-searchbar-container">
         <form>
         
-          <div id="search-bar" >
-          <SearchIcon id="search-bar-icon"></SearchIcon>
+          <div id="FAQ-search-bar" >
+          <SearchIcon id="FAQ-search-bar-icon"></SearchIcon>
             <input
             value={valueEntered}
-              id="search-bar-text"
+              id="FAQ-search-bar-text"
               placeholder="Write your question"
               type="text"
               name="search"
