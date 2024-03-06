@@ -39,7 +39,7 @@ function Dashboard() {
   }, []);
   return (
     <>
-    <SearchBar></SearchBar>
+    <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
       <div id="eachRecipeContainer">
         <Link to={'/dashboard/CreateRecipe'} style={{ textDecoration: "none" }}><Card id="addCard">
           <div id="AddCardPhoto">
