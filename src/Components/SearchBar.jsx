@@ -22,7 +22,7 @@ function SearchBar({ setPropsRecipes }) {
       .then((recipes) => {
         setAllRecipes(recipes.data);
         setFilteredRecipes(recipes.data);
-        console.log(recipes.data);
+        // console.log(recipes.data);
       })
       .catch((error) => {
         console.log(error);
@@ -31,6 +31,7 @@ function SearchBar({ setPropsRecipes }) {
 
   // functions that change the state of the search type
   function nameSearch(e) {
+
     e.preventDefault();
     setSearchType("name");
     setQueryArray([]);
@@ -39,6 +40,7 @@ function SearchBar({ setPropsRecipes }) {
   }
 
   function ingredientsSearch(e) {
+
     e.preventDefault();
     setSearchType("ingredients");
     setQueryArray([]);
@@ -47,6 +49,7 @@ function SearchBar({ setPropsRecipes }) {
   }
 
   function tagsSearch(e) {
+
     e.preventDefault();
     setSearchType("tags");
     setQueryArray([]);
@@ -54,10 +57,10 @@ function SearchBar({ setPropsRecipes }) {
     setPropsRecipes(allRecipes);
   }
 
-  useEffect(()=>{
-    console.log("content of query array: ", queryArray)
-
-  }, [queryArray])
+  // useEffect(() => {
+  //   console.log("content of query array: ", queryArray);
+  //   console.log("content of query array: ", searchType);
+  // }, [queryArray]);
 
   // search function that keeps track of the search queries and handles the filters
   function handleSearch(e) {
@@ -81,21 +84,26 @@ function SearchBar({ setPropsRecipes }) {
 
       //  if there is something in the query array
       if (queryArray.length >= 1) {
+        console.log('inside the')
         // filter the previously filtered array again
-        filteredByTwoIngredients = queryArray.forEach((oneQuery, index) => {
-            filteredRecipes.some((ingredientObj) => {
-              return ingredientObj.ingredient
-                .toLowerCase()
-                .includes(oneQuery[index].toLowerCase());
-            });
-          
-        });
+        filteredByTwoIngredients = filteredRecipes.filter(recipe => recipe.ingredientsList.some(({ingredient}) => queryArray.includes(ingredient)))
+        // queryArray.forEach((oneQuery, index) => {
+        //   // console.log(oneQuery)
+        //   filteredRecipes.some((ingredientObj) => {
+        //     console.log(ingredientObj.ingredientsList)
+        //     return ingredientObj.ingredientsList.ingredient
+        //       .toLowerCase()
+             
+        //   });
+        // });
 
-        console.log(`filtered by ingredients ${activeQuery}`, filteredByTwoIngredients);
+        // console.log(
+        //   `filtered by ingredients ${activeQuery}`,
+        //   filteredByTwoIngredients
+        // );
         setFilteredRecipes(filteredByTwoIngredients);
         setPropsRecipes(filteredByTwoIngredients);
-      }
-     
+      } 
         // filter by active query
         filteredByOneIngredient = filteredRecipes.filter((oneRecipe) => {
           // Check if any ingredient in the recipe matches the search term
@@ -105,9 +113,14 @@ function SearchBar({ setPropsRecipes }) {
               .includes(activeQuery.toLowerCase());
           });
         });
-        console.log("filtered by active query ingredient: ",filteredByOneIngredient)
-        setFilteredRecipes(filteredByOneIngredient);
-        setPropsRecipes(filteredByOneIngredient);
+        
+              // console.log(
+              //   "filtered by active query ingredient: ",
+              //   filteredByOneIngredient
+              // );
+              setFilteredRecipes(filteredByOneIngredient);
+              setPropsRecipes(filteredByOneIngredient);
+
       
 
       // resets the recipes list when the search is empty and there is nothing in the query array
@@ -137,11 +150,15 @@ function SearchBar({ setPropsRecipes }) {
 
   // handles the enter key press
   function addQuery(event) {
+
     if (event.key === "Enter") {
-      console.log("the array before: ", queryArray);
-      
-      setQueryArray([...queryArray, ...activeQuery]);
-      console.log("new content ", activeQuery);
+
+      // console.log("here");
+
+      // console.log("the array before: ", queryArray);
+
+      setQueryArray([...queryArray, activeQuery]);
+      // console.log("new content ", activeQuery);
 
       setActiveQuery("");
     }
@@ -156,8 +173,9 @@ function SearchBar({ setPropsRecipes }) {
 
   return (
     <>
-      <form id="search-form">
-        <div id="search-type-wrapper">
+      
+      <form id="search-form" onKeyDownCapture={(e) => e.key === 'Enter' && e.preventDefault() }>
+      <div id="search-type-wrapper">
           <div className="search-by-name-wrapper">
             <button
               className="search-selection-box"
@@ -183,10 +201,11 @@ function SearchBar({ setPropsRecipes }) {
             </button>
           </div>
         </div>
+
         <div id="search-bar">
           <SearchIcon id="search-bar-icon"></SearchIcon>
           <input
-            onKeyUp={(e) => {
+            onKeyDownCapture={(e) => {
               addQuery(e);
             }}
             value={activeQuery}
