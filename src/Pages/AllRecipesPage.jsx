@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import "../App.css";
+import "./AllRecipesPage.css";
 import Card from "@mui/material/Card";
 import { Link } from "react-router-dom";
 import SearchBar from "../Components/SearchBar";
@@ -44,7 +44,7 @@ function AllRecipesPage() {
                 <h4>⏱️ {eachRecipe.duration}</h4>
                 <div id="tagContainer">
                   {eachRecipe.tags.map((eachTag) => {
-                    return <div key={eachTag}>{eachTag}</div>;
+                    return <div className="tag-wrapper" key={eachTag}>{eachTag}</div>;
                   })}
                 </div>
               </Card>

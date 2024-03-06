@@ -1,0 +1,58 @@
+#eachRecipeContainer {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente fila */
+  gap: 10px; /* Espacio entre los elementos */
+  justify-content: space-around;
+  text-decoration: none; /* Quitar subrayado de los enlaces */
+  color: inherit;
+}
+#eachPhoto {
+  width: 340px;
+  height: 340px;
+  border-radius: 20px;
+}
+#AddCardPhoto {
+  width: 340px;
+  height: 340px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.87);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#addCard {
+  width: 340px;
+  display: flex;
+  flex-direction: column; /* Apila los elementos verticalmente */
+  align-items: center; /* Centra los elementos horizontalmente */
+  background-color: beige;
+  border-radius: 20px;
+  margin: 10px;
+  font: white;
+}
+#AddCardText {
+  display: flex;
+  margin: 48px;
+}
+#addCard:hover {
+  transform: scale(1.07); /* Ajusta el nivel de zoom según tus necesidades */
+}
+#eachCard {
+  width: 340px;
+  display: flex;
+  flex-direction: column; /* Apila los elementos verticalmente */
+  align-items: center; /* Centra los elementos horizontalmente */
+  background-color: beige;
+  border-radius: 20px;
+  margin: 10px;
+  font: white;
+}
+#eachCard h2,
+#eachCard h4 {
+  margin: 12px 14px 6px;
+  color: black;
+  text-align: center;
+}
+.tag-wrapper{
+    margin: 4px;
+}

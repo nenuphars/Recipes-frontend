@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import "../App.css";
+import "./AllRecipesPage.css";
 import Card from "@mui/material/Card";
 import { Link } from "react-router-dom";
 import { IconButton } from "@mui/material";
@@ -15,7 +15,7 @@ function Dashboard() {
   const [allRecipes, setAllRecipes] = useState([]);
   const navigate = useNavigate();
 
-  const deleteFields = (index) => {
+  const deleteRecipe = (index) => {
     axios
       .delete(`${import.meta.env.VITE_BASE_URL}/Recipes/${index}`)
       .then((recipes) => {
@@ -69,7 +69,7 @@ function Dashboard() {
                   <IconButton
                     aria-label="edit"
                     onClick={() => {
-                      deleteFields(eachRecipe);
+                      deleteRecipe(eachRecipe);
                     }} 
                   > 
                     <EditIcon /> 
@@ -78,7 +78,7 @@ function Dashboard() {
                   <IconButton
                     aria-label="delete"
                     onClick={() => {
-                      deleteFields(eachRecipe.id);
+                      deleteRecipe(eachRecipe.id);
                     }}
                   >
                     <DeleteIcon />
@@ -86,7 +86,7 @@ function Dashboard() {
                 </h4>
                 <div id="tagContainer">
                   {eachRecipe.tags.map((eachTag) => {
-                    return <div key={eachTag}>{eachTag}</div>;
+                    return <div className="tag-wrapper" key={eachTag}>{eachTag}</div>;
                   })}
                 </div>
               </Card>

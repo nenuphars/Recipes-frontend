@@ -14,7 +14,7 @@ margin: 0 0 0 35px;
   
   #eachObject img {
     width: 40px; /* Ajusta el ancho de la imagen según tus necesidades */
-    height: 4f0px; /* Ajusta la altura de la imagen según tus necesidades */
+    height: 40px; /* Ajusta la altura de la imagen según tus necesidades */
     margin-right: 10px; /* Espaciado entre la imagen y el texto */
     border-radius: 50%; /* Añade un borde redondeado a la imagen (opcional) */
   }

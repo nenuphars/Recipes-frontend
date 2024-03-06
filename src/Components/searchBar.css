@@ -32,7 +32,9 @@
 #search-form {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  gap: 0;
+  justify-content:end;
+  margin-top: 20px;
   margin-left: 44px;
 }
 
@@ -40,42 +42,40 @@
   display: flex;
   flex-direction: row;
   align-items: start;
-  margin-bottom: 0;
+  justify-content: start;
 }
 .search-selection-box{
-  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
   background-color: #5971dd;
   font-family: 'Space Grotesk', sans-serif;
   border-style: none;
-  padding: 6px;
   border-top-left-radius: 10px;
   font-size: 14px;
   width: 160px;
+  height: 30px;
+
 }
 .search-selection-box:hover{
   cursor:grab;
 }
 
 #search-bar {
-  width: 60%;
+  width: 80%;
   height: 6px; /* Ocupa tres cuartos del ancho de la pantalla */
   margin: 12px 10px 13px 0px; /* Centra la barra de búsqueda horizontalmente y agrega espacio en la parte superior e inferior */
-  padding: 10px;
   border-radius: 20px; /* Bordes redondeados */
   border: 1px solid #ccc; /* Borde con color gris claro */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para resaltar la barra de búsqueda */
-  padding: 15px;
   font-size: 16px;
   display: flex; /* Utiliza flexbox para el contenedor principal */
   align-items: center;
   background-color: rgb(233, 230, 230);
+  padding: 15px;
 }
-#search-bar-icon {
-  /* Ocupa tres cuartos del ancho de la pantalla */
 
-  flex-direction: row;
-}
 #search-bar-text {
   background-color: rgb(233, 230, 230);
   width: 96%;
