@@ -14,12 +14,13 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./EditRecipe.css";
 
 function EditRecipe() {
   // params to get the id of the recipe
   const { id } = useParams();
+  const navigate = useNavigate()
 
   // states for all form inputs
   const [name, setName] = useState("");
@@ -120,7 +121,9 @@ function EditRecipe() {
 
     axios
       .put(`${import.meta.env.VITE_BASE_URL}/Recipes/${id}`, newRecipe)
-      .then(() => {})
+      .then(() => {
+        navigate(`/Allrecipes/${id}`)
+      })
       .catch((err) => {
         console.log(err);
       });
