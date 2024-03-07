@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Card,} from "@mui/material";
 import "./HomePage.css";
+import CircularProgress from '@mui/material/CircularProgress';
 // import Logo from "../Photos/Logo_fridge.png";
 
 function HomePage() {
@@ -59,7 +60,7 @@ function HomePage() {
       </div>
       </div>
       <div className="homepage-wrapper">
-        {!randomRecipe && <p>...loading</p>}
+        {!randomRecipe && <p><CircularProgress color="success" size={70} ></CircularProgress></p>}
         {randomRecipe && (
           <Link
             to={`/Allrecipes/${randomRecipe.id}`}

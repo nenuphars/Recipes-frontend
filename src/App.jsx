@@ -9,6 +9,7 @@ import CreateRecipePage from './Pages/CreateRecipePage'
 import EditRecipe from './Pages/EditRecipe'
 import Dashboard from './Pages/Dashboard'
 import FAQPage from './Pages/FAQPage'
+import ErrorPage from './Pages/ErrorPage'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard />}></Route>
         <Route path='/dashboard/edit/:id' element={<EditRecipe />}></Route>
         <Route path='/dashboard/CreateRecipe' element={<CreateRecipePage />}></Route>
+        <Route path='/*' element={<ErrorPage></ErrorPage>}></Route>
       </Routes>
     </>
   )

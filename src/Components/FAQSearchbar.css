@@ -1,22 +1,28 @@
-#searchbar-container {
+#FAQ-searchbar-container {
     width: 100%;
     max-width: 600px;
-    margin-left:6%;
+ 
+    margin: 2%;
+    margin-left: 8%;
   }
   
-  #search-bar {
+  #FAQ-search-bar {
     display: flex;
     align-items: center;
     background-color: #fff;
-    border: 1.5px solid black;
+    border: 1px solid black;
     border-radius: 5px;
     overflow: hidden;
     width: 210%;
+    padding: 5px;
   }
-  #search-bar-text {
-    
+
+  #FAQ-search-bar-text {
     background-color: #fff;
-       
+    width: 96%;
+    border: none;
+    font-size: 18px;
+    outline: none;
       }
       
   

@@ -1,6 +1,5 @@
 
 import './FAQSearchbar.css';
-import { useState } from 'react';
 
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 function FAQSearchBar(props) {
   const {filteredFAQ, allFaq, setFilteredFAQ, valueEntered,setValueEntered} = props;
-const [noResultFound,setNoResultFound] = useState(false)
+ 
 
 
   function searchByName(nameImput) {
@@ -21,23 +20,21 @@ const [noResultFound,setNoResultFound] = useState(false)
     let resultFiltered = allFaq.filter((eachFaq) => {
       return eachFaq.question.toLowerCase().includes(nameImput);
     });
-    if (resultFiltered.length === 0) {
-      setNoResultFound(true)
-    }
+  
 setValueEntered(nameImput)
     setFilteredFAQ(resultFiltered);
     console.log(resultFiltered)
   }
 
   return (
-    <div id="searchbar-container">
+    <div id="FAQ-searchbar-container">
         <form>
         
-          <div id="search-bar" >
-          <SearchIcon id="search-bar-icon"></SearchIcon>
+          <div id="FAQ-search-bar" >
+          <SearchIcon id="FAQ-search-bar-icon"></SearchIcon>
             <input
             value={valueEntered}
-              id="search-bar-text"
+              id="FAQ-search-bar-text"
               placeholder="Write your question"
               type="text"
               name="search"
