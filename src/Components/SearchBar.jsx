@@ -111,7 +111,7 @@ function SearchBar({ setPropsRecipes }) {
     <div id="search-bar-container">
         <div id="search-form">
         <div id='search-type-wrapper'>
-          <div className='search-type-wrapper'><button id='search-by-name-wrapper' className='search-selection-box' onClick={e => nameSearch(e)}>Search by Name</button></div>
+          <div className='search-type-wrapper'><button id='search-by-name-wrapper' style={{backgroundColor:"#dd596b"}} className='search-selection-box' onClick={e => nameSearch(e)}>Search by Name</button></div>
           <div className='search-type-wrapper'><button id='search-by-ingredient-wrapper' className='search-selection-box' onClick={e => ingredientsSearch(e)}>Search by Ingredient</button></div>
           <div className='search-type-wrapper'><button id='search-by-tag-wrapper' className='search-selection-box' onClick={e => tagsSearch(e)}>Search by Tag</button></div>
         </div>
