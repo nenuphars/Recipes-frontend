@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 
-function SearchBar(props) {
+function SearchBar({ setPropsRecipes }) {
   const [allRecipes, setAllRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [searchType, setSearchType] = useState("name");
@@ -21,7 +21,7 @@ function SearchBar(props) {
       .get(`${import.meta.env.VITE_BASE_URL}/Recipes`)
       .then((recipes) => {
         setAllRecipes(recipes.data);
-        props.setPropsRecipes(recipes.data);
+        setPropsRecipes(recipes.data);
         setFilteredRecipes(recipes.data);
         console.log(recipes.data);
       })
@@ -36,6 +36,7 @@ function SearchBar(props) {
     setSearchType('name')
     document.getElementById('search-by-name-wrapper').style.backgroundColor = '#dd596b'
     document.getElementById('search-by-tag-wrapper').style.backgroundColor = '#5971dd'
+    document.getElementById('search-by-ingredient-wrapper').style.backgroundColor = '#5971dd'
 
   }
 
@@ -60,7 +61,7 @@ function SearchBar(props) {
     // resets the recipes list when the search is empty
     if (activeQuery === "") {
       setFilteredRecipes(allRecipes);
-      props.setPropsRecipes(allRecipes);
+      setPropsRecipes(allRecipes);
     }
 
     // handles the search for name
@@ -70,7 +71,7 @@ function SearchBar(props) {
         return recipe.name.toLowerCase().includes(activeQuery.toLowerCase());
       });
       setFilteredRecipes(filteredByName);
-      props.setPropsRecipes(filteredByName);
+      setPropsRecipes(filteredByName);
     }
 
     // handles the search for ingredients
@@ -85,7 +86,7 @@ function SearchBar(props) {
         });
       });
       setFilteredRecipes(filteredByIngredient);
-      props.setPropsRecipes(filteredByIngredient);
+      setPropsRecipes(filteredByIngredient);
     }
 
     // handles the search for tags
@@ -97,7 +98,7 @@ function SearchBar(props) {
         });
       });
       setFilteredRecipes(filteredByTags);
-      props.setPropsRecipes(filteredByTags);
+      setPropsRecipes(filteredByTags);
     }
   }, [activeQuery, searchType]);
 
@@ -109,7 +110,7 @@ function SearchBar(props) {
 
   return (
     <div id="search-bar-container">
-        <form id="search-form">
+        <div id="search-form">
         <div id='search-type-wrapper'>
           <div className='search-type-wrapper'><button id='search-by-name-wrapper' className='search-selection-box' onClick={e => nameSearch(e)}>Search by Name</button></div>
           <div className='search-type-wrapper'><button id='search-by-ingredient-wrapper' className='search-selection-box' onClick={e => ingredientsSearch(e)}>Search by Ingredient</button></div>
@@ -130,7 +131,7 @@ function SearchBar(props) {
            {filteredRecipes.length < allRecipes.length  &&<CloseIcon onClick={filterSearchbar}></CloseIcon>}
 
           </div>
-        </form>
+        </div>
         {filteredRecipes.length < allRecipes.length && (
       <div className="eachObjectContainer">
         {filteredRecipes.map((eachRecipe) => {
