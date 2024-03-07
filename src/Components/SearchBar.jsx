@@ -21,7 +21,6 @@ function SearchBar({ setPropsRecipes }) {
       .get(`${import.meta.env.VITE_BASE_URL}/Recipes`)
       .then((recipes) => {
         setAllRecipes(recipes.data);
-        setPropsRecipes(recipes.data);
         setFilteredRecipes(recipes.data);
         console.log(recipes.data);
       })
@@ -100,7 +99,7 @@ function SearchBar({ setPropsRecipes }) {
       setFilteredRecipes(filteredByTags);
       setPropsRecipes(filteredByTags);
     }
-  }, [activeQuery, searchType]);
+  }, [activeQuery, searchType, allRecipes, setPropsRecipes]);
 
   function filterSearchbar() {
     setFilteredRecipes(allRecipes);
