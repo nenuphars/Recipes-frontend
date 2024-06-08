@@ -1,18 +1,19 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import axios from "axios";
 import "./AllRecipesPage.css";
 import Card from "@mui/material/Card";
 import { Link } from "react-router-dom";
 import SearchBar from "../Components/SearchBar";
 import CircularProgress from '@mui/material/CircularProgress';
-import recipesService from "../services/recipes.services";
 
 function AllRecipesPage() {
   const [spiner, setSpinner] = useState([]);
   const [allRecipes, setAllRecipes] = useState([]);
   
   useEffect(() => {
-    recipesService.getAllRecipes()
+    axios
+      .get(`${import.meta.env.VITE_BASE_URL}/Recipes`)
       .then((recipes) => {
         setSpinner(recipes.data)
         setAllRecipes(recipes.data);
@@ -40,14 +41,14 @@ function AllRecipesPage() {
         {allRecipes.map((eachRecipe) => {
           return (
             <Link
-              to={`/Allrecipes/${eachRecipe._id}`}
+              to={`/Allrecipes/${eachRecipe.id}`}
               key={eachRecipe.id}
               style={{ textDecoration: "none" }}
             >
               <Card id="eachCard">
                 <img
                   id="eachPhoto"
-                  src={eachRecipe.photo_url}
+                  src={eachRecipe.photo_URL}
                   alt={`${eachRecipe.name} dish`}
                 />
                 <h2>{eachRecipe.name}</h2>

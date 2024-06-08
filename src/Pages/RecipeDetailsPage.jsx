@@ -1,46 +1,47 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+import axios from "axios";
 import CircularProgress from '@mui/material/CircularProgress';
 import "./RecipeDetailsPage.css";
-// import ErrorPage from "./ErrorPage";
-import recipesService from "../services/recipes.services";
+import ErrorPage from "./ErrorPage";
 
 function RecipeDetailsPage() {
   const { id } = useParams();
 
   const [recipe, setRecipe] = useState(null);
-  // const [fakeRecipe, setFakeRecipe] =useState(false)
+  const [fakeRecipe, setFakeRecipe] =useState(false)
 
   useEffect(() => {
-    recipesService.getRecipe(id)
-      .then((response) => {
-        setRecipe(response.data);
+    axios
+      .get(`${import.meta.env.VITE_BASE_URL}/Recipes/${id}`)
+      .then((recipe) => {
+        setRecipe(recipe.data);
       })
       .catch((error) => {
         console.log(error);
-        // setFakeRecipe(true)
+        setFakeRecipe(true)
       });
   }, [id]);
-  
+  console.log(recipe);
 
   return (
     <div id="backgroundDetails">
-      {/* {!recipe && fakeRecipe && <ErrorPage></ErrorPage>} */}
-      {!recipe  && <CircularProgress id="spiner-detailsPage" size={100} color="success"></CircularProgress>}
+      {!recipe && fakeRecipe && <ErrorPage></ErrorPage>}
+      {!recipe && !fakeRecipe &&<p><CircularProgress id="spiner-detailsPage" size={100} color="success"></CircularProgress></p>}
       {recipe && (
         <div>
           <div id="recipeContainer">
             <div id="first-recipe-bloq">
               <img
                 id="PhotoDetails"
-                src={recipe.photo_url}
+                src={recipe.photo_URL}
                 alt="Photo of this dish"
               />
               <div id="first-recipe-bloq-text">
                 <h1>{recipe.name}<br></br><br></br></h1>
                 <h3>
-                  ⏱️{recipe.duration} mins
+                  ⏱️{recipe.duration}
                   <br></br>
                   <br></br>
                   <br></br>
@@ -59,7 +60,7 @@ function RecipeDetailsPage() {
             <ul id="ingredientListDetails">
               {recipe.ingredientsList.map((eachObject) => (
                 <li key={recipe.id}>
-                  {eachObject.ingredient_name} : {eachObject.ingredient_amount} {eachObject.ingredient_measuring}
+                  {eachObject.ingredient} : {eachObject.amount}
                 </li>
               ))}
             </ul>
