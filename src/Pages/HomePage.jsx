@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Card,} from "@mui/material";
 import "./HomePage.css";
 import CircularProgress from '@mui/material/CircularProgress';
+import recipesService from "../services/recipes.services";
 // import Logo from "../Photos/Logo_fridge.png";
 
 function HomePage() {
@@ -11,8 +11,7 @@ function HomePage() {
   const [randomRecipe, setRandomRecipe] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BASE_URL}/Recipes`)
+    recipesService.getAllRecipes()
       .then((recipesFromAPI) => {
         console.log(recipesFromAPI.data);
         setAllRecipes(recipesFromAPI.data);
@@ -70,12 +69,12 @@ function HomePage() {
             <Card id="recipeCard">
               <img
                 id="random-recipe-img"
-                src={randomRecipe.photo_URL}
+                src={randomRecipe.photo_url}
                 alt={`${randomRecipe.name} dish`}
               />
               <h2>{randomRecipe.name}</h2>
 
-              <h4>⏱️ {randomRecipe.duration}</h4>
+              <h4>⏱️ {randomRecipe.duration} mins</h4>
               <div id="tagContainer">
                 {randomRecipe.tags.map((eachTag) => {
                   return <div key={eachTag}>{eachTag}</div>;
