@@ -133,8 +133,8 @@ function SearchBar({ setPropsRecipes }) {
         {filteredRecipes.length < allRecipes.length && (
       <div className="eachObjectContainer">
         {filteredRecipes.map((eachRecipe) => {
-          return <Link to={`/Allrecipes/${eachRecipe.id}`} key={eachRecipe.id} style={{ color: "black", textDecoration: "none" }} ><p  id="eachObject">
-            <img src={eachRecipe.photo_URL} alt={eachRecipe.name} />
+          return <Link to={`/Allrecipes/${eachRecipe._id}`} key={eachRecipe._id} style={{ color: "black", textDecoration: "none" }} ><p  id="eachObject">
+            <img src={eachRecipe.photo_url} alt={eachRecipe.name} />
             {eachRecipe.name}</p></Link>;
         })}
       </div>
