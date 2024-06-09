@@ -1,10 +1,10 @@
-import axios from "axios";
 import "./searchBar.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
+import recipesService from "../services/recipes.services";
 
 function SearchBar({ setPropsRecipes }) {
   const [allRecipes, setAllRecipes] = useState([]);
@@ -17,8 +17,7 @@ function SearchBar({ setPropsRecipes }) {
 
   // gets data once
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BASE_URL}/Recipes`)
+    recipesService.getAllRecipes()
       .then((recipes) => {
         setAllRecipes(recipes.data);
         setFilteredRecipes(recipes.data);
@@ -134,8 +133,8 @@ function SearchBar({ setPropsRecipes }) {
         {filteredRecipes.length < allRecipes.length && (
       <div className="eachObjectContainer">
         {filteredRecipes.map((eachRecipe) => {
-          return <Link to={`/Allrecipes/${eachRecipe.id}`} key={eachRecipe.id} style={{ color: "black", textDecoration: "none" }} ><p  id="eachObject">
-            <img src={eachRecipe.photo_URL} alt={eachRecipe.name} />
+          return <Link to={`/Allrecipes/${eachRecipe._id}`} key={eachRecipe._id} style={{ color: "black", textDecoration: "none" }} ><p  id="eachObject">
+            <img src={eachRecipe.photo_url} alt={eachRecipe.name} />
             {eachRecipe.name}</p></Link>;
         })}
       </div>

@@ -41,7 +41,7 @@ function AllRecipesPage() {
           return (
             <Link
               to={`/Allrecipes/${eachRecipe._id}`}
-              key={eachRecipe.id}
+              key={eachRecipe._id}
               style={{ textDecoration: "none" }}
             >
               <Card id="eachCard">

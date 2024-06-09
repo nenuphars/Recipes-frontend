@@ -62,7 +62,7 @@ function HomePage() {
         {!randomRecipe && <p><CircularProgress color="success" size={70} ></CircularProgress></p>}
         {randomRecipe && (
           <Link
-            to={`/Allrecipes/${randomRecipe.id}`}
+            to={`/Allrecipes/${randomRecipe._id}`}
             key={randomRecipe.id}
             style={{ textDecoration: "none" }}
           >

@@ -64,9 +64,9 @@ function RecipeDetailsPage() {
               ))}
             </ul>
 
-            <h3 className="subtitles2">
+            <div className="subtitles2">
               Preparation: <h4 id="preparation">{recipe.preparation}</h4>
-            </h3>
+            </div>
           </div>
         </div>
       )}
