@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import {
   Button,
   FormLabel,
@@ -16,6 +15,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { useNavigate, useParams } from "react-router-dom";
 import "./EditRecipe.css";
+import recipesService from "../services/recipes.services";
 
 function EditRecipe() {
   // params to get the id of the recipe
@@ -33,22 +33,18 @@ function EditRecipe() {
 
   // state for ingredients and amount
   const [ingredients, setIngredients] = useState([
-    { ingredient: "", amount: "" },
+    { ingredient_name: "", ingredient_amount: "", ingredient_measuring: "" },
   ]);
 
   // get data for the current recipe to be modified
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BASE_URL}/Recipes/${id}`)
+    recipesService.getRecipe(id)
       .then((recipeDetails) => {
         console.log(recipeDetails.data);
 
         setName(recipeDetails.data.name);
-        setPhotoURL(recipeDetails.data.photo_URL);
-
-        // remove the "mins" from the duration
-        let numericDuration = recipeDetails.data.duration.split(" ")[0];
-        setDuration(numericDuration);
+        setPhotoURL(recipeDetails.data.photo_url);
+        setDuration(recipeDetails.data.duration);
 
         setPreparation(recipeDetails.data.preparation);
         setDescription(recipeDetails.data.description);
@@ -79,7 +75,7 @@ function EditRecipe() {
 
   // functions that add a new input field when the user clicks the button
   const addIngredientFields = () => {
-    let newField = { ingredient: "", amount: "" };
+    let newField = { ingredient_name: "", ingredient_amount: "", ingredient_measuring: ""};
     setIngredients([...ingredients, newField]);
   };
 
@@ -108,8 +104,8 @@ function EditRecipe() {
     // object that contains a new/edited recipe
     const newRecipe = {
       name: name,
-      photo_URL: photoURL,
-      duration: duration + " mins",
+      photo_url: photoURL,
+      duration: duration,
       ingredientsList: ingredients,
       preparation: preparation,
       description: description,
@@ -119,8 +115,7 @@ function EditRecipe() {
 
     console.log(newRecipe.duration);
 
-    axios
-      .put(`${import.meta.env.VITE_BASE_URL}/Recipes/${id}`, newRecipe)
+    recipesService.createRecipe(newRecipe)
       .then(() => {
         navigate(`/Allrecipes/${id}`)
       })
@@ -198,15 +193,15 @@ function EditRecipe() {
                 return (
                   <Stack key={"ingredient" + index} direction="row" spacing={2}>
                     <OutlinedInput
-                      value={`${oneItem.ingredient}`}
-                      name="ingredient"
+                      value={`${oneItem.ingredient_name}`}
+                      name="ingredient_name"
                       placeholder="ingredient"
                       onChange={(event) => handleIngredientFields(index, event)}
                     />
                     <OutlinedInput
-                      value={`${oneItem.amount}`}
+                      value={`${oneItem.ingredient_amount}`}
                       name="amount"
-                      placeholder="amount"
+                      placeholder="ingredient_amount"
                       onChange={(event) => handleIngredientFields(index, event)}
                     />
                     <IconButton
