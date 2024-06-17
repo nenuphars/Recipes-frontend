@@ -19,9 +19,9 @@ function App() {
       <Navbar></Navbar>
       <Routes>
         <Route path='/' element={<HomePage />}></Route>
-        <Route path='/Allrecipes' element={<AllRecipesPage />}></Route>
+        <Route path='/recipes' element={<AllRecipesPage />}></Route>
         <Route path='/FAQ' element={<FAQPage />}></Route>
-        <Route path='/Allrecipes/:id' element={<RecipeDetailsPage />}></Route>
+        <Route path='/recipes/:id' element={<RecipeDetailsPage />}></Route>
         <Route path='/dashboard' element={<Dashboard />}></Route>
         <Route path='/dashboard/edit/:id' element={<EditRecipe />}></Route>
         <Route path='/dashboard/CreateRecipe' element={<CreateRecipePage />}></Route>

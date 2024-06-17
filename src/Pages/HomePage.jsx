@@ -4,6 +4,7 @@ import { Card,} from "@mui/material";
 import "./HomePage.css";
 import CircularProgress from '@mui/material/CircularProgress';
 import recipesService from "../services/recipes.services";
+import RecipeCard from "../Components/RecipeCard";
 // import Logo from "../Photos/Logo_fridge.png";
 
 function HomePage() {
@@ -66,21 +67,7 @@ function HomePage() {
             key={randomRecipe.id}
             style={{ textDecoration: "none" }}
           >
-            <Card id="recipeCard">
-              <img
-                id="random-recipe-img"
-                src={randomRecipe.photo_url}
-                alt={`${randomRecipe.name} dish`}
-              />
-              <h2>{randomRecipe.name}</h2>
-
-              <h4>⏱️ {randomRecipe.duration} mins</h4>
-              <div id="tagContainer">
-                {randomRecipe.tags.map((eachTag) => {
-                  return <div key={eachTag}>{eachTag}</div>;
-                })}
-              </div>
-            </Card>
+            <RecipeCard currentPage="home"></RecipeCard>
           </Link>
         )}
       </div>
