@@ -14,8 +14,6 @@ function Dashboard() {
   const [allRecipes, setAllRecipes] = useState("");
   const [dataLoaded, setDataLoaded] = useState("");
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     recipesService
       .getAllRecipes()

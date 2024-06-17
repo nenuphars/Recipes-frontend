@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Card,} from "@mui/material";
 import "./HomePage.css";
 import CircularProgress from '@mui/material/CircularProgress';
 import recipesService from "../services/recipes.services";
