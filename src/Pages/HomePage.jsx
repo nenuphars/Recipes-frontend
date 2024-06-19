@@ -13,8 +13,8 @@ function HomePage() {
   useEffect(() => {
     recipesService.getAllRecipes()
       .then((recipesFromAPI) => {
-        console.log(recipesFromAPI.data);
-        setAllRecipes(recipesFromAPI.data);
+        const recipeIds = recipesFromAPI.data.filter((oneRecipe)=>oneRecipe._id)
+        setAllRecipes(recipeIds);
       })
       .catch((err) => {
         console.log(err);
@@ -30,20 +30,19 @@ function HomePage() {
     <div id="homepage-container">
       <div className="homepage-wrapper">
       <div id="description-wrapper">
-        <h1 className="homepage-description">
-          When you look into your fridge, you have no inspiration? <br></br>
-        </h1>
           
-        {/* <img src={Logo} id="logo-homepage" alt="logo what the fridge" /> */}
-          <span id="homepage-description-cursive-animated">
-            What the Fridge
-          </span>
-        <h2 className="homepage-description">
-          wants to help you get out of this misery and prevent any hangriness
-          due to not being able to decide what to cook.
-        </h2>
-        <div className="squiggly" />
-        <h2 className="homepage-description">Feeling insecure?</h2>
+        <p className="homepage-description">
+          Karela is a vegetable that has a special taste and look.<br/>
+          Not everyone will like it for it&apos;s bitterness, but for some it&apos;s a favourite.
+          On </p>
+          <h1 className="homepage-heading">
+          Karela
+        </h1>
+        <p className="homepage-description">
+           I want to share recipes in an organised
+          and aesthetic way with friends and family.
+        </p>
+        <h2 className="homepage-description">Don&apos;t know what you&apos;re looking for?</h2>
         <button
           id="random-button"
           size="large"
@@ -63,10 +62,10 @@ function HomePage() {
         {randomRecipe && (
           <Link
             to={`/Allrecipes/${randomRecipe._id}`}
-            key={randomRecipe.id}
+            key={randomRecipe._id}
             style={{ textDecoration: "none" }}
           >
-            <RecipeCard currentPage="home"></RecipeCard>
+            <RecipeCard recipe={randomRecipe} currentPage="home"></RecipeCard>
           </Link>
         )}
       </div>

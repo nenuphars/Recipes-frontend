@@ -6,6 +6,14 @@
   display: flex;
   flex-direction: row;
 }
+.homepage-heading {
+  line-height: 1.6;
+  text-align: center;
+  font-family: "Chango", sans-serif;
+  font-size: 28px;
+  color: rgb(49, 49, 49);
+  margin-top: 5px;
+}
 .homepage-description {
   line-height: 1.6;
   text-align: center;
@@ -15,7 +23,7 @@
   margin-top: 5px;
 }
 
-#homepage-description-cursive-animated {
+.cursive-animated {
   font-weight: 700;
   display: inline-block;
   background-position-x: 0px;

@@ -3,7 +3,6 @@ import { useState } from "react";
 import "./AllRecipesPage.css";
 import Card from "@mui/material/Card";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import SearchBar from "../Components/SearchBar";
 import CircularProgress from "@mui/material/CircularProgress";

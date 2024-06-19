@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./NavBar.css";
-import Logo from "../Photos/wtf.png";
+import Logo from "../assets/KARELA(1).png";
 import { useState } from "react";
 
 function Navbar() {
@@ -12,13 +12,19 @@ function Navbar() {
           <Link
             to="/"
             onClick={() => setCurrentPage('/')}
+          
           >
+        <div id="logo-name-wrapper">
+          
             <img
             id="logo"
               src={Logo}
               alt="What the fridge logo"
               className="nav-element"
             />
+            <h2 id="home-name">KARELA</h2>
+
+        </div>
           </Link>
 
           <Link
