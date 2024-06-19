@@ -8,6 +8,13 @@ html, body {
   padding: 0;
 }
 
+.base-wrapper{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  min-height:100vh;
+}
+
 
 #circular-progress-allRecipes{
 display: flex;

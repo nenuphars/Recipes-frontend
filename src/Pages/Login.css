@@ -1,0 +1,6 @@
+#login-wrapper{
+    width:30%;
+    background-color:#faf8eb;
+    display:flex;
+    flex-direction: column;
+}

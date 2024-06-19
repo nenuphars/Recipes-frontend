@@ -57,9 +57,5 @@ a {
 }
 
 .selected-element {
-  padding: 12px 12px;
-  font-size: 20px;
-  text-align: center;
-  color: rgb(255, 255, 255);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  text-decoration: underline;
 }

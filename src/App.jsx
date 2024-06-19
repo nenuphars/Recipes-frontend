@@ -10,6 +10,8 @@ import EditRecipe from './Pages/EditRecipe'
 import Dashboard from './Pages/Dashboard'
 import FAQPage from './Pages/FAQPage'
 import ErrorPage from './Pages/ErrorPage'
+import Login from './Pages/Login'
+import Signup from './Pages/SignUp'
 
 function App() {
 
@@ -19,6 +21,8 @@ function App() {
       <Navbar></Navbar>
       <Routes>
         <Route path='/' element={<HomePage />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/signup' element={<Signup />}></Route>
         <Route path='/recipes' element={<AllRecipesPage />}></Route>
         <Route path='/FAQ' element={<FAQPage />}></Route>
         <Route path='/recipes/:id' element={<RecipeDetailsPage />}></Route>

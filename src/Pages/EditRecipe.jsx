@@ -4,7 +4,7 @@ import {
   FormLabel,
   Stack,
   InputAdornment,
-  OutlinedInput,
+  TextField,
   IconButton,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
@@ -146,7 +146,7 @@ function EditRecipe() {
         <Stack id="AddRecipesPage" spacing={2}>
           <form onSubmit={handleSubmit}>
             <FormLabel htmlFor="name">Name</FormLabel>
-            <OutlinedInput
+            <TextField
               value={`${name}`}
               name="name"
               variant="filled"
@@ -158,7 +158,7 @@ function EditRecipe() {
               required
             />
             <FormLabel htmlFor="photo">Photo URL</FormLabel>
-            <OutlinedInput
+            <TextField
               value={`${photoURL}`}
               name="photo"
               variant="filled"
@@ -169,7 +169,7 @@ function EditRecipe() {
               }}
             />
             <FormLabel htmlFor="duration">Duration</FormLabel>
-            <OutlinedInput
+            <TextField
               value={duration}
               name="duration"
               variant="filled"
@@ -192,13 +192,13 @@ function EditRecipe() {
               {ingredients.map((oneItem, index) => {
                 return (
                   <Stack key={"ingredient" + index} direction="row" spacing={2}>
-                    <OutlinedInput
+                    <TextField
                       value={`${oneItem.ingredient_name}`}
                       name="ingredient_name"
                       placeholder="ingredient"
                       onChange={(event) => handleIngredientFields(index, event)}
                     />
-                    <OutlinedInput
+                    <TextField
                       value={`${oneItem.ingredient_amount}`}
                       name="amount"
                       placeholder="ingredient_amount"
@@ -222,7 +222,7 @@ function EditRecipe() {
             </Stack>
 
             <FormLabel htmlFor="preparation">Preparation method</FormLabel>
-            <OutlinedInput
+            <TextField
               multiline
               value={`${preparation}`}
               name="preparation"
@@ -235,7 +235,7 @@ function EditRecipe() {
               required
             />
             <FormLabel htmlFor="servings">Servings</FormLabel>
-            <OutlinedInput
+            <TextField
               value={`${servings}`}
               name="servings"
               variant="filled"
@@ -246,7 +246,7 @@ function EditRecipe() {
               }}
             />
             <FormLabel htmlFor="description">Description</FormLabel>
-            <OutlinedInput
+            <TextField
               multiline
               value={`${description}`}
               name="description"
@@ -263,7 +263,7 @@ function EditRecipe() {
               {tags.map((oneTag, index) => {
                 return (
                   <Stack key={index} direction="row" spacing={2}>
-                    <OutlinedInput
+                    <TextField
                       name="Tag"
                       value={oneTag}
                       onChange={(event) => {
