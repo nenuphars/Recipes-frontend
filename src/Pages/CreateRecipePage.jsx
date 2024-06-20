@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Button,
   FormLabel,
@@ -16,6 +16,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "./CreateRecipe.css";
 import recipesService from "../services/recipes.services";
+import { AuthContext } from "../context/auth.context";
 
 function CreateRecipePage() {
   const [name, setName] = useState("");
@@ -28,6 +29,9 @@ function CreateRecipePage() {
   const [ingredients, setIngredients] = useState([
     { ingredient_name: "", ingredient_amount: "", ingredient_measuring: "" },
   ]);
+
+  const { isLoggedIn, user } = useContext(AuthContext)
+
   const navigate = useNavigate();
 
   const handleIngredientFields = (index, event) => {
@@ -89,6 +93,7 @@ function CreateRecipePage() {
       description: description,
       servings: servings,
       tags: tags,
+      creator: user._id
     };
 
     recipesService

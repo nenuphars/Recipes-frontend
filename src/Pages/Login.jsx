@@ -31,7 +31,7 @@ function Login() {
 
         authenticateUser();
 
-        navigate("/");
+        navigate("/dashboard");
       })
       .catch((err) => {
         console.log(err);

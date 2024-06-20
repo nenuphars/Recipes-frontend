@@ -38,7 +38,7 @@ function Signup() {
     
                 authenticateUser()
     
-                navigate("/")
+                navigate("/dashboard")
             })
             .catch((err)=>{
                 console.log(err)
