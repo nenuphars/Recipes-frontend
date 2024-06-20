@@ -3,32 +3,16 @@ import { useState } from "react";
 import "./AllRecipesPage.css";
 import Card from "@mui/material/Card";
 import { Link } from "react-router-dom";
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate } from "react-router-dom";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import SearchBar from "../Components/SearchBar";
 import CircularProgress from "@mui/material/CircularProgress";
 import recipesService from "../services/recipes.services";
+import RecipeCard from "../Components/RecipeCard";
 
 function Dashboard() {
   const [allRecipes, setAllRecipes] = useState("");
   const [dataLoaded, setDataLoaded] = useState("");
 
-  const navigate = useNavigate();
-
-  const deleteRecipe = (id) => {
-    recipesService
-      .deleteRecipe(id)
-      .then(() => {
-
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   useEffect(() => {
     recipesService
       .getAllRecipes()
@@ -71,55 +55,7 @@ function Dashboard() {
             </Link>
             {allRecipes.map((eachRecipe) => {
               return (
-                <Link
-                  to={`/Allrecipes/${eachRecipe._id}`}
-                  key={eachRecipe._id}
-                  style={{ textDecoration: "none" }}
-                >
-                  <Card id="eachCard">
-                    <img
-                      id="eachPhoto"
-                      src={eachRecipe.photo_url}
-                      alt={`${eachRecipe.name} dish`}
-                    />
-                    <h2>{eachRecipe.name} </h2>
-
-                    <h4>
-                      {" "}
-                      <Link
-                        to={`/dashboard/edit/${eachRecipe._id}`}
-                        style={{ textDecoration: "none" }}
-                      >
-                        <IconButton
-                          aria-label="edit"
-                          onClick={() => {
-                            deleteRecipe(eachRecipe);
-                          }}
-                        >
-                          <EditIcon />
-                        </IconButton>{" "}
-                      </Link>{" "}
-                      ⏱️ {eachRecipe.duration}{" "}
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => {
-                          deleteRecipe(eachRecipe._id);
-                        }}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </h4>
-                    <div id="tagContainer">
-                      {eachRecipe.tags.map((eachTag) => {
-                        return (
-                          <div className="tag-wrapper" key={eachTag}>
-                            {eachTag}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </Card>
-                </Link>
+                  <RecipeCard key={eachRecipe._id} recipe={eachRecipe} currentPage="dashboard"></RecipeCard>
               );
             })}
           </div>
