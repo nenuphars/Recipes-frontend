@@ -23,6 +23,10 @@ class RecipesService {
   createRecipe = (requestBody) => {
     return this.api.post("/api/recipes", requestBody);
   }
+  // GET /api/recipes/query
+  getRecipeQuery = (queryString) => {
+    return this.api.get(`/api/recipes/search`, queryString)
+  }
 
   // GET /api/recipes
   getRecipe = (id) => {
@@ -34,10 +38,6 @@ class RecipesService {
     return this.api.get("api/recipes")
   }
 
-  // GET /api/recipes/query
-  getRecipeQuery = (queryString) => {
-    return this.api.get(`/api/recipes/search${queryString}`)
-  }
   
   // PUT /api/recipes/id
   updateRecipe = (id, requestBody) => {
