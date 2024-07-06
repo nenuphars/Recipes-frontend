@@ -9,6 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import recipesService from "../services/recipes.services";
 import RecipeCard from "../Components/RecipeCard";
 import { AuthContext } from "../context/auth.context";
+import NoAccess from "../Components/NoAccess";
 
 function Dashboard() {
   const [allRecipes, setAllRecipes] = useState("");
@@ -35,7 +36,7 @@ function Dashboard() {
     <>
     {!isLoggedIn && 
     <>
-      <h2>You need to be logged in to view this page</h2>
+      <NoAccess></NoAccess>
     </>
     }
       {isLoggedIn && !dataLoaded && (
