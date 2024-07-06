@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import "./AllRecipesPage.css";
 import Card from "@mui/material/Card";
@@ -8,33 +8,45 @@ import SearchBar from "../Components/SearchBar";
 import CircularProgress from "@mui/material/CircularProgress";
 import recipesService from "../services/recipes.services";
 import RecipeCard from "../Components/RecipeCard";
+import { AuthContext } from "../context/auth.context";
+import NoAccess from "../Components/NoAccess";
 
 function Dashboard() {
   const [allRecipes, setAllRecipes] = useState("");
   const [dataLoaded, setDataLoaded] = useState("");
 
+  const { user, isLoggedIn } = useContext(AuthContext)
+
   useEffect(() => {
-    recipesService
-      .getAllRecipes()
-      .then((recipes) => {
-        setDataLoaded(recipes.data);
-        setAllRecipes(recipes.data);
-        console.log(recipes.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if(user){
+      recipesService
+        .getRecipeQuery({creator:user._id})
+        .then((recipes) => {
+          setDataLoaded(recipes.data);
+          setAllRecipes(recipes.data);
+          console.log(recipes.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [user]);
+
   return (
     <>
-      {!dataLoaded && (
+    {!isLoggedIn && 
+    <>
+      <NoAccess></NoAccess>
+    </>
+    }
+      {isLoggedIn && !dataLoaded && (
         <CircularProgress
           id="circular-progress-dashboard"
           size={100}
           color="success"
         ></CircularProgress>
       )}
-      {dataLoaded && (
+      {isLoggedIn && dataLoaded && (
         <div>
           <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
           <div id="eachRecipeContainer">

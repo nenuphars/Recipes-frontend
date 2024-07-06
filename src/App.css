@@ -10,7 +10,7 @@ html, body {
 
 .base-wrapper{
   display:flex;
-  align-items: center;
+  top:35vh;
   justify-content: center;
   min-height:100vh;
 }

@@ -17,7 +17,7 @@ a {
 }
 
 #nav-links-wrapper {
-  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -43,8 +43,7 @@ a {
 }
 
 #logo {
-  margin: 30px;
-  width: 10%;
+  width:100%;
 }
 #logo:hover {
   transform: scale(1.02);
