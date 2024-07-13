@@ -12,36 +12,35 @@ function Navbar() {
   return (
     <header>
       <nav id="nav-links-wrapper">
-        <Link to="/" onClick={() => setCurrentPage("/")}>
-          <div id="logo-name-wrapper">
+        <Link to="/" id="home-wrapper" className="nav-element" onClick={() => setCurrentPage("/")}>
+          <div id="home-link-logo-wrapper">
             <img
               id="logo"
               src={Logo}
-              alt="What the fridge logo"
-              className="nav-element"
+              alt="Karela Logo"
             />
-            <h2 id="home-name">KARELA</h2>
           </div>
+            <h2 id="home-name">KARELA</h2>
         </Link>
 
-        <Link to="/recipes" onClick={() => setCurrentPage("recipes")}>
+        <Link to="/recipes" className="nav-element" onClick={() => setCurrentPage("recipes")}>
           <h4
             className={
               currentPage === "recipes"
-                ? "nav-element selected-element"
-                : "nav-element"
+                ? "nav-heading selected-element"
+                : "nav-heading"
             }
           >
             All Recipes
           </h4>
         </Link>
 
-        <Link to="/FAQ" onClick={() => setCurrentPage("FAQ")}>
+        <Link to="/FAQ" className="nav-element" onClick={() => setCurrentPage("FAQ")}>
           <h4
             className={
               currentPage === "FAQ"
-                ? "nav-element selected-element"
-                : "nav-element"
+                ? "nav-heading selected-element"
+                : "nav-heading"
             }
           >
             FAQ
@@ -50,24 +49,24 @@ function Navbar() {
 
         {!isLoggedIn && (
           <>
-            <Link to="/login" onClick={() => setCurrentPage("login")}>
+            <Link to="/login" className="nav-element" onClick={() => setCurrentPage("login")}>
               <h4
                 className={
                   currentPage === "login"
-                    ? "nav-element selected-element"
-                    : "nav-element"
+                    ? "nav-heading selected-element"
+                    : "nav-heading"
                 }
               >
                 Login
               </h4>
             </Link>
 
-            <Link to="/signup" onClick={() => setCurrentPage("signup")}>
+            <Link to="/signup" className="nav-element" onClick={() => setCurrentPage("signup")}>
               <h4
                 className={
                   currentPage === "signup"
-                    ? "nav-element selected-element"
-                    : "nav-element"
+                    ? "nav-heading selected-element"
+                    : "nav-heading"
                 }
               >
                 Sign Up
@@ -77,12 +76,12 @@ function Navbar() {
         )}
         {isLoggedIn && (
           <>
-            <Link to="/favorites" onClick={() => setCurrentPage("favorites")}>
+            <Link to="/favorites" className="nav-element" onClick={() => setCurrentPage("favorites")}>
               <h4
                 className={
                   currentPage === "favorites"
-                    ? "nav-element selected-element"
-                    : "nav-element"
+                    ? "nav-heading selected-element"
+                    : "nav-heading"
                 }
               >
                 Favorites
@@ -91,12 +90,13 @@ function Navbar() {
 
             <Link
               to="/"
+              className="nav-alement"
               onClick={() => {
                 logOutUser();
                 setCurrentPage("home");
               }}
             >
-              <h4 className="nav-element">Logout</h4>
+              <h4 className="nav-heading">Logout</h4>
             </Link>
           </>
         )}

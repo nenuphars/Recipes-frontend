@@ -2,9 +2,8 @@ header {
   margin: 0px;
   padding: 0;
   width: 100vw;
-  height: 100%;
   font-family: "Space Grotesk", sans-serif;
-  height: 70px;
+  height: 4rem;
   background-color: #f19dc0;
   display: flex;
   flex-direction: column;
@@ -17,33 +16,44 @@ a {
 }
 
 #nav-links-wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
+  width: 100vw;
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr 1fr;
   align-items: center;
-  margin: 0px;
+  justify-content: center;
 }
+
 .nav-element {
   color:#faf8eb;
   font-size: 20px;
   text-align: center;
-  margin-right: 15vw;
+  line-height:4rem;
 }
 
 .nav-element:hover {
   text-decoration: underline;
 }
 
-#logo-name-wrapper{
+#home-wrapper{
+  width:100%;
   display:flex;
   flex-direction: row;
   align-items: center;
-  gap:0.1em;
+  justify-content: space-evenly;
+  height:4rem;
+  line-height:4rem;
+}
+
+#home-link-logo-wrapper{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 #logo {
-  width:100%;
+ object-fit: cover;
+ width:4rem;
 }
 #logo:hover {
   transform: scale(1.02);
@@ -53,6 +63,7 @@ a {
   font-family: "Chango", sans-serif;
   font-weight: 400;
   color:#faf8eb;
+  line-height:4rem;
 }
 
 .selected-element {
