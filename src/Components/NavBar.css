@@ -18,7 +18,7 @@ a {
 #nav-links-wrapper {
   width: 100vw;
   display: grid;
-  grid-template-columns:1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;
   align-items: center;
   justify-content: center;
 }

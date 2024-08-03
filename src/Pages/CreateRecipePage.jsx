@@ -1,15 +1,15 @@
 import { useContext, useState } from "react";
 import {
   Button,
-  FormLabel,
   Stack,
   InputAdornment,
-  OutlinedInput,
   IconButton,
+  TextField
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select"
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -30,20 +30,104 @@ function CreateRecipePage() {
     { ingredient_name: "", ingredient_amount: "", ingredient_measuring: "" },
   ]);
 
-  const { isLoggedIn, user } = useContext(AuthContext)
+  // REACT SELECT STYLING
+  // https://react-select.com/styles#inner-components
+  const selectStyles = {
+    control: (baseStyles, state) => ({
+      ...baseStyles,
+      fontFamily:"Roboto",
+      fontWeight:"400",
+      fontSize: "16px",
+      width:"100%",
+      paddingTop:"12.5px",
+      paddingBottom:"11.5px",
+
+    }),
+    container: (baseStyles, state) => ({
+      ...baseStyles,
+      outline: "red",
+      borderRadius: "6px",
+      boxSizing:"content-box",
+      padding:"0"
+ 
+    }),
+    dropdownIndicator: (baseStyles, state) => ({
+      ...baseStyles,
+      border: "none",
+      outline: "none",
+      color: "black",
+      padding:"0"
+    }),
+    menu: (baseStyles, state) => ({
+      ...baseStyles,
+      margin: "0",
+      borderRadius: "0",
+      fontFamily:"Roboto",
+      maxHeight:"30vh",
+      overflow:"scroll"
+    }),
+  };
+
+  let unitOptions = [
+    { value: "g", label: "g" },
+    { value: "kg", label: "kg" },
+    { value: "ml", label: "ml" },
+    { value: "l", label: "l" },
+    { value: "pinch", label: "pinch" },
+    { value: "whole", label: "whole" },
+    { value: "tbsp", label: "tbsp" },
+    { value: "tsp", label: "tsp" },
+    { value: "cups", label: "cups" },
+    { value: "bunch", label: "bunch" },
+  ];
+
+  let tagOptions = [
+    { value: "Pasta 🍝", label: "Pasta 🍝" },
+    { value: "Comfort food 🛏️", label: "Comfort food 🛏️" },
+    { value: "Chicken 🍗", label: "Chicken 🍗" },
+    { value: "Salad 🥗", label: "Salad 🥗" },
+    { value: "Vegetarian 🥣", label: "Vegetarian 🥣" },
+    { value: "Tacos 🌮", label: "Tacos 🌮" },
+    { value: "Beef 🥩", label: "Beef 🥩" },
+    { value: "Curry 🍛", label: "Curry 🍛" },
+    { value: "Seafood 🦞", label: "Seafood 🦞" },
+    { value: "Grilled ♨️", label: "Grilled ♨️" },
+    { value: "Healthy ❤️", label: "Healthy ❤️" },
+    { value: "Rice 🍚", label: "Rice 🍚" },
+    { value: "Stew 🍲", label: "Stew 🍲" },
+    { value: "Soup 🍜", label: "Soup 🍜" },
+    { value: "Vegan 🥦", label: "Vegan 🥦" },
+    { value: "Quick & Easy ⚡", label: "Quick & Easy ⚡" },
+    { value: "Fish 🐟", label: "Fish 🐟" },
+    { value: "Pork 🐖", label: "Pork 🐖" },
+    { value: "Sandwiches 🥪", label: "Sandwiches 🥪" },
+    { value: "Fruity 🍋", label: "Fruity 🍋" },
+    { value: "Spicy 🌶️", label: "Spicy 🌶️" },
+  ];
+
+  function handleTagSelectChange(selectedOption) {
+    setTags(selectedOption.value);
+  }
+
+  const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   const handleIngredientFields = (index, event) => {
     let data = [...ingredients];
-    data[index][event.target.name] = event.target.value;
-    console.log(data);
+    if(!event.target){
+      data[index].ingredient_measuring = event.selectedOption
+    }
+    else{
+      data[index][event.target.name] = event.target.value;
+
+    }
     setIngredients(data);
   };
 
   const handleTagField = (index, event) => {
     let data = [...tags];
-    data[index] = event.target.value;
+    data[index] = event.selectedOption;
     console.log(data);
     setTags(data);
   };
@@ -57,10 +141,10 @@ function CreateRecipePage() {
     setIngredients([...ingredients, newField]);
   };
 
-  const addTagField = () => {
-    let newField = "";
-    setTags([...tags, newField]);
-  };
+  // const addTagField = () => {
+  //   let newField = "";
+  //   setTags([...tags, newField]);
+  // };
 
   const deleteIngredientFields = (index) => {
     if (ingredients.length === 1) {
@@ -76,11 +160,11 @@ function CreateRecipePage() {
     data.splice(index, 1);
     setIngredients(data);
   };
-  const deleteTagField = (index) => {
-    let data = [...tags];
-    data.splice(index, 1);
-    setTags(data);
-  };
+  // const deleteTagField = (index) => {
+  //   let data = [...tags];
+  //   data.splice(index, 1);
+  //   setTags(data);
+  // };
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -93,7 +177,7 @@ function CreateRecipePage() {
       description: description,
       servings: servings,
       tags: tags,
-      creator: user._id
+      creator: user._id,
     };
 
     recipesService
@@ -107,66 +191,87 @@ function CreateRecipePage() {
   }
 
   return (
-    <div id="create-recipe-container">
+    <div id="CreateRecipePage" className="page-wrapper">
       <h1>Create a new recipe</h1>
-      <Stack id="AddRecipesPage" spacing={2}>
+      <Stack id="create-recipe-container" spacing={2}>
         <form onSubmit={handleSubmit}>
-          <FormLabel htmlFor="name">Name</FormLabel>
-          <OutlinedInput
-            name="name"
-            variant="filled"
-            size="small"
+          <TextField
+            label="Title"
             type="text"
             onChange={(e) => {
               setName(e.target.value);
             }}
             required
           />
-          <FormLabel htmlFor="photo">Photo URL</FormLabel>
-          <OutlinedInput
-            name="photo"
-            variant="filled"
-            size="small"
+          <TextField
+            label="Photo URL"
             type="url"
             onChange={(e) => {
               setPhotoURL(e.target.value);
             }}
           />
-          <FormLabel htmlFor="duration">Duration</FormLabel>
-          <OutlinedInput
-            name="duration"
-            variant="filled"
+          <TextField
+            label="Duration"
             type="number"
-            size="small"
             onChange={(e) => {
               setDuration(e.target.value);
             }}
-            endAdornment={<InputAdornment position="end">mins</InputAdornment>}
+            InputProps={{endAdornment:<InputAdornment position="end">mins</InputAdornment>}}
           />
+
+<TextField
+            label="Servings"
+            type="number"
+            onChange={(e) => {
+              setServings(e.target.value);
+            }}
+          />
+
+          <TextField
+            multiline
+            label="Short description"
+            type="text"
+            rows={4}
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+          />
+          <div className="ingredients-container">
+
           <Stack id="ingredients-list-wrapper">
-            <FormLabel htmlFor="ingredient amount">Ingredient List</FormLabel>
+            <h4>Ingredient List</h4>
             {ingredients.map((input, index) => {
               return (
-                <Stack key={index} direction="row" spacing={2}>
-                  <OutlinedInput
+                <>
+
+                <Stack className="ingredients-list-input-row" key={index} direction="row" >
+                  <TextField
+                  className="ingredient-textfield"
+                    label="Ingredient"
                     name="ingredient_name"
-                    placeholder="ingredient"
                     value={input.ingredient_name}
                     onChange={(event) => handleIngredientFields(index, event)}
                   />
-                  <OutlinedInput
+                  <TextField
+                  className="ingredient-textfield"
+                    label="Amount"
                     name="ingredient_amount"
-                    placeholder="amount"
+                    type="number"
                     value={input.ingredient_amount}
                     onChange={(event) => handleIngredientFields(index, event)}
                   />
-                  <OutlinedInput
+                  <Select
+                    label="Select Unit"
+                    placeholder="Unit"
                     name="ingredient_measuring"
-                    placeholder="measuring unit"
-                    value={input.ingredient_measuring}
+                    options={unitOptions}
                     onChange={(event) => handleIngredientFields(index, event)}
+                    styles={selectStyles}
                   />
-                  <IconButton
+                  
+                  
+                    <IconButton
+                    style={index<1?{display:"hidden"}:{display:"block"}}
                     aria-label="delete"
                     onClick={() => {
                       deleteIngredientFields(index);
@@ -175,6 +280,7 @@ function CreateRecipePage() {
                     <DeleteIcon />
                   </IconButton>
                 </Stack>
+                </>
               );
             })}
             <Button
@@ -186,70 +292,50 @@ function CreateRecipePage() {
               Add more
             </Button>
           </Stack>
+          </div>
 
-          <FormLabel htmlFor="preparation">Preparation method</FormLabel>
-          <OutlinedInput
+          <TextField
             multiline
-            name="preparation"
-            variant="filled"
-            size="normal"
+            label="Preparation method"
             type="text"
             onChange={(e) => {
               setPreparation(e.target.value);
             }}
             required
           />
-          <FormLabel htmlFor="servings">Servings</FormLabel>
-          <OutlinedInput
-            name="servings"
-            variant="filled"
-            size="small"
-            type="number"
-            onChange={(e) => {
-              setServings(e.target.value);
-            }}
-          />
-          <FormLabel htmlFor="description">Description</FormLabel>
-          <OutlinedInput
-            multiline
-            name="description"
-            variant="filled"
-            size="normal"
-            type="text"
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          />
+          
+          <h4>Tags</h4>
           <Stack className="tags-stack" spacing={2}>
-            <FormLabel htmlFor="tag">Tags</FormLabel>
             {tags.map((input, index) => {
               return (
                 <Stack key={index} direction="row" spacing={2}>
-                  <OutlinedInput
-                    name="tag"
-                    placeholder="tag"
-                    value={input}
-                    onChange={(event) => handleTagField(index, event)}
+                  <Select
+                    label="tag"
+                    autoWidth
+                    isMulti
+                    options={tagOptions}
+                    onChange={(event)=>handleTagField(index, event)}
+                    styles={selectStyles}
                   />
-                  <IconButton
+                  {/* <IconButton
                     aria-label="delete"
                     onClick={() => {
                       deleteTagField(index);
                     }}
                   >
                     <DeleteIcon />
-                  </IconButton>
+                  </IconButton> */}
                 </Stack>
               );
             })}
-            <Button
+            {/* <Button
               className="add-button"
               size="medium"
               variant="text"
               onClick={(e) => addTagField(e)}
             >
               Add more
-            </Button>
+            </Button> */}
           </Stack>
 
           <Button
