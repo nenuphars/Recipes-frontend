@@ -14,17 +14,24 @@ import NoAccess from "../Components/NoAccess";
 function Dashboard() {
   const [allRecipes, setAllRecipes] = useState("");
   const [dataLoaded, setDataLoaded] = useState("");
+  const [hasRecipes, setHasRecipes] = useState(true)
 
   const { user, isLoggedIn } = useContext(AuthContext)
 
+  
+
   useEffect(() => {
     if(user){
+      console.log("user id", user._id)
       recipesService
         .getRecipeQuery({creator:user._id})
         .then((recipes) => {
           setDataLoaded(recipes.data);
           setAllRecipes(recipes.data);
           console.log(recipes.data);
+          if(!recipes.data){
+            setHasRecipes(false)
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -39,14 +46,14 @@ function Dashboard() {
       <NoAccess></NoAccess>
     </>
     }
-      {isLoggedIn && !dataLoaded && (
+      {isLoggedIn && !dataLoaded && !hasRecipes && (
         <CircularProgress
           id="circular-progress-dashboard"
           size={100}
           color="success"
         ></CircularProgress>
       )}
-      {isLoggedIn && dataLoaded && (
+      {isLoggedIn && (
         <div>
           <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
           <div id="eachRecipeContainer">
@@ -65,11 +72,16 @@ function Dashboard() {
                 <h2 id="AddCardText">Add a new recipe </h2>
               </Card>
             </Link>
-            {allRecipes.map((eachRecipe) => {
+            {dataLoaded && hasRecipes && (
+              <>
+              {allRecipes.map((eachRecipe) => {
               return (
                   <RecipeCard key={eachRecipe._id} recipe={eachRecipe} currentPage="dashboard"></RecipeCard>
               );
             })}
+              </>
+            )}
+            
           </div>
         </div>
       )}

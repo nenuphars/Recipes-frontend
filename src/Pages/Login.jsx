@@ -1,10 +1,12 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
-import { Button, TextField } from "@mui/material";
 import authService from "../services/auth.services";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
+import { Button, TextField, InputAdornment, IconButton} from "@mui/material";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -13,6 +15,15 @@ function Login() {
   const navigate = useNavigate();
 
   const { authenticateUser } = useContext(AuthContext);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -58,10 +69,21 @@ function Login() {
           <TextField
             label="password"
             required
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            InputProps={{endAdornment:<InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>}}
           />
           <Button type="submit">Submit</Button>
         </form>

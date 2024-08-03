@@ -89,8 +89,15 @@ function Navbar() {
             </Link>
 
             <Link
+              to="/dashboard"
+              className="nav-element"
+            >
+              <h4 className="nav-heading">Dashboard</h4>
+            </Link>
+
+            <Link
               to="/"
-              className="nav-alement"
+              className="nav-element"
               onClick={() => {
                 logOutUser();
                 setCurrentPage("home");

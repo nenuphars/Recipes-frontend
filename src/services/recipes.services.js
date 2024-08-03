@@ -24,14 +24,14 @@ class RecipesService {
     return this.api.post("/api/recipes", requestBody);
   }
   // GET /api/recipes/query
-  getRecipeQuery = (queryString) => {
-    return this.api.get(`/api/recipes/search`, queryString)
+  getRecipeQuery = (query) => {
+    return this.api.get(`/api/recipes/search`, query)
   }
 
   // GET /api/recipes
-  getRecipe = (id) => {
-    return this.api.get(`/api/recipes/${id}`)
-  }
+  // getRecipe = (id) => {
+  //   return this.api.get(`/api/recipes/${id}`)
+  // }
 
   // GET /api/recipes
   getAllRecipes = () => {

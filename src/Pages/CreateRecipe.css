@@ -1,12 +1,19 @@
-#create-recipe-container{
-    margin: 20px;
-}
 
+#create-recipe-container{
+    width:70vw;
+}
 form{
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
+.ingredients-list-input-row{
+    display:grid;
+    gap:0.4rem;
+    grid-template-columns: 1fr 1fr 1fr 0.2fr;
+    margin: 0.4rem 0;
+}
+
 .add-button {
     width: 130px;
     height: 70px;
