@@ -1,33 +1,33 @@
-import { useContext, useState } from "react";
+import { useContext, useState } from 'react';
 import {
   Button,
   Stack,
   InputAdornment,
   IconButton,
-  TextField
-} from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { useNavigate } from "react-router-dom";
-import Select from "react-select"
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import "./CreateRecipe.css";
-import recipesService from "../services/recipes.services";
-import { AuthContext } from "../context/auth.context";
+  TextField,
+} from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import './CreateRecipe.css';
+import recipesService from '../services/recipes.services';
+import { AuthContext } from '../context/auth.context';
 
 function CreateRecipePage() {
-  const [name, setName] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
+  const [name, setName] = useState('');
+  const [photoURL, setPhotoURL] = useState('');
   const [duration, setDuration] = useState(0);
-  const [preparation, setPreparation] = useState("");
-  const [description, setDescription] = useState("");
-  const [servings, setServings] = useState("");
-  const [tags, setTags] = useState([""]);
+  const [preparation, setPreparation] = useState('');
+  const [description, setDescription] = useState('');
+  const [servings, setServings] = useState('');
+  const [tags, setTags] = useState(['']);
   const [ingredients, setIngredients] = useState([
-    { ingredient_name: "", ingredient_amount: "", ingredient_measuring: "" },
+    { ingredient_name: '', ingredient_amount: '', ingredient_measuring: '' },
   ]);
 
   // REACT SELECT STYLING
@@ -35,74 +35,72 @@ function CreateRecipePage() {
   const selectStyles = {
     control: (baseStyles, state) => ({
       ...baseStyles,
-      fontFamily:"Roboto",
-      fontWeight:"400",
-      fontSize: "16px",
-      width:"100%",
-      paddingTop:"12.5px",
-      paddingBottom:"11.5px",
-
+      fontFamily: 'Roboto',
+      fontWeight: '400',
+      fontSize: '16px',
+      width: '100%',
+      paddingTop: '12.5px',
+      paddingBottom: '11.5px',
     }),
     container: (baseStyles, state) => ({
       ...baseStyles,
-      outline: "red",
-      borderRadius: "6px",
-      boxSizing:"content-box",
-      padding:"0"
- 
+      outline: 'red',
+      borderRadius: '6px',
+      boxSizing: 'content-box',
+      padding: '0',
     }),
     dropdownIndicator: (baseStyles, state) => ({
       ...baseStyles,
-      border: "none",
-      outline: "none",
-      color: "black",
-      padding:"0"
+      border: 'none',
+      outline: 'none',
+      color: 'black',
+      padding: '0',
     }),
     menu: (baseStyles, state) => ({
       ...baseStyles,
-      margin: "0",
-      borderRadius: "0",
-      fontFamily:"Roboto",
-      maxHeight:"30vh",
-      overflow:"scroll"
+      margin: '0',
+      borderRadius: '0',
+      fontFamily: 'Roboto',
+      maxHeight: '30vh',
+      overflow: 'scroll',
     }),
   };
 
   let unitOptions = [
-    { value: "g", label: "g" },
-    { value: "kg", label: "kg" },
-    { value: "ml", label: "ml" },
-    { value: "l", label: "l" },
-    { value: "pinch", label: "pinch" },
-    { value: "whole", label: "whole" },
-    { value: "tbsp", label: "tbsp" },
-    { value: "tsp", label: "tsp" },
-    { value: "cups", label: "cups" },
-    { value: "bunch", label: "bunch" },
+    { value: 'g', label: 'g' },
+    { value: 'kg', label: 'kg' },
+    { value: 'ml', label: 'ml' },
+    { value: 'l', label: 'l' },
+    { value: 'pinch', label: 'pinch' },
+    { value: 'whole', label: 'whole' },
+    { value: 'tbsp', label: 'tbsp' },
+    { value: 'tsp', label: 'tsp' },
+    { value: 'cups', label: 'cups' },
+    { value: 'bunch', label: 'bunch' },
   ];
 
   let tagOptions = [
-    { value: "Pasta 🍝", label: "Pasta 🍝" },
-    { value: "Comfort food 🛏️", label: "Comfort food 🛏️" },
-    { value: "Chicken 🍗", label: "Chicken 🍗" },
-    { value: "Salad 🥗", label: "Salad 🥗" },
-    { value: "Vegetarian 🥣", label: "Vegetarian 🥣" },
-    { value: "Tacos 🌮", label: "Tacos 🌮" },
-    { value: "Beef 🥩", label: "Beef 🥩" },
-    { value: "Curry 🍛", label: "Curry 🍛" },
-    { value: "Seafood 🦞", label: "Seafood 🦞" },
-    { value: "Grilled ♨️", label: "Grilled ♨️" },
-    { value: "Healthy ❤️", label: "Healthy ❤️" },
-    { value: "Rice 🍚", label: "Rice 🍚" },
-    { value: "Stew 🍲", label: "Stew 🍲" },
-    { value: "Soup 🍜", label: "Soup 🍜" },
-    { value: "Vegan 🥦", label: "Vegan 🥦" },
-    { value: "Quick & Easy ⚡", label: "Quick & Easy ⚡" },
-    { value: "Fish 🐟", label: "Fish 🐟" },
-    { value: "Pork 🐖", label: "Pork 🐖" },
-    { value: "Sandwiches 🥪", label: "Sandwiches 🥪" },
-    { value: "Fruity 🍋", label: "Fruity 🍋" },
-    { value: "Spicy 🌶️", label: "Spicy 🌶️" },
+    { value: 'Pasta 🍝', label: 'Pasta 🍝' },
+    { value: 'Comfort food 🛏️', label: 'Comfort food 🛏️' },
+    { value: 'Chicken 🍗', label: 'Chicken 🍗' },
+    { value: 'Salad 🥗', label: 'Salad 🥗' },
+    { value: 'Vegetarian 🥣', label: 'Vegetarian 🥣' },
+    { value: 'Tacos 🌮', label: 'Tacos 🌮' },
+    { value: 'Beef 🥩', label: 'Beef 🥩' },
+    { value: 'Curry 🍛', label: 'Curry 🍛' },
+    { value: 'Seafood 🦞', label: 'Seafood 🦞' },
+    { value: 'Grilled ♨️', label: 'Grilled ♨️' },
+    { value: 'Healthy ❤️', label: 'Healthy ❤️' },
+    { value: 'Rice 🍚', label: 'Rice 🍚' },
+    { value: 'Stew 🍲', label: 'Stew 🍲' },
+    { value: 'Soup 🍜', label: 'Soup 🍜' },
+    { value: 'Vegan 🥦', label: 'Vegan 🥦' },
+    { value: 'Quick & Easy ⚡', label: 'Quick & Easy ⚡' },
+    { value: 'Fish 🐟', label: 'Fish 🐟' },
+    { value: 'Pork 🐖', label: 'Pork 🐖' },
+    { value: 'Sandwiches 🥪', label: 'Sandwiches 🥪' },
+    { value: 'Fruity 🍋', label: 'Fruity 🍋' },
+    { value: 'Spicy 🌶️', label: 'Spicy 🌶️' },
   ];
 
   function handleTagSelectChange(selectedOption) {
@@ -115,12 +113,11 @@ function CreateRecipePage() {
 
   const handleIngredientFields = (index, event) => {
     let data = [...ingredients];
-    if(!event.target){
-      data[index].ingredient_measuring = event.selectedOption
-    }
-    else{
+    if (!event.target) {
+      console.log(event.value);
+      data[index].ingredient_measuring = event.value;
+    } else {
       data[index][event.target.name] = event.target.value;
-
     }
     setIngredients(data);
   };
@@ -134,9 +131,9 @@ function CreateRecipePage() {
 
   const addFields = () => {
     let newField = {
-      ingredient_name: "",
-      Ingredient_amount: "",
-      ingredient_measuring: "",
+      ingredient_name: '',
+      Ingredient_amount: '',
+      ingredient_measuring: '',
     };
     setIngredients([...ingredients, newField]);
   };
@@ -150,9 +147,9 @@ function CreateRecipePage() {
     if (ingredients.length === 1) {
       return setIngredients([
         {
-          ingredient_name: "",
-          ingredient_amount: "",
-          ingredient_measuring: "",
+          ingredient_name: '',
+          ingredient_amount: '',
+          ingredient_measuring: '',
         },
       ]);
     }
@@ -183,7 +180,7 @@ function CreateRecipePage() {
     recipesService
       .createRecipe(newRecipe)
       .then(() => {
-        navigate("/dashboard");
+        navigate('/dashboard');
       })
       .catch((err) => {
         console.log(err);
@@ -216,10 +213,14 @@ function CreateRecipePage() {
             onChange={(e) => {
               setDuration(e.target.value);
             }}
-            InputProps={{endAdornment:<InputAdornment position="end">mins</InputAdornment>}}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">mins</InputAdornment>
+              ),
+            }}
           />
 
-<TextField
+          <TextField
             label="Servings"
             type="number"
             onChange={(e) => {
@@ -237,61 +238,73 @@ function CreateRecipePage() {
             }}
           />
           <div className="ingredients-container">
+            <Stack id="ingredients-list-wrapper">
+              <h4>Ingredient List</h4>
+              {ingredients.map((input, index) => {
+                return (
+                  <>
+                    <Stack
+                      className="ingredients-list-input-row"
+                      key={index}
+                      direction="row"
+                    >
+                      <TextField
+                        className="ingredient-textfield"
+                        label="Ingredient"
+                        name="ingredient_name"
+                        value={input.ingredient_name}
+                        onChange={(event) =>
+                          handleIngredientFields(index, event)
+                        }
+                      />
+                      <TextField
+                        className="ingredient-textfield"
+                        label="Amount"
+                        name="ingredient_amount"
+                        type="number"
+                        value={input.ingredient_amount}
+                        onChange={(event) =>
+                          handleIngredientFields(index, event)
+                        }
+                      />
+                      <Select
+                        label="Select Unit"
+                        placeholder="Unit"
+                        name="ingredient_measuring"
+                        options={unitOptions}
+                        value={unitOptions.selectedOption}
+                        onChange={(event) =>
+                          handleIngredientFields(index, event)
+                        }
+                        styles={selectStyles}
+                      />
 
-          <Stack id="ingredients-list-wrapper">
-            <h4>Ingredient List</h4>
-            {ingredients.map((input, index) => {
-              return (
-                <>
-
-                <Stack className="ingredients-list-input-row" key={index} direction="row" >
-                  <TextField
-                  className="ingredient-textfield"
-                    label="Ingredient"
-                    name="ingredient_name"
-                    value={input.ingredient_name}
-                    onChange={(event) => handleIngredientFields(index, event)}
-                  />
-                  <TextField
-                  className="ingredient-textfield"
-                    label="Amount"
-                    name="ingredient_amount"
-                    type="number"
-                    value={input.ingredient_amount}
-                    onChange={(event) => handleIngredientFields(index, event)}
-                  />
-                  <Select
-                    label="Select Unit"
-                    placeholder="Unit"
-                    name="ingredient_measuring"
-                    options={unitOptions}
-                    onChange={(event) => handleIngredientFields(index, event)}
-                    styles={selectStyles}
-                  />
-                  
-                  
-                    <IconButton
-                    style={index<1?{display:"hidden"}:{display:"block"}}
-                    aria-label="delete"
-                    onClick={() => {
-                      deleteIngredientFields(index);
-                    }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </Stack>
-                </>
-              );
-            })}
-            <Button
-              className="add-button"
-              size="medium"
-              variant="text"
-              onClick={(e) => addFields(e)}
-            >
-              Add more
-            </Button>
-          </Stack>
+                      <IconButton
+                        style={
+                          index < 1
+                            ? { display: 'hidden' }
+                            : { display: 'block' }
+                        }
+                        aria-label="delete"
+                        onClick={() => {
+                          deleteIngredientFields(index);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Stack>
+                  </>
+                );
+              })}
+              <Button
+                className="add-button"
+                size="medium"
+                variant="text"
+                onClick={(e) => addFields(e)}
+              >
+                Add more
+              </Button>
+            </Stack>
           </div>
 
           <TextField
@@ -303,7 +316,7 @@ function CreateRecipePage() {
             }}
             required
           />
-          
+
           <h4>Tags</h4>
           <Stack className="tags-stack" spacing={2}>
             {tags.map((input, index) => {
@@ -314,7 +327,7 @@ function CreateRecipePage() {
                     autoWidth
                     isMulti
                     options={tagOptions}
-                    onChange={(event)=>handleTagField(index, event)}
+                    onChange={(event) => handleTagField(index, event)}
                     styles={selectStyles}
                   />
                   {/* <IconButton

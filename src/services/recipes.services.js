@@ -33,7 +33,7 @@ class RecipesService {
   };
   // GET recipe by search term /api/recipes/search/query
   getRecipeQuery = (query) => {
-    return this.api.get(`/api/recipes/search-query/${query}`);
+    return this.api.get(`/api/recipes/search/${query}`);
   };
 
   // PUT /api/recipes/id

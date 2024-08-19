@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import './AllRecipesPage.css';
-import Card from '@mui/material/Card';
-import { Link } from 'react-router-dom';
 import SearchBar from '../Components/SearchBar';
+import RecipeCard from '../Components/RecipeCard';
 import CircularProgress from '@mui/material/CircularProgress';
 import recipesService from '../services/recipes.services';
 
@@ -50,31 +49,11 @@ function AllRecipesPage() {
       <div id="eachRecipeContainer">
         {allRecipes.map((eachRecipe) => {
           return (
-            <Link
-              to={`/recipes/${eachRecipe._id}`}
+            <RecipeCard
+              recipe={eachRecipe}
+              currentPage={'recipes'}
               key={eachRecipe._id}
-              style={{ textDecoration: 'none' }}
-            >
-              <Card id="eachCard">
-                <img
-                  id="eachPhoto"
-                  src={eachRecipe.photo_url}
-                  alt={`${eachRecipe.name} dish`}
-                />
-                <h2>{eachRecipe.name}</h2>
-
-                <h4>⏱️ {eachRecipe.duration}</h4>
-                <div id="tagContainer">
-                  {eachRecipe.tags.map((eachTag) => {
-                    return (
-                      <div className="tag-wrapper" key={eachTag}>
-                        {eachTag}
-                      </div>
-                    );
-                  })}
-                </div>
-              </Card>
-            </Link>
+            ></RecipeCard>
           );
         })}
       </div>

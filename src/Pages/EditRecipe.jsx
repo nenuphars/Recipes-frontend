@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Button,
   FormLabel,
@@ -6,39 +6,40 @@ import {
   InputAdornment,
   TextField,
   IconButton,
-} from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import DeleteIcon from "@mui/icons-material/Delete";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import { useNavigate, useParams } from "react-router-dom";
-import "./EditRecipe.css";
-import recipesService from "../services/recipes.services";
+} from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import DeleteIcon from '@mui/icons-material/Delete';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import { useNavigate, useParams } from 'react-router-dom';
+import './EditRecipe.css';
+import recipesService from '../services/recipes.services';
 
 function EditRecipe() {
   // params to get the id of the recipe
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // states for all form inputs
-  const [name, setName] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
+  const [name, setName] = useState('');
+  const [photoURL, setPhotoURL] = useState('');
   const [duration, setDuration] = useState(0);
-  const [preparation, setPreparation] = useState("");
-  const [description, setDescription] = useState("");
-  const [servings, setServings] = useState("");
+  const [preparation, setPreparation] = useState('');
+  const [description, setDescription] = useState('');
+  const [servings, setServings] = useState('');
   const [tags, setTags] = useState([]);
 
   // state for ingredients and amount
   const [ingredients, setIngredients] = useState([
-    { ingredient_name: "", ingredient_amount: "", ingredient_measuring: "" },
+    { ingredient_name: '', ingredient_amount: '', ingredient_measuring: '' },
   ]);
 
   // get data for the current recipe to be modified
   useEffect(() => {
-    recipesService.getRecipe(id)
+    recipesService
+      .getRecipe(id)
       .then((recipeDetails) => {
         console.log(recipeDetails.data);
 
@@ -51,7 +52,6 @@ function EditRecipe() {
         setServings(recipeDetails.data.servings);
         setTags(recipeDetails.data.tags);
         setIngredients(recipeDetails.data.ingredientsList);
-
       })
       .catch((err) => {
         console.log(err);
@@ -75,12 +75,16 @@ function EditRecipe() {
 
   // functions that add a new input field when the user clicks the button
   const addIngredientFields = () => {
-    let newField = { ingredient_name: "", ingredient_amount: "", ingredient_measuring: ""};
+    let newField = {
+      ingredient_name: '',
+      ingredient_amount: '',
+      ingredient_measuring: '',
+    };
     setIngredients([...ingredients, newField]);
   };
 
   const addTagField = () => {
-    let newField = "";
+    let newField = '';
     setTags([...tags, newField]);
   };
 
@@ -115,9 +119,10 @@ function EditRecipe() {
 
     console.log(newRecipe.duration);
 
-    recipesService.createRecipe(newRecipe)
+    recipesService
+      .createRecipe(newRecipe)
       .then(() => {
-        navigate(`/Allrecipes/${id}`)
+        navigate(`/recipes/${id}`);
       })
       .catch((err) => {
         console.log(err);
@@ -191,7 +196,7 @@ function EditRecipe() {
               <FormLabel htmlFor="ingredient amount">Ingredient List</FormLabel>
               {ingredients.map((oneItem, index) => {
                 return (
-                  <Stack key={"ingredient" + index} direction="row" spacing={2}>
+                  <Stack key={'ingredient' + index} direction="row" spacing={2}>
                     <TextField
                       value={`${oneItem.ingredient_name}`}
                       name="ingredient_name"
@@ -216,7 +221,12 @@ function EditRecipe() {
                 );
               })}
 
-              <Button className="add-button" size="medium" variant="text" onClick={(e) => addIngredientFields(e)}>
+              <Button
+                className="add-button"
+                size="medium"
+                variant="text"
+                onClick={(e) => addIngredientFields(e)}
+              >
                 Add more
               </Button>
             </Stack>
@@ -281,12 +291,18 @@ function EditRecipe() {
                   </Stack>
                 );
               })}
-              <Button className="add-button" size="medium" variant="text" onClick={(event) => addTagField(event)}>
+              <Button
+                className="add-button"
+                size="medium"
+                variant="text"
+                onClick={(event) => addTagField(event)}
+              >
                 Add more
               </Button>
             </Stack>
-            <Button id="submit-button"
-            size="large"
+            <Button
+              id="submit-button"
+              size="large"
               onClick={handleSubmit}
               variant="contained"
               endIcon={<SendIcon />}
