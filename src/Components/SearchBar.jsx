@@ -29,85 +29,49 @@ function SearchBar({ setPropsRecipes }) {
   }, []);
 
   // functions that change the state of the search type
-  function nameSearch(e) {
+  function toggleSearchType(e, type) {
     e.preventDefault();
-    setSearchType('name');
-    document.getElementById('search-by-name-wrapper').style.backgroundColor =
-      '#dd596b';
-    document.getElementById('search-by-tag-wrapper').style.backgroundColor =
-      '#5971dd';
-    document.getElementById(
-      'search-by-ingredient-wrapper'
-    ).style.backgroundColor = '#5971dd';
-  }
-
-  function ingredientsSearch(e) {
-    e.preventDefault();
-    setSearchType('ingredients');
-    document.getElementById(
-      'search-by-ingredient-wrapper'
-    ).style.backgroundColor = '#dd596b';
-    document.getElementById('search-by-tag-wrapper').style.backgroundColor =
-      '#5971dd';
-    document.getElementById('search-by-name-wrapper').style.backgroundColor =
-      '#5971dd';
-  }
-
-  function tagsSearch(e) {
-    e.preventDefault();
-    setSearchType('tags');
-    document.getElementById('search-by-tag-wrapper').style.backgroundColor =
-      '#dd596b';
-    document.getElementById('search-by-name-wrapper').style.backgroundColor =
-      '#5971dd';
-    document.getElementById(
-      'search-by-ingredient-wrapper'
-    ).style.backgroundColor = '#5971dd';
+    setSearchType(type);
   }
 
   // useEffect that keeps track of the search queries when they are typed
   useEffect(() => {
-    // resets the recipes list when the search is empty
     if (activeQuery === '') {
       setFilteredRecipes(allRecipes);
       setPropsRecipes(allRecipes);
-    }
-
-    // handles the search for name
-    else if (searchType === 'name') {
-      // setactiveQuery(query)
-      let filteredByName = allRecipes.filter((recipe) => {
-        return recipe.name.toLowerCase().includes(activeQuery.toLowerCase());
-      });
-      setFilteredRecipes(filteredByName);
-      setPropsRecipes(filteredByName);
-    }
-
-    // handles the search for ingredients
-    else if (searchType === 'ingredients') {
-      // filter the recipes into a new array
-      let filteredByIngredient = allRecipes.filter((oneRecipe) => {
-        // Check if any ingredient in the recipe matches the search term
-        return oneRecipe.ingredientsList.some((ingredientObj) => {
-          return ingredientObj.ingredient_name
+    } else {
+      // handles the search for name
+      console.log('starting the search process');
+      if (searchType === 'name') {
+        let filteredByName = allRecipes.filter((oneRecipe) => {
+          return oneRecipe.name
             .toLowerCase()
             .includes(activeQuery.toLowerCase());
         });
-      });
-      setFilteredRecipes(filteredByIngredient);
-      setPropsRecipes(filteredByIngredient);
-    }
+        setFilteredRecipes(filteredByName);
+        setPropsRecipes(filteredByName);
+      }
 
-    // handles the search for tags
-    else if (searchType === 'tags') {
-      let filteredByTags = allRecipes.filter((oneRecipe) => {
-        // Check if any tag matches the search term
-        return oneRecipe.tags.some((oneTag) => {
-          return oneTag.toLowerCase().includes(activeQuery.toLowerCase());
+      if (searchType === 'ingredient') {
+        let filteredByIngredient = allRecipes.filter((oneRecipe) => {
+          return oneRecipe.ingredientsList.some((oneIngredient) => {
+            return oneIngredient.ingredient_name
+              .toLowerCase()
+              .includes(activeQuery.toLowerCase());
+          });
         });
-      });
-      setFilteredRecipes(filteredByTags);
-      setPropsRecipes(filteredByTags);
+        setFilteredRecipes(filteredByIngredient);
+        setPropsRecipes(filteredByIngredient);
+      }
+      if (searchType === 'tags') {
+        let filteredByTags = allRecipes.filter((oneRecipe) => {
+          return oneRecipe.tags.some((oneTag) => {
+            oneTag.toLowerCase().includes(activeQuery.toLowerCase());
+          });
+        });
+        setFilteredRecipes(filteredByTags);
+        setPropsRecipes(filteredByTags);
+      }
     }
   }, [activeQuery, searchType, allRecipes, setPropsRecipes]);
 
@@ -118,14 +82,17 @@ function SearchBar({ setPropsRecipes }) {
 
   return (
     <div id="search-bar-container">
-      <div id="search-form">
+      <form id="search-form">
         <div id="search-type-wrapper">
           <div className="search-type-wrapper">
             <button
               id="search-by-name-wrapper"
-              style={{ backgroundColor: '#dd596b' }}
-              className="search-selection-box"
-              onClick={(e) => nameSearch(e)}
+              className={
+                searchType === 'name'
+                  ? 'search-selection-box selected-search-type'
+                  : 'search-selection-box'
+              }
+              onClick={(e) => toggleSearchType(e, 'name')}
             >
               Search by Name
             </button>
@@ -133,8 +100,12 @@ function SearchBar({ setPropsRecipes }) {
           <div className="search-type-wrapper">
             <button
               id="search-by-ingredient-wrapper"
-              className="search-selection-box"
-              onClick={(e) => ingredientsSearch(e)}
+              className={
+                searchType === 'ingredient'
+                  ? 'search-selection-box selected-search-type'
+                  : 'search-selection-box'
+              }
+              onClick={(e) => toggleSearchType(e, 'ingredient')}
             >
               Search by Ingredient
             </button>
@@ -142,8 +113,12 @@ function SearchBar({ setPropsRecipes }) {
           <div className="search-type-wrapper">
             <button
               id="search-by-tag-wrapper"
-              className="search-selection-box"
-              onClick={(e) => tagsSearch(e)}
+              className={
+                searchType === 'tag'
+                  ? 'search-selection-box selected-search-type'
+                  : 'search-selection-box'
+              }
+              onClick={(e) => toggleSearchType(e, 'tag')}
             >
               Search by Tag
             </button>
@@ -165,13 +140,13 @@ function SearchBar({ setPropsRecipes }) {
             <CloseIcon onClick={filterSearchbar}></CloseIcon>
           )}
         </div>
-      </div>
+      </form>
       {filteredRecipes.length < allRecipes.length && (
         <div className="eachObjectContainer">
           {filteredRecipes.map((eachRecipe) => {
             return (
               <Link
-                to={`/Allrecipes/${eachRecipe._id}`}
+                to={`/recipes/${eachRecipe._id}`}
                 key={eachRecipe._id}
                 style={{ color: 'black', textDecoration: 'none' }}
               >
