@@ -1,15 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
 
 class RecipesService {
   constructor() {
     this.api = axios.create({
-      baseURL: import.meta.env.VITE_API_URL || "http://localhost:5005",
+      baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5005',
     });
 
     // Automatically set JWT token in the headers for every request
     this.api.interceptors.request.use((config) => {
       // Retrieve the JWT token from the local storage
-      const storedToken = localStorage.getItem("authToken");
+      const storedToken = localStorage.getItem('authToken');
 
       if (storedToken) {
         config.headers = { Authorization: `Bearer ${storedToken}` };
@@ -21,35 +21,33 @@ class RecipesService {
 
   // POST /api/recipes
   createRecipe = (requestBody) => {
-    return this.api.post("/api/recipes", requestBody);
-  }
+    return this.api.post('/api/recipes', requestBody);
+  };
   // GET /api/recipes/query
   getRecipeQuery = (query) => {
-    return this.api.get(`/api/recipes/search`, query)
-  }
+    return this.api.get(`/api/recipes/search`, query);
+  };
 
   // GET /api/recipes
-  // getRecipe = (id) => {
-  //   return this.api.get(`/api/recipes/${id}`)
-  // }
+  getRecipe = (id) => {
+    return this.api.get(`/api/recipes/${id}`);
+  };
 
   // GET /api/recipes
   getAllRecipes = () => {
-    return this.api.get("api/recipes")
-  }
+    return this.api.get('api/recipes');
+  };
 
-  
   // PUT /api/recipes/id
   updateRecipe = (id, requestBody) => {
-    return this.api.patch(`/api/recipes/${id}`, requestBody)
-  }
+    return this.api.patch(`/api/recipes/${id}`, requestBody);
+  };
 
   // DELETE /api/recipes/id
   deleteRecipe = (id) => {
-    return this.api.delete(`/api/recipes/${id}`)
-  }
-  
+    return this.api.delete(`/api/recipes/${id}`);
+  };
 }
-const recipesService = new RecipesService()
+const recipesService = new RecipesService();
 
-export default recipesService
+export default recipesService;

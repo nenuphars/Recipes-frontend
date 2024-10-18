@@ -11,6 +11,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("")
 
   const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ function Login() {
   };
 
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const body = {
@@ -45,8 +46,15 @@ function Login() {
         navigate("/dashboard");
       })
       .catch((err) => {
-        console.log(err);
+        setErrorMessage(err.response.data.message)
+        console.log(err.response.data.message);
       });
+  }
+
+  const errorMessageElement = () => {
+return <h3 className="" style={{color:'red'}}>{errorMessage}</h3>
+  
+
   }
 
   return (
@@ -54,6 +62,7 @@ function Login() {
       <div id="login-wrapper">
         <h4>Login</h4>
         <form
+        action=""
           onSubmit={(e) => {
             handleSubmit(e);
           }}
@@ -86,6 +95,7 @@ function Login() {
               </InputAdornment>}}
           />
           <Button type="submit">Submit</Button>
+          {errorMessage && errorMessageElement()}
         </form>
         <Link to="/signup">Don&apos;t have an account yet?</Link>
       </div>
