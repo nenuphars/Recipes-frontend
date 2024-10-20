@@ -39,7 +39,7 @@ function HomePage() {
           Karela
         </h1>
         <p className="homepage-description">
-           I want to share recipes in an organised
+           You can share recipes in an organised
           and aesthetic way with friends and family.
         </p>
         <h2 className="homepage-description">Don&apos;t know what you&apos;re looking for?</h2>
@@ -61,7 +61,7 @@ function HomePage() {
         {!randomRecipe && <p><CircularProgress color="success" size={70} ></CircularProgress></p>}
         {randomRecipe && (
           <Link
-            to={`/Allrecipes/${randomRecipe._id}`}
+            to={`/recipes/${randomRecipe._id}`}
             key={randomRecipe._id}
             style={{ textDecoration: "none" }}
           >
