@@ -59,8 +59,7 @@ function Signup() {
     }
 
   return (
-    <div id="SignupPage" className="base-wrapper">
-    <div id="signup-wrapper">
+    <div id="SignupPage" className="base-wrapper login-wrapper">
         <Card variant="outlined" sx={{my:"12px", display:"flex", flexDirection:"column", height:"80%"}}>
 
         <CardHeader title="Sign Up" />
@@ -83,7 +82,6 @@ function Signup() {
         </CardContent>
         </Card>
 
-    </div>
     </div>
   )
 }
