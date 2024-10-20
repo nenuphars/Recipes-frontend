@@ -1,6 +1,9 @@
-#login-wrapper{
-    width:30%;
-    background-color:#faf8eb;
-    display:flex;
-    flex-direction: column;
+#login-wrapper {
+  width: 30%;
+  height: 80%;
+  background-color: #faf8eb;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
 }

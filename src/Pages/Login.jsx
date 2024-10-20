@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, TextField, InputAdornment, IconButton} from "@mui/material";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Card, Stack, CardHeader, CardContent, Typography} from '@mui/material';
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -59,14 +60,17 @@ return <h3 className="" style={{color:'red'}}>{errorMessage}</h3>
 
   return (
     <div id="LoginPage" className="base-wrapper">
-      <div id="login-wrapper">
-        <h4>Login</h4>
+      <Card variant="outlined" sx={{my:"12px", display:"flex", flexDirection:"column", height:"80%"}}>
+        <CardHeader title="Login"/>
+        <CardContent>
+
         <form
         action=""
-          onSubmit={(e) => {
-            handleSubmit(e);
+        onSubmit={(e) => {
+          handleSubmit(e);
           }}
-        >
+          >
+          <Stack spacing={2}>
           <TextField
             label="username"
             required
@@ -94,11 +98,18 @@ return <h3 className="" style={{color:'red'}}>{errorMessage}</h3>
                 </IconButton>
               </InputAdornment>}}
           />
-          <Button type="submit">Submit</Button>
+          <Button variant="contained" type="submit">Submit</Button>
           {errorMessage && errorMessageElement()}
+        <Link to="/signup">
+        <Typography variant="body2">
+          Don&apos;t have an account yet?
+          </Typography>
+          </Link>
+        </Stack>
         </form>
-        <Link to="/signup">Don&apos;t have an account yet?</Link>
-      </div>
+        </CardContent>
+
+      </Card>
     </div>
   );
 }
