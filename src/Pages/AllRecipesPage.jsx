@@ -40,7 +40,7 @@ function AllRecipesPage() {
         {allRecipes.map((eachRecipe) => {
           return (
             <Link
-              to={`/Allrecipes/${eachRecipe._id}`}
+              to={`/recipes/${eachRecipe._id}`}
               key={eachRecipe._id}
               style={{ textDecoration: "none" }}
             >
