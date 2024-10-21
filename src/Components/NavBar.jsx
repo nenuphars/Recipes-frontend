@@ -1,46 +1,61 @@
-import { Link } from "react-router-dom";
-import "./NavBar.css";
-import Logo from "../assets/KARELA(1).png";
-import { useContext, useState } from "react";
-import { AuthContext } from "../context/auth.context";
+import { Link } from 'react-router-dom';
+import './NavBar.css';
+import Logo from '../assets/KARELA(1).png';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../context/auth.context';
+import { appTheme } from '../themes/theme';
 
 function Navbar() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPage] = useState('home');
 
   const { isLoggedIn, logOutUser } = useContext(AuthContext);
 
   return (
-    <header>
+    <header
+      style={{
+        backgroundColor: appTheme.palette.secondary.main,
+        color: appTheme.palette.offwhite.main,
+      }}
+    >
       <nav id="nav-links-wrapper">
-        <Link to="/" id="home-wrapper" className="nav-element" onClick={() => setCurrentPage("/")}>
+        <Link
+          to="/"
+          id="home-wrapper"
+          className="nav-element"
+          onClick={() => setCurrentPage('/')}
+        >
           <div id="home-link-logo-wrapper">
-            <img
-              id="logo"
-              src={Logo}
-              alt="Karela Logo"
-            />
+            <img id="logo" src={Logo} alt="Karela Logo" />
           </div>
-            <h2 id="home-name">KARELA</h2>
+          <h2 id="home-name">KARELA</h2>
         </Link>
 
-        <Link to="/recipes" className="nav-element" onClick={() => setCurrentPage("recipes")}>
+        <Link
+          to="/recipes"
+          className="nav-element"
+          onClick={() => setCurrentPage('recipes')}
+        >
           <h4
             className={
-              currentPage === "recipes"
-                ? "nav-heading selected-element"
-                : "nav-heading"
+              currentPage === 'recipes'
+                ? 'nav-heading selected-element'
+                : 'nav-heading'
             }
           >
             All Recipes
           </h4>
         </Link>
 
-        <Link to="/FAQ" className="nav-element" onClick={() => setCurrentPage("FAQ")}>
+        <Link
+          to="/FAQ"
+          className="nav-element"
+          onClick={() => setCurrentPage('FAQ')}
+        >
           <h4
             className={
-              currentPage === "FAQ"
-                ? "nav-heading selected-element"
-                : "nav-heading"
+              currentPage === 'FAQ'
+                ? 'nav-heading selected-element'
+                : 'nav-heading'
             }
           >
             FAQ
@@ -49,24 +64,32 @@ function Navbar() {
 
         {!isLoggedIn && (
           <>
-            <Link to="/login" className="nav-element" onClick={() => setCurrentPage("login")}>
+            <Link
+              to="/login"
+              className="nav-element"
+              onClick={() => setCurrentPage('login')}
+            >
               <h4
                 className={
-                  currentPage === "login"
-                    ? "nav-heading selected-element"
-                    : "nav-heading"
+                  currentPage === 'login'
+                    ? 'nav-heading selected-element'
+                    : 'nav-heading'
                 }
               >
                 Login
               </h4>
             </Link>
 
-            <Link to="/signup" className="nav-element" onClick={() => setCurrentPage("signup")}>
+            <Link
+              to="/signup"
+              className="nav-element"
+              onClick={() => setCurrentPage('signup')}
+            >
               <h4
                 className={
-                  currentPage === "signup"
-                    ? "nav-heading selected-element"
-                    : "nav-heading"
+                  currentPage === 'signup'
+                    ? 'nav-heading selected-element'
+                    : 'nav-heading'
                 }
               >
                 Sign Up
@@ -76,22 +99,23 @@ function Navbar() {
         )}
         {isLoggedIn && (
           <>
-            <Link to="/favorites" className="nav-element" onClick={() => setCurrentPage("favorites")}>
+            <Link
+              to="/favorites"
+              className="nav-element"
+              onClick={() => setCurrentPage('favorites')}
+            >
               <h4
                 className={
-                  currentPage === "favorites"
-                    ? "nav-heading selected-element"
-                    : "nav-heading"
+                  currentPage === 'favorites'
+                    ? 'nav-heading selected-element'
+                    : 'nav-heading'
                 }
               >
                 Favorites
               </h4>
             </Link>
 
-            <Link
-              to="/dashboard"
-              className="nav-element"
-            >
+            <Link to="/dashboard" className="nav-element">
               <h4 className="nav-heading">Dashboard</h4>
             </Link>
 
@@ -100,7 +124,7 @@ function Navbar() {
               className="nav-element"
               onClick={() => {
                 logOutUser();
-                setCurrentPage("home");
+                setCurrentPage('home');
               }}
             >
               <h4 className="nav-heading">Logout</h4>
