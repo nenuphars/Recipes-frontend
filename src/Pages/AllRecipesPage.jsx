@@ -9,7 +9,7 @@ import recipesService from '../services/recipes.services';
 import RecipeCard from '../Components/RecipeCard';
 
 function AllRecipesPage() {
-  const [spiner, setSpinner] = useState([]);
+  const [spinner, setSpinner] = useState([]);
   const [allRecipes, setAllRecipes] = useState([]);
 
   useEffect(() => {
@@ -27,11 +27,11 @@ function AllRecipesPage() {
   return (
     <>
       <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
-      {allRecipes.length === 0 && spiner.length > 0 && (
-        <div id="no-recipe-macht-container-allrecipepage">
+      {allRecipes.length === 0 && spinner.length > 0 && (
+        <div id="no-recipe-match-container">
           <h2>No recipe matches your search</h2>
           <button
-            id="allrecipesPage-button-see-all"
+            id="button-see-all"
             onClick={() => {
               location.reload();
             }}
@@ -41,7 +41,7 @@ function AllRecipesPage() {
         </div>
       )}
 
-      {spiner.length === 0 && allRecipes.length === 0 && (
+      {spinner.length === 0 && allRecipes.length === 0 && (
         <CircularProgress
           id="circular-progress-allRecipes"
           size={100}

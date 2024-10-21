@@ -48,10 +48,32 @@ function RecipeCard({ recipe, currentPage }) {
             <CardContent>
               <Stack spacing={2}>
                 <Typography variant="h6">{recipe.name}</Typography>
-                <Typography variant="subtitle1">Author</Typography>
+                <Typography variant="body2">
+                  ⏱️ {recipe.duration} mins
+                </Typography>
+
+                <div className="tag-container">
+                  {recipe.tags.map((eachTag) => {
+                    return (
+                      <div className="tag-wrapper" key={eachTag}>
+                        <Typography variant="body2">{eachTag}</Typography>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {currentPage === 'recipes' && (
+                  <Typography variant="subtitle1">
+                    Author: {recipe.creator.user_name}
+                  </Typography>
+                )}
+                <Typography variant="body1" sx={{ height: '120px' }}>
+                  {recipe.description}
+                </Typography>
+
                 {currentPage === 'dashboard' && (
                   <>
-                    <div className="recipe-info-wrapper">
+                    <div className="recipe-tools-wrapper">
                       <IconButton
                         aria-label="edit"
                         onClick={() => {
@@ -60,8 +82,7 @@ function RecipeCard({ recipe, currentPage }) {
                       >
                         <EditIcon />
                       </IconButton>
-                      ⏱️ {recipe.duration}
-                      {' mins'}
+
                       <IconButton
                         aria-label="delete"
                         onClick={() => setConfirmDelete(true)}
@@ -71,22 +92,6 @@ function RecipeCard({ recipe, currentPage }) {
                     </div>
                   </>
                 )}
-                {currentPage === 'recipes' && (
-                  <>
-                    <Typography variant="body1" sx={{ height: '120px' }}>
-                      {recipe.description}
-                    </Typography>
-                  </>
-                )}
-                <div className="tag-container">
-                  {recipe.tags.map((eachTag) => {
-                    return (
-                      <div className="tag-wrapper" key={eachTag}>
-                        {eachTag}
-                      </div>
-                    );
-                  })}
-                </div>
               </Stack>
             </CardContent>
           </>
