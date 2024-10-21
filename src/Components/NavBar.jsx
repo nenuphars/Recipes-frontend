@@ -11,7 +11,8 @@ function Navbar() {
   const { isLoggedIn, logOutUser } = useContext(AuthContext);
 
   return (
-    <header
+    <div
+      id="nav-container"
       style={{
         backgroundColor: appTheme.palette.secondary.main,
         color: appTheme.palette.offwhite.main,
@@ -132,7 +133,7 @@ function Navbar() {
           </>
         )}
       </nav>
-    </header>
+    </div>
   );
 }
 

@@ -4,7 +4,8 @@
   background-color: #faf8eb;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 60px;
   align-items: center;
   position: 'absolute';
   top: 0;
@@ -16,7 +17,8 @@
   background-color: #faf8eb;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 60px;
   align-items: center;
   position: 'absolute';
   top: 0;

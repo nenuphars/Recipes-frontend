@@ -14,6 +14,7 @@ import {
   CardContent,
   Typography,
 } from '@mui/material';
+import { appTheme } from '../themes/theme';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -115,7 +116,10 @@ function Login() {
                 Submit
               </Button>
               {errorMessage && errorMessageElement()}
-              <Link to="/signup">
+              <Link
+                to="/signup"
+                style={{ color: appTheme.palette.primary.main }}
+              >
                 <Typography variant="body2">
                   Don&apos;t have an account yet?
                 </Typography>

@@ -17,6 +17,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import authService from '../services/auth.services';
 import { AuthContext } from '../context/auth.context';
 import { useNavigate } from 'react-router-dom';
+import { appTheme } from '../themes/theme';
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -146,7 +147,10 @@ function Signup() {
               </Button>
               {errorMessage && errorMessageElement()}
 
-              <Link to="/login">
+              <Link
+                to="/login"
+                style={{ color: appTheme.palette.primary.main }}
+              >
                 <Typography variant="body2">
                   Already have an account?
                 </Typography>
