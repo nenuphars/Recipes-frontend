@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
+import { Stack, Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import recipesService from '../services/recipes.services';
 
@@ -150,22 +151,36 @@ function SearchBar({ setPropsRecipes }) {
         </div>
       </div>
       {filteredRecipes.length < allRecipes.length && (
-        <div className="eachObjectContainer">
+        <Stack spacing={0} sx={{ width: '30%', position: 'absolute' }}>
           {filteredRecipes.map((eachRecipe) => {
             return (
               <Link
-                to={`/Allrecipes/${eachRecipe._id}`}
-                key={eachRecipe._id}
+                to={`/recipes/${eachRecipe._id}`}
                 style={{ color: 'black', textDecoration: 'none' }}
+                key={eachRecipe._id}
               >
-                <p id="eachObject">
-                  <img src={eachRecipe.photo_url} alt={eachRecipe.name} />
-                  {eachRecipe.name}
-                </p>
+                <Card
+                  variant="outlined"
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    height: '40px',
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{ height: '40px', width: '40px' }}
+                    image={eachRecipe.photo_url}
+                    alt=""
+                  />
+                  <CardContent>
+                    <Typography variant="body2">{eachRecipe.name}</Typography>
+                  </CardContent>
+                </Card>
               </Link>
             );
           })}
-        </div>
+        </Stack>
       )}
     </div>
   );
