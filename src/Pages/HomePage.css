@@ -1,15 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 #homepage-container {
-  background-color: white;
+  background-color: #faf8eb;
   display: flex;
   flex-direction: row;
 }
 .homepage-heading {
   line-height: 1.6;
   text-align: center;
-  font-family: "Chango", sans-serif;
+  font-family: 'Chango', sans-serif;
   font-size: 28px;
   color: rgb(49, 49, 49);
   margin-top: 5px;
@@ -17,7 +16,7 @@
 .homepage-description {
   line-height: 1.6;
   text-align: center;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 18px;
   color: rgb(49, 49, 49);
   margin-top: 5px;
@@ -58,8 +57,7 @@
   justify-content: center;
   width: 50vw;
 }
-#description-wrapper{
-
+#description-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -80,20 +78,24 @@
   height: inherit;
   width: inherit;
   background-size: 12px 100%; /* Change this to adjust the size of the squiggly line. */
-  content: "";
+  content: '';
   position: absolute;
 }
 
 .squiggly::before {
   top: -3px;
-  background-image: linear-gradient(45deg, rgb(148, 110, 207) 35%, transparent 0),
-      linear-gradient(-45deg, rgb(148, 110, 207) 35%, transparent 0);
+  background-image: linear-gradient(
+      45deg,
+      rgb(148, 110, 207) 35%,
+      transparent 0
+    ),
+    linear-gradient(-45deg, rgb(148, 110, 207) 35%, transparent 0);
 }
 
 .squiggly::after {
   top: 0px;
   background-image: linear-gradient(45deg, white 35%, transparent 0),
-      linear-gradient(-45deg, white 35%, transparent 0);
+    linear-gradient(-45deg, white 35%, transparent 0);
 }
 
 #random-img-wrapper {
@@ -106,7 +108,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: beige;
   border-radius: 20px;
   margin: 10px;
   font: white;

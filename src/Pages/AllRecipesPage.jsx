@@ -26,34 +26,40 @@ function AllRecipesPage() {
 
   return (
     <>
-      <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
-      {allRecipes.length === 0 && spinner.length > 0 && (
-        <div id="no-recipe-match-container">
-          <h2>No recipe matches your search</h2>
-          <button
-            id="button-see-all"
-            onClick={() => {
-              location.reload();
-            }}
-          >
-            See all recipes
-          </button>
-        </div>
-      )}
+      <div className="page-wrapper">
+        <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
+        {allRecipes.length === 0 && spinner.length > 0 && (
+          <div id="no-recipe-match-container">
+            <h2>No recipe matches your search</h2>
+            <button
+              id="button-see-all"
+              onClick={() => {
+                location.reload();
+              }}
+            >
+              See all recipes
+            </button>
+          </div>
+        )}
 
-      {spinner.length === 0 && allRecipes.length === 0 && (
-        <CircularProgress
-          id="circular-progress-allRecipes"
-          size={100}
-          color="success"
-        ></CircularProgress>
-      )}
-      <div id="AllRecipes" className="page-wrapper">
-        {allRecipes.map((eachRecipe, index) => {
-          return (
-            <RecipeCard recipe={eachRecipe} currentPage="recipes" key={index} />
-          );
-        })}
+        {spinner.length === 0 && allRecipes.length === 0 && (
+          <CircularProgress
+            id="circular-progress-allRecipes"
+            size={100}
+            color="success"
+          ></CircularProgress>
+        )}
+        <div id="AllRecipes">
+          {allRecipes.map((eachRecipe, index) => {
+            return (
+              <RecipeCard
+                recipe={eachRecipe}
+                currentPage="recipes"
+                key={index}
+              />
+            );
+          })}
+        </div>
       </div>
     </>
   );
