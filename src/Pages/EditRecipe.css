@@ -1,18 +1,19 @@
-#edit-recipe-container{
-    margin: 20px;
+#edit-recipe-container {
+  margin: 20px;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 70%;
 }
 
-.add-button{
-    height: 70px;
-    width: 130px;
+.add-button {
+  height: 70px;
+  width: 130px;
 }
-#submit-button{
-    margin: 0 auto;
-    width: 400px;
+#submit-button {
+  margin: 0 auto;
+  width: 400px;
 }
