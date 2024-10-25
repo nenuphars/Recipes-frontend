@@ -9,7 +9,6 @@ import {
   OutlinedInput,
   MenuItem,
   FormControl,
-  InputLabel,
   Box,
   Chip,
   useTheme,
@@ -17,7 +16,6 @@ import {
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteIcon from '@mui/icons-material/Delete';
-// import Select from 'react-select';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -34,6 +32,8 @@ function EditRecipe() {
 
   const { user } = useContext(AuthContext);
 
+  const theme = useTheme();
+
   // states for all form inputs
   const [name, setName] = useState('');
   const [photoURL, setPhotoURL] = useState('');
@@ -45,10 +45,7 @@ function EditRecipe() {
   const [ingredients, setIngredients] = useState([
     { ingredient_name: '', ingredient_amount: '', ingredient_measuring: '' },
   ]);
-  // const [newIngredients, setNewIngredients] = useState([
-  //   { ingredient_name: '', ingredient_amount: '', ingredient_measuring: '' },
-  // ]);
-  const [creator, setCreator] = useState('');
+  // const [creator, setCreator] = useState('');
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -97,22 +94,6 @@ function EditRecipe() {
     'Fruity 🍋',
     'Spicy 🌶️',
   ];
-  // let selectedTags = tags.map((oneTag) => {
-  //   return { value: oneTag, label: oneTag };
-  // });
-
-  const theme = useTheme();
-
-  // function findSelectedUnitOptions(e, selection, unitOptions) {
-  //   // e.preventDefault();
-  //   console.log('selection, unitOptions', selection, unitOptions);
-  //   if (selection) {
-  //     const selectedUnit = unitOptions.map((oneUnit) => {
-  //       return oneUnit.value == selection;
-  //     });
-  //     return selectedUnit;
-  //   }
-  // }
 
   function getStyles(tag, tagName, theme) {
     return {
@@ -138,7 +119,7 @@ function EditRecipe() {
         setServings(recipeDetails.data.servings);
         setTags(recipeDetails.data.tags);
         setIngredients(recipeDetails.data.ingredientsList);
-        setCreator(recipeDetails.data.creator);
+        // setCreator(recipeDetails.data.creator);
       })
       .catch((err) => {
         console.log(err);
@@ -149,11 +130,18 @@ function EditRecipe() {
   const handleIngredientFields = (index, event) => {
     let data = [...ingredients];
     console.log(ingredients);
+    const inputName = event.target.name;
     if (!event.target) {
       data[index].ingredient_measuring = event.selectedOption;
     } else {
-      data[index][event.target.name] = event.target.value;
+      if (inputName === 'ingredient_name') {
+        data[index].ingredient_name = event.target.value;
+      }
+      if (inputName === 'ingredient_amount') {
+        data[index].ingredient_amount = event.target.value;
+      }
     }
+
     setIngredients(data);
   };
 
@@ -167,7 +155,7 @@ function EditRecipe() {
     setIngredients(data);
   };
 
-  const handleTagChange = (event) => {
+  const handleChangeTag = (event) => {
     const {
       target: { value },
     } = event;
@@ -229,7 +217,7 @@ function EditRecipe() {
       description: description,
       servings: servings,
       tags: tags,
-      creator: creator,
+      creator: user._id,
     };
 
     recipesService
@@ -413,24 +401,28 @@ function EditRecipe() {
             <h4>Tags</h4>
 
             <FormControl sx={{ m: 1, width: 300 }}>
-              <InputLabel id="demo-multiple-name-label">Tag</InputLabel>
               <Select
                 multiple
                 value={tags}
-                onChange={(event) => handleTagChange(event)}
+                onChange={(event) => handleChangeTag(event)}
                 input={<OutlinedInput label="Tag" />}
                 MenuProps={MenuProps}
-                renderValue={(selected) => (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {selected.map((value) => (
-                      <Chip
-                        key={value}
-                        label={value}
-                        // onClick={() => handleDeleteTag(index)}
-                      />
-                    ))}
-                  </Box>
-                )}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>Select tags</em>;
+                  }
+                  return (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip
+                          key={value}
+                          label={value}
+                          // onClick={() => handleDeleteTag(index)}
+                        />
+                      ))}
+                    </Box>
+                  );
+                }}
               >
                 {tagOptions.map((oneTagOption) => (
                   <MenuItem

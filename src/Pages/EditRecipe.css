@@ -8,7 +8,12 @@ form {
   gap: 12px;
   width: 70%;
 }
-
+.ingredients-list-input-row {
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: 1fr 1fr 1fr 0.2fr;
+  margin: 0.4rem 0;
+}
 .add-button {
   height: 70px;
   width: 130px;

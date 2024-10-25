@@ -5,6 +5,7 @@ import {
   CardMedia,
   Typography,
   Stack,
+  CardActionArea,
 } from '@mui/material';
 import { useState } from 'react';
 import { IconButton } from '@mui/material';
@@ -37,63 +38,65 @@ function RecipeCard({ recipe, currentPage }) {
       >
         {!confirmDelete && (
           <>
-            <CardMedia
-              component="img"
-              height="200"
-              image={recipe.photo_url}
-              alt={recipe.name}
-              sx={{ borderRadius: '8px' }}
-            />
+            <CardActionArea onClick={() => navigate(`/recipes/${recipe._id}`)}>
+              <CardMedia
+                component="img"
+                height="200"
+                image={recipe.photo_url}
+                alt={recipe.name}
+                sx={{ borderRadius: '8px' }}
+              />
 
-            <CardContent>
-              <Stack spacing={2}>
-                <Typography variant="h6">{recipe.name}</Typography>
-                <Typography variant="body2">
-                  ⏱️ {recipe.duration} mins
-                </Typography>
+              <CardContent>
+                <Stack spacing={2}>
+                  <Typography variant="h6">{recipe.name}</Typography>
+                  <Typography variant="body2">
+                    ⏱️ {recipe.duration} mins
+                  </Typography>
 
-                <div className="tag-container">
-                  {recipe.tags.map((eachTag) => {
-                    return (
-                      <div className="tag-wrapper" key={eachTag}>
-                        <Typography variant="body2">{eachTag}</Typography>
-                      </div>
-                    );
-                  })}
-                </div>
+                  <div className="tag-container">
+                    {recipe.tags.map((eachTag) => {
+                      return (
+                        <div className="tag-wrapper" key={eachTag}>
+                          <Typography variant="body2">{eachTag}</Typography>
+                        </div>
+                      );
+                    })}
+                  </div>
 
-                {currentPage === 'recipes' && (
                   <Typography variant="subtitle1">
                     Author: {recipe.creator.user_name}
+                    {console.log(recipe.creator)}
                   </Typography>
-                )}
-                <Typography variant="body1" sx={{ height: '120px' }}>
-                  {recipe.description}
-                </Typography>
 
-                {currentPage === 'dashboard' && (
-                  <>
-                    <div className="recipe-tools-wrapper">
-                      <IconButton
-                        aria-label="edit"
-                        onClick={() => {
-                          navigate(`/dashboard/edit/${recipe._id}`);
-                        }}
-                      >
-                        <EditIcon />
-                      </IconButton>
+                  <Typography variant="body1" sx={{ height: '120px' }}>
+                    {recipe.description}
+                  </Typography>
 
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => setConfirmDelete(true)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </div>
-                  </>
-                )}
-              </Stack>
-            </CardContent>
+                  {currentPage === 'dashboard' && (
+                    <>
+                      <div className="recipe-tools-wrapper">
+                        <IconButton
+                          aria-label="edit"
+                          onClick={() => {
+                            navigate(`/dashboard/edit/${recipe._id}`);
+                          }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+
+                        <IconButton
+                          aria-label="delete"
+                          onClick={() => setConfirmDelete(true)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </div>
+                    </>
+                  )}
+                </Stack>
+              </CardContent>
+            </CardActionArea>
           </>
         )}
 
