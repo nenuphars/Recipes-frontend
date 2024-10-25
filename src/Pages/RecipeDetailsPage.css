@@ -1,11 +1,10 @@
 #recipe-details-photo {
-  object-fit: cover;
-  height: 70vw;
+  object-fit: contain;
 }
 #recipe-details-ingredient-list {
   text-align: left;
   font-size: 25px;
-  padding: 6px 12px;
+  padding: 6px 24px;
   line-height: 1.2;
   color: rgb(41, 41, 41);
 }

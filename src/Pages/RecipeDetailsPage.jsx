@@ -33,55 +33,100 @@ function RecipeDetailsPage() {
         ></CircularProgress>
       )}
       {recipe && (
-        <div>
-          <Container maxWidth="lg">
-            <Stack spacing={2} sx={{ l: { flexDirection: 'row' } }}>
+        <Container sx={{ zIndex: 0 }}>
+          <Stack id="recipe-details-outer-stack" spacing={6} direction="column">
+            <Typography variant="h2" sx={{ textAlign: 'center' }}>
+              {recipe.name}
               <Stack
-                spacing={1}
-                sx={{ alignItems: 'center', maxWidth: '70vw' }}
-              >
-                <Typography variant="h2">{recipe.name}</Typography>
-                <Stack
-                  direction="row"
-                  spacing={2}
-                  sx={{ alignItems: 'center', justifyContent: 'center' }}
-                >
-                  {recipe.tags.map((eachTag) => {
-                    return (
-                      <Typography key={eachTag} variant="h6">
-                        {eachTag}
-                      </Typography>
-                    );
-                  })}
-                </Stack>
-                <Typography variant="h5">⏱️{recipe.duration} mins</Typography>
-
-                <Typography
-                  variant="h4"
-                  sx={{ textAlign: 'center', width: '80%' }}
-                >
-                  {recipe.description}
-                </Typography>
-              </Stack>
-              <Box
+                id="recipe-details-tags-stack"
+                direction="row"
                 sx={{
-                  width: '70vw',
-                  height: '70vw',
-                  display: 'flex',
-                  overflow: 'hidden',
-                  borderRadius: '20px',
+                  textAlign: 'center',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <img
-                  id="recipe-details-photo"
-                  src={recipe.photo_url}
-                  alt={`Photo of ${recipe.name}`}
-                />
-              </Box>
+                {recipe.tags.map((eachTag) => {
+                  return (
+                    <Typography key={eachTag} variant="h6">
+                      {eachTag}
+                    </Typography>
+                  );
+                })}
+              </Stack>
+              <Typography variant="h5">⏱️{recipe.duration} mins</Typography>
+            </Typography>
+            <Stack
+              id="recipe-details-responsive-stack"
+              direction={{ xs: 'column', md: 'row' }}
+            >
+              <Stack
+                id="recipe-details-info-wrapper"
+                direction="column"
+                spacing={2}
+                sx={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: { md: '50%', sx: '100%' },
+                  marginBottom: '5vh',
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  sx={{
+                    textAlign: 'center',
+                    width: '80%',
+                  }}
+                >
+                  {recipe.description}
+                </Typography>
+              </Stack>
 
-              <Stack>
+              <Stack
+                id="recipe-details-image-stack"
+                spacing={2}
+                sx={{
+                  width: { md: '50%', xs: '70%' },
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: '12px auto',
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    overflow: 'hidden',
+                    borderRadius: '20px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '10px',
+                    width: { md: '40vw', xs: '70vw' },
+                    height: { md: '40vw', xs: '70vw' },
+                  }}
+                >
+                  <img
+                    id="recipe-details-photo"
+                    src={recipe.photo_url}
+                    alt={`Photo of ${recipe.name}`}
+                  />
+                </Box>
+              </Stack>
+            </Stack>
+
+            <Stack
+              id="recipe-details-ingredients-preparation-stack"
+              direction={{ xs: 'column', md: 'row' }}
+            >
+              <Stack
+                id="recipe-details-ingredients-stack"
+                sx={{
+                  width: { md: '50%', sx: '100%' },
+                  display: 'flex',
+                  alignItems: 'center',
+                  margin: '12px auto',
+                }}
+              >
                 <Typography variant="h4">
                   Ingredients for {recipe.servings} servings:
                 </Typography>
@@ -97,14 +142,22 @@ function RecipeDetailsPage() {
                   ))}
                 </ul>
               </Stack>
-
-              <div className="recipe-details-preparation-container">
+              <Stack
+                id="recipe-details-preparation-stack"
+                sx={{
+                  width: { md: '50%', sx: '100%' },
+                  display: 'flex',
+                  alignItems: 'center',
+                  margin: '12px auto',
+                  padding: '0 24px',
+                }}
+              >
                 <Typography variant="h4">Preparation:</Typography>
                 <Typography variant="h6">{recipe.preparation}</Typography>
-              </div>
+              </Stack>
             </Stack>
-          </Container>
-        </div>
+          </Stack>
+        </Container>
       )}
     </div>
   );
