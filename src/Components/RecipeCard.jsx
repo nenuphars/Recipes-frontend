@@ -1,11 +1,13 @@
 import {
+  Box,
   Card,
   // CardHeader,
   CardContent,
-  CardMedia,
+  // CardMedia,
   Typography,
   Stack,
   CardActionArea,
+  CardActions,
 } from '@mui/material';
 import { useState } from 'react';
 import { IconButton } from '@mui/material';
@@ -39,21 +41,22 @@ function RecipeCard({ recipe, currentPage }) {
         {!confirmDelete && (
           <>
             <CardActionArea onClick={() => navigate(`/recipes/${recipe._id}`)}>
-              <CardMedia
+              {/* <CardMedia
                 component="img"
-                height="200"
+                height="200px"
                 image={recipe.photo_url}
                 alt={recipe.name}
                 sx={{ borderRadius: '8px' }}
-              />
+              /> */}
 
               <CardContent>
-                <Stack spacing={2}>
-                  <Typography variant="h6">{recipe.name}</Typography>
-                  <Typography variant="body2">
-                    ⏱️ {recipe.duration} mins
+                <Stack spacing={3}>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontFamily: 'Edu AU VIC WA NT' }}
+                  >
+                    {recipe.name}
                   </Typography>
-
                   <div className="tag-container">
                     {recipe.tags.map((eachTag) => {
                       return (
@@ -63,39 +66,36 @@ function RecipeCard({ recipe, currentPage }) {
                       );
                     })}
                   </div>
+                  <Typography variant="body2">
+                    ⏱️ {recipe.duration} mins
+                  </Typography>
 
-                  <Typography variant="subtitle1">
+                  <Typography variant="body2">
                     Author: {recipe.creator.user_name}
-                    {console.log(recipe.creator)}
                   </Typography>
 
-                  <Typography variant="body1" sx={{ height: '120px' }}>
-                    {recipe.description}
-                  </Typography>
-
-                  {currentPage === 'dashboard' && (
-                    <>
-                      <div className="recipe-tools-wrapper">
-                        <IconButton
-                          aria-label="edit"
-                          onClick={() => {
-                            navigate(`/dashboard/edit/${recipe._id}`);
-                          }}
-                        >
-                          <EditIcon />
-                        </IconButton>
-
-                        <IconButton
-                          aria-label="delete"
-                          onClick={() => setConfirmDelete(true)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </div>
-                    </>
-                  )}
+                  <Typography variant="body2">{recipe.description}</Typography>
                 </Stack>
               </CardContent>
+              {currentPage === 'dashboard' && (
+                <CardActions>
+                  <IconButton
+                    aria-label="edit"
+                    onClick={() => {
+                      navigate(`/dashboard/edit/${recipe._id}`);
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => setConfirmDelete(true)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </CardActions>
+              )}
             </CardActionArea>
           </>
         )}

@@ -33,19 +33,24 @@ function RecipeDetailsPage() {
         ></CircularProgress>
       )}
       {recipe && (
-        <Container sx={{ zIndex: 0 }}>
+        <Container sx={{ zIndex: 0, fontFamily: 'Gowun Batang' }}>
           <Stack id="recipe-details-outer-stack" spacing={6} direction="column">
-            <Typography variant="h2" sx={{ textAlign: 'center' }}>
-              {recipe.name}
-              <Stack
-                id="recipe-details-tags-stack"
-                direction="row"
-                sx={{
-                  textAlign: 'center',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
+            <Stack
+              id="recipe-details-stack"
+              direction="column"
+              sx={{
+                textAlign: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Typography
+                variant="h2"
+                sx={{ textAlign: 'center', fontFamily: 'Edu AU VIC WA NT' }}
               >
+                {recipe.name}
+              </Typography>
+              <Stack id="recipe-tags-stack" direction="row">
                 {recipe.tags.map((eachTag) => {
                   return (
                     <Typography key={eachTag} variant="h6">
@@ -55,7 +60,8 @@ function RecipeDetailsPage() {
                 })}
               </Stack>
               <Typography variant="h5">⏱️{recipe.duration} mins</Typography>
-            </Typography>
+            </Stack>
+
             <Stack
               id="recipe-details-responsive-stack"
               direction={{ xs: 'column', md: 'row' }}
@@ -72,7 +78,7 @@ function RecipeDetailsPage() {
                 }}
               >
                 <Typography
-                  variant="h4"
+                  variant="h6"
                   sx={{
                     textAlign: 'center',
                     width: '80%',
@@ -131,8 +137,8 @@ function RecipeDetailsPage() {
                   Ingredients for {recipe.servings} servings:
                 </Typography>
                 <ul id="recipe-details-ingredient-list">
-                  {recipe.ingredientsList.map((eachObject) => (
-                    <li key={recipe.id}>
+                  {recipe.ingredientsList.map((eachObject, index) => (
+                    <li key={index}>
                       <Typography variant="h6">
                         {eachObject.ingredient_name} :{' '}
                         {eachObject.ingredient_amount}{' '}

@@ -6,7 +6,6 @@
 }
 
 .tag-container {
-  padding-bottom: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -17,13 +16,4 @@
 .tag-wrapper {
   display: flex;
   flex-direction: row;
-}
-
-.recipe-tools-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0;
-  padding-bottom: 12px;
 }

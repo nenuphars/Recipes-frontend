@@ -1,4 +1,5 @@
 import './App.css';
+// import {useState} from 'react'
 import Navbar from './Components/NavBar';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './Pages/HomePage';
@@ -11,8 +12,9 @@ import FAQPage from './Pages/FAQPage';
 import ErrorPage from './Pages/ErrorPage';
 import Login from './Pages/Login';
 import Signup from './Pages/SignUp';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import { appTheme } from './themes/theme';
+import { ThemeProvider } from '@mui/material';
 
 function App() {
   return (

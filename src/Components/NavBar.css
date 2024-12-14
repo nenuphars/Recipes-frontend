@@ -3,7 +3,7 @@ header {
   padding: 0;
   top: 0;
   width: 100vw;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Edu AU VIC WA NT', sans-serif;
   min-height: 4rem;
   /* background-color: #f19dc0; */
   position: absolute;
@@ -12,6 +12,7 @@ header {
 }
 a {
   text-decoration: none;
+  font-family: 'Edu AU VIC WA NT';
   color: #faf8eb;
 }
 
@@ -64,8 +65,8 @@ a {
 }
 
 #home-name {
-  font-family: 'Chango', sans-serif;
-  font-weight: 400;
+  font-family: 'Edu AU VIC WA NT', sans-serif;
+  font-weight: 500;
   font-size: 22px;
   margin-right: 18px;
   line-height: 0;

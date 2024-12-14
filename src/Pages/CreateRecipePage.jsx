@@ -99,20 +99,19 @@ function CreateRecipePage() {
     'Spicy 🌶️',
   ];
 
-  const handleIngredientFields = (index, event) => {
+  const handleIngredientFields = (index, event, type) => {
     let data = [...ingredients];
-    console.log('target: ', event.target.name);
-    const inputName = event.target.name;
-    if (!event.target) {
-      data[index].ingredient_measuring = event.selectedOption;
-    } else {
-      if (inputName === 'ingredient_name') {
-        data[index].ingredient_name = event.target.value;
-      }
-      if (inputName === 'ingredient_amount') {
-        data[index].ingredient_amount = event.target.value;
-      }
+
+    if (event.target.value && type === 'name') {
+      data[index].ingredient_name = event.target.value;
     }
+    if (event.target.value && type === 'amount') {
+      data[index].ingredient_amount = event.target.value;
+    } else {
+      data[index].ingredient_amount = event.selectedOption;
+    }
+
+    setIngredients(data);
     setIngredients(data);
     console.log(ingredients);
   };
@@ -262,7 +261,7 @@ function CreateRecipePage() {
                         label="Ingredient"
                         name="ingredient_name"
                         onChange={(event) =>
-                          handleIngredientFields(index, event)
+                          handleIngredientFields(index, event, 'name')
                         }
                         sx={{ width: '50%' }}
                       />
@@ -272,7 +271,7 @@ function CreateRecipePage() {
                         name="ingredient_amount"
                         type="number"
                         onChange={(event) =>
-                          handleIngredientFields(index, event)
+                          handleIngredientFields(index, event, 'amount')
                         }
                         sx={{ width: '20%' }}
                       />

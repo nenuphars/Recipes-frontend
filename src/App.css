@@ -1,9 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Chango&display=swap');
+@font-face {
+  font-family: 'Gowun Batang';
+  src: url('./fonts/Gowun_Batang/GowunBatang-Regular.ttf');
+  format: ('ttf');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Edu AU VIC WA NT';
+  src: url('./fonts/Edu_AU_VIC_WA_NT_Hand/EduAUVICWANTHand-VariableFont_wght.ttf');
+  format: ('ttf');
+  font-display: swap;
+}
 
 html,
 body {
-  font-family: 'Space Grotesk', 'Roboto', sans-serif;
+  /* font-family: 'Space Grotesk', 'Roboto', sans-serif; */
   margin: 0;
   padding: 0;
   background-color: #faf8eb;

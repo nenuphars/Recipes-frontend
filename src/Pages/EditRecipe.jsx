@@ -127,19 +127,16 @@ function EditRecipe() {
   }, [id]);
 
   // function that updates data for arrays when the user is typing
-  const handleIngredientFields = (index, event) => {
+  const handleIngredientFields = (index, event, type) => {
     let data = [...ingredients];
-    console.log(ingredients);
-    const inputName = event.target.name;
-    if (!event.target) {
-      data[index].ingredient_measuring = event.selectedOption;
+
+    if (event.target.value && type === 'name') {
+      data[index].ingredient_name = event.target.value;
+    }
+    if (event.target.value && type === 'amount') {
+      data[index].ingredient_amount = event.target.value;
     } else {
-      if (inputName === 'ingredient_name') {
-        data[index].ingredient_name = event.target.value;
-      }
-      if (inputName === 'ingredient_amount') {
-        data[index].ingredient_amount = event.target.value;
-      }
+      data[index].ingredient_amount = event.selectedOption;
     }
 
     setIngredients(data);
@@ -325,7 +322,7 @@ function EditRecipe() {
                         value={oneItem.ingredient_name}
                         label="Ingredient"
                         onChange={(event) =>
-                          handleIngredientFields(index, event)
+                          handleIngredientFields(index, event, 'name')
                         }
                         sx={{ width: '50%' }}
                       />
@@ -335,7 +332,7 @@ function EditRecipe() {
                         label="Amount"
                         type="number"
                         onChange={(event) =>
-                          handleIngredientFields(index, event)
+                          handleIngredientFields(index, event, 'amount')
                         }
                         sx={{ width: '20%' }}
                       />
