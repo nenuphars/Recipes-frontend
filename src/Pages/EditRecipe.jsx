@@ -13,6 +13,7 @@ import {
   Chip,
   useTheme,
   FormHelperText,
+  Typography,
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -36,7 +37,7 @@ function EditRecipe() {
 
   // states for all form inputs
   const [name, setName] = useState('');
-  const [photoURL, setPhotoURL] = useState('');
+  // const [photoURL, setPhotoURL] = useState('');
   const [duration, setDuration] = useState(0);
   const [preparation, setPreparation] = useState('');
   const [description, setDescription] = useState('');
@@ -111,7 +112,7 @@ function EditRecipe() {
         console.log(recipeDetails.data);
 
         setName(recipeDetails.data.name);
-        setPhotoURL(recipeDetails.data.photo_url);
+        // setPhotoURL(recipeDetails.data.photo_url);
         setDuration(recipeDetails.data.duration);
 
         setPreparation(recipeDetails.data.preparation);
@@ -207,7 +208,7 @@ function EditRecipe() {
     // object that contains a new/edited recipe
     const newRecipe = {
       name: name,
-      photo_url: photoURL,
+      // photo_url: photoURL,
       duration: duration,
       ingredientsList: ingredients,
       preparation: preparation,
@@ -229,9 +230,11 @@ function EditRecipe() {
 
   return (
     <div id="EditRecipePage" className="page-wrapper">
-      <h1>Edit Recipe</h1>
+      <Typography variant="h2" sx={{ fontFamily: 'Edu AU VIC WA NT' }}>
+        Edit Recipe
+      </Typography>
       {(!name ||
-        !photoURL ||
+        // !photoURL ||
         !duration ||
         !ingredients ||
         !preparation ||
@@ -239,15 +242,15 @@ function EditRecipe() {
         !servings ||
         !tags) && <p>...loading</p>}
       {(name ||
-        photoURL ||
+        // photoURL ||
         duration ||
         ingredients ||
         preparation ||
         description ||
         servings ||
         tags) && (
-        <Stack id="edit-recipe-container" spacing={4}>
-          <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
+          <Stack id="edit-recipe-container" direction={'column'} spacing={4}>
             <TextField
               label="Name"
               value={name}
@@ -257,14 +260,14 @@ function EditRecipe() {
               }}
               required
             />
-            <TextField
+            {/* <TextField
               label="Photo URL"
               value={photoURL}
               type="url"
               onChange={(e) => {
                 setPhotoURL(e.target.value);
               }}
-            />
+            /> */}
             <Stack direction="row" spacing={2}>
               <TextField
                 label="Duration"
@@ -443,8 +446,8 @@ function EditRecipe() {
             >
               Submit
             </Button>
-          </form>
-        </Stack>
+          </Stack>
+        </form>
       )}
     </div>
   );

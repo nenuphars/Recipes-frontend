@@ -5,7 +5,14 @@ import { Link } from 'react-router-dom';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import SearchBar from '../Components/SearchBar';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Card, Stack, Typography, CardContent } from '@mui/material';
+import {
+  Card,
+  Stack,
+  Typography,
+  CardContent,
+  Container,
+  Button,
+} from '@mui/material';
 import recipesService from '../services/recipes.services';
 import RecipeCard from '../Components/RecipeCard';
 import { AuthContext } from '../context/auth.context';
@@ -43,20 +50,20 @@ function Dashboard() {
 
   return (
     <>
-      <div className="page-wrapper">
+      <div id="Dashboard" className="page-wrapper">
         <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
         {allRecipes.length === 0 && spinner.length > 0 && (
-          <div id="no-recipe-match-container">
-            <h2>No recipe matches your search</h2>
-            <button
+          <Container id="no-recipe-match-container">
+            <Typography variant="h2">No recipe matches your search</Typography>
+            <Button
               id="button-see-all"
               onClick={() => {
                 location.reload();
               }}
             >
               See all recipes
-            </button>
-          </div>
+            </Button>
+          </Container>
         )}
 
         {spinner.length === 0 && allRecipes.length === 0 && (
@@ -80,7 +87,7 @@ function Dashboard() {
           ></CircularProgress>
         )}
         {isLoggedIn && (
-          <div id="Dashboard">
+          <Container id="dashboard-container">
             <Link
               to={'/dashboard/CreateRecipe'}
               style={{ textDecoration: 'none' }}
@@ -125,7 +132,7 @@ function Dashboard() {
                 })}
               </>
             )}
-          </div>
+          </Container>
         )}
       </div>
     </>

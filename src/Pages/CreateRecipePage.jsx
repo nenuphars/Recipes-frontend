@@ -13,6 +13,7 @@ import {
   Chip,
   useTheme,
   FormHelperText,
+  Typography,
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -33,7 +34,7 @@ function CreateRecipePage() {
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
-  const [photoURL, setPhotoURL] = useState('');
+  // const [photoURL, setPhotoURL] = useState('');
   const [duration, setDuration] = useState(0);
   const [preparation, setPreparation] = useState('');
   const [description, setDescription] = useState('');
@@ -173,7 +174,7 @@ function CreateRecipePage() {
 
     const newRecipe = {
       name: name,
-      photo_url: photoURL,
+      // photo_url: photoURL,
       duration: duration,
       ingredientsList: ingredients,
       preparation: preparation,
@@ -195,9 +196,11 @@ function CreateRecipePage() {
 
   return (
     <div id="CreateRecipePage" className="page-wrapper">
-      <h1>Create a new recipe</h1>
-      <Stack id="create-recipe-container" spacing={2}>
-        <form onSubmit={handleSubmit}>
+      <Typography variant="h2" sx={{ fontFamily: 'Edu AU VIC WA NT' }}>
+        Create a new recipe
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <Stack id="create-recipe-container" spacing={2}>
           <TextField
             label="Title"
             type="text"
@@ -206,13 +209,13 @@ function CreateRecipePage() {
             }}
             required
           />
-          <TextField
+          {/* <TextField
             label="Photo URL"
             type="url"
             onChange={(e) => {
               setPhotoURL(e.target.value);
             }}
-          />
+          /> */}
           <TextField
             label="Duration"
             type="number"
@@ -379,8 +382,8 @@ function CreateRecipePage() {
           >
             Create
           </Button>
-        </form>
-      </Stack>
+        </Stack>
+      </form>
     </div>
   );
 }

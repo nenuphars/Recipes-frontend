@@ -1,5 +1,5 @@
 import {
-  Box,
+  // Box,
   Card,
   // CardHeader,
   CardContent,
@@ -7,7 +7,7 @@ import {
   Typography,
   Stack,
   CardActionArea,
-  CardActions,
+  Container,
 } from '@mui/material';
 import { useState } from 'react';
 import { IconButton } from '@mui/material';
@@ -40,7 +40,10 @@ function RecipeCard({ recipe, currentPage }) {
       >
         {!confirmDelete && (
           <>
-            <CardActionArea onClick={() => navigate(`/recipes/${recipe._id}`)}>
+            <CardActionArea
+              onClick={() => navigate(`/recipes/${recipe._id}`)}
+              sx={{ height: '80%' }}
+            >
               {/* <CardMedia
                 component="img"
                 height="200px"
@@ -77,26 +80,36 @@ function RecipeCard({ recipe, currentPage }) {
                   <Typography variant="body2">{recipe.description}</Typography>
                 </Stack>
               </CardContent>
-              {currentPage === 'dashboard' && (
-                <CardActions>
-                  <IconButton
-                    aria-label="edit"
-                    onClick={() => {
-                      navigate(`/dashboard/edit/${recipe._id}`);
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => setConfirmDelete(true)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </CardActions>
-              )}
             </CardActionArea>
+            {currentPage === 'dashboard' && (
+              <Container
+                sx={{
+                  height: '20%',
+                  marginBottom: 0,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 2,
+                }}
+              >
+                <IconButton
+                  aria-label="edit"
+                  onClick={() => {
+                    navigate(`/dashboard/edit/${recipe._id}`);
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
+
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => setConfirmDelete(true)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Container>
+            )}
           </>
         )}
 
