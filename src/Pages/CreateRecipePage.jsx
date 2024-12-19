@@ -216,26 +216,30 @@ function CreateRecipePage() {
               setPhotoURL(e.target.value);
             }}
           /> */}
-          <TextField
-            label="Duration"
-            type="number"
-            onChange={(e) => {
-              setDuration(e.target.value);
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">mins</InputAdornment>
-              ),
-            }}
-          />
+          <Stack direction={'row'} gap={2}>
+            <TextField
+              sx={{ width: '50%' }}
+              label="Duration"
+              type="number"
+              onChange={(e) => {
+                setDuration(e.target.value);
+              }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">mins</InputAdornment>
+                ),
+              }}
+            />
 
-          <TextField
-            label="Servings"
-            type="number"
-            onChange={(e) => {
-              setServings(e.target.value);
-            }}
-          />
+            <TextField
+              sx={{ width: '50%' }}
+              label="Servings"
+              type="number"
+              onChange={(e) => {
+                setServings(e.target.value);
+              }}
+            />
+          </Stack>
 
           <TextField
             multiline
@@ -255,9 +259,13 @@ function CreateRecipePage() {
                   <>
                     <Stack
                       className="ingredients-list-input-row"
-                      key={index}
+                      key={oneItem}
                       direction="row"
                       spacing={2}
+                      sx={{
+                        justifyContent: 'space-between',
+                        alignContent: 'center',
+                      }}
                     >
                       <TextField
                         className="ingredient-textfield"
@@ -276,10 +284,10 @@ function CreateRecipePage() {
                         onChange={(event) =>
                           handleIngredientFields(index, event, 'amount')
                         }
-                        sx={{ width: '20%' }}
                       />
                       <Select
-                        input={<OutlinedInput label="Unit" />}
+                        input={<OutlinedInput />}
+                        sx={{ width: '30%' }}
                         value={oneItem.ingredient_measuring}
                         name="ingredient_measuring"
                         onChange={(event) => handleChangeUnit(index, event)}
@@ -339,7 +347,7 @@ function CreateRecipePage() {
           />
 
           <h4>Tags</h4>
-          <FormControl sx={{ m: 1, width: 300 }}>
+          <FormControl sx={{ md: 1, width: 300 }}>
             <Select
               multiple
               displayEmpty

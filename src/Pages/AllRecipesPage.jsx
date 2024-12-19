@@ -7,6 +7,7 @@ import SearchBar from '../Components/SearchBar';
 import CircularProgress from '@mui/material/CircularProgress';
 import recipesService from '../services/recipes.services';
 import RecipeCard from '../Components/RecipeCard';
+import { Container, Typography } from '@mui/material';
 
 function AllRecipesPage() {
   const [spinner, setSpinner] = useState([]);
@@ -26,11 +27,11 @@ function AllRecipesPage() {
 
   return (
     <>
-      <div className="page-wrapper">
+      <div id="AllRecipes" className="page-wrapper">
         <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
         {allRecipes.length === 0 && spinner.length > 0 && (
-          <div id="no-recipe-match-container">
-            <h2>No recipe matches your search</h2>
+          <div className="no-recipe-match-container">
+            <Typography variant="h2">No recipe matches your search</Typography>
             <button
               id="button-see-all"
               onClick={() => {
@@ -49,7 +50,7 @@ function AllRecipesPage() {
             color="success"
           ></CircularProgress>
         )}
-        <div id="AllRecipes">
+        <Container id="all-recipes-container">
           {allRecipes.map((eachRecipe, index) => {
             return (
               <RecipeCard
@@ -59,7 +60,7 @@ function AllRecipesPage() {
               />
             );
           })}
-        </div>
+        </Container>
       </div>
     </>
   );

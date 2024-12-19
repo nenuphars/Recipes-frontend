@@ -53,7 +53,7 @@ function Dashboard() {
       <div id="Dashboard" className="page-wrapper">
         <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
         {allRecipes.length === 0 && spinner.length > 0 && (
-          <Container id="no-recipe-match-container">
+          <Container className="no-recipe-match-container">
             <Typography variant="h2">No recipe matches your search</Typography>
             <Button
               id="button-see-all"

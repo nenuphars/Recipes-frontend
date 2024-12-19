@@ -72,7 +72,10 @@ function Login() {
         variant="outlined"
         sx={{ display: 'flex', flexDirection: 'column' }}
       >
-        <CardHeader title="Login" />
+        <CardHeader
+          title="Login"
+          titleTypographyProps={{ fontFamily: 'Edu AU VIC WA NT' }}
+        />
         <CardContent>
           <form
             action=""

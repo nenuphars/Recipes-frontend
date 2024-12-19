@@ -1,20 +1,15 @@
 @font-face {
   font-family: 'Gowun Batang';
   src: url('./fonts/Gowun_Batang/GowunBatang-Regular.ttf');
-  format: ('ttf');
-  font-display: swap;
 }
 
 @font-face {
   font-family: 'Edu AU VIC WA NT';
   src: url('./fonts/Edu_AU_VIC_WA_NT_Hand/EduAUVICWANTHand-VariableFont_wght.ttf');
-  format: ('ttf');
-  font-display: swap;
 }
 
 html,
 body {
-  /* font-family: 'Space Grotesk', 'Roboto', sans-serif; */
   margin: 0;
   padding: 0;
   background-color: #faf8eb;
@@ -29,7 +24,7 @@ body {
 }
 
 .page-wrapper {
-  padding: 40px 0 60px 60px;
+  padding: 40px 0 60px 0px;
   background-color: #faf8eb;
 }
 
@@ -58,9 +53,10 @@ body {
 #allrecipesPage-button-see-all:hover {
   transform: scale(1.08);
 }
-#no-recipe-macht-container-allrecipepage {
+.no-recipe-match-container {
   margin-left: 10%;
   font-size: 18px;
+  margin: 2rem 0;
 }
 #circular-progress-dashboard {
   display: flex;

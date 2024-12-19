@@ -24,12 +24,12 @@ export const appTheme = createTheme({
         @font-face {
           font-family: 'Gowun Batang';
           font-style: regular;
-          src: url(${GowunBatang}) format('ttf');
+          src: url(${GowunBatang});
         }
         @font-face {
           font-family: 'Edu AU VIC WA NT';
           font-style: regular;
-          src: url(${EduAUVICWANT}) format('ttf');
+          src: url(${EduAUVICWANT});
         }
       `,
     },
