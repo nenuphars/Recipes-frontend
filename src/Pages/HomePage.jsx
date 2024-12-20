@@ -2,8 +2,14 @@ import { useEffect, useState } from 'react';
 import './HomePage.css';
 import CircularProgress from '@mui/material/CircularProgress';
 import recipesService from '../services/recipes.services';
-import RecipeCard from '../Components/RecipeCard';
-import { Button, Container, Stack, Typography, Box } from '@mui/material';
+import {
+  Button,
+  Container,
+  Stack,
+  Typography,
+  Card,
+  CardContent,
+} from '@mui/material';
 // import Logo from "../Photos/Logo_fridge.png";
 
 function HomePage() {
@@ -40,7 +46,7 @@ function HomePage() {
             direction="column"
             spacing={2}
             id="description-wrapper"
-            sx={{ width: '50%', textAlign: 'center' }}
+            sx={{ width: '40%', textAlign: 'center' }}
           >
             <Typography
               variant="h5"
@@ -57,8 +63,8 @@ function HomePage() {
               friend&apos;s comfort food.
               <br />
               Cooking healthy and delicious food isn&apos;t always easy. But
-              Karela is here to give you a place to share the recipe&apos;s that
-              you love and know and always come back to them.
+              Karela is here to give you a place to share the recipes that you
+              love and know and always come back to them.
             </Typography>
             <Typography
               variant="h6"
@@ -87,7 +93,55 @@ function HomePage() {
               </p>
             )}
             {randomRecipe && (
-              <RecipeCard recipe={randomRecipe} currentPage="home" />
+              <Card
+                variant="outlined"
+                sx={{
+                  width: '100%',
+                  height: '520px',
+                  borderRadius: '8px',
+                  padding: '4rem',
+                  textAlign: 'center',
+                }}
+              >
+                <CardContent>
+                  <Stack
+                    spacing={2}
+                    direction={'column'}
+                    sx={{ justifyContent: 'space-around' }}
+                  >
+                    <Typography
+                      variant="h4"
+                      sx={{ fontFamily: 'Edu AU VIC WA NT' }}
+                    >
+                      {randomRecipe.name}
+                    </Typography>
+                    <Stack
+                      direction={'row'}
+                      sx={{ justifyContent: 'center' }}
+                      className="homepage-recipe-tag-container"
+                    >
+                      {randomRecipe.tags.map((eachTag) => {
+                        return (
+                          <div className="tag-wrapper" key={eachTag}>
+                            <Typography variant="body2">{eachTag}</Typography>
+                          </div>
+                        );
+                      })}
+                    </Stack>
+                    <Typography variant="body2">
+                      ⏱️ {randomRecipe.duration} mins
+                    </Typography>
+
+                    <Typography variant="body2">
+                      Author: {randomRecipe.creator.user_name}
+                    </Typography>
+
+                    <Typography variant="h6" sx={{ fontStyle: 'italic' }}>
+                      {randomRecipe.description}
+                    </Typography>
+                  </Stack>
+                </CardContent>
+              </Card>
             )}
           </Stack>
         </Stack>

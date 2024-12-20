@@ -32,7 +32,7 @@ function Dashboard() {
     if (user) {
       console.log('user id', user._id);
       recipesService
-        .getRecipeQuery({ creator: user._id })
+        .getRecipeQuery(user._id)
         .then((recipes) => {
           setDataLoaded(recipes.data);
           setAllRecipes(recipes.data);
@@ -50,90 +50,100 @@ function Dashboard() {
 
   return (
     <>
-      <div id="Dashboard" className="page-wrapper">
-        <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
-        {allRecipes.length === 0 && spinner.length > 0 && (
-          <Container className="no-recipe-match-container">
-            <Typography variant="h2">No recipe matches your search</Typography>
-            <Button
-              id="button-see-all"
-              onClick={() => {
-                location.reload();
-              }}
-            >
-              See all recipes
-            </Button>
-          </Container>
-        )}
+      <div className="page-wrapper">
+        <Container id="Dashboard" sx={{ minWidth: '100vw', margin: '0 4rem' }}>
+          <Stack direction={'column'} gap={2} sx={{ width: '100%' }}>
+            <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
+            {allRecipes.length === 0 && spinner.length > 0 && (
+              <Container className="no-recipe-match-container">
+                <Typography variant="h2">
+                  No recipe matches your search
+                </Typography>
+                <Button
+                  id="button-see-all"
+                  onClick={() => {
+                    location.reload();
+                  }}
+                >
+                  See all recipes
+                </Button>
+              </Container>
+            )}
 
-        {spinner.length === 0 && allRecipes.length === 0 && (
-          <CircularProgress
-            id="circular-progress-allRecipes"
-            size={100}
-            color="success"
-          ></CircularProgress>
-        )}
+            {spinner.length === 0 && allRecipes.length === 0 && (
+              <CircularProgress
+                id="circular-progress-allRecipes"
+                size={100}
+                color="success"
+              ></CircularProgress>
+            )}
 
-        {!isLoggedIn && (
-          <>
-            <NoAccess></NoAccess>
-          </>
-        )}
-        {isLoggedIn && !dataLoaded && !hasRecipes && (
-          <CircularProgress
-            id="circular-progress-dashboard"
-            size={100}
-            color="success"
-          ></CircularProgress>
-        )}
-        {isLoggedIn && (
-          <Container id="dashboard-container">
-            <Link
-              to={'/dashboard/CreateRecipe'}
-              style={{ textDecoration: 'none' }}
-            >
-              <Card
-                id="add-recipe-card"
-                variant="outlined"
-                sx={{
-                  width: '300px',
-                  height: '520px',
-                  borderRadius: '8px',
-                }}
-              >
-                <Stack spacing={2}>
-                  <div id="add-recipe-plus-icon">
-                    <AddRoundedIcon
-                      color="primary"
-                      style={{ fontSize: 175 }}
-                    ></AddRoundedIcon>
-                  </div>
-                  <CardContent>
-                    <Typography
-                      variant="h4"
-                      sx={{ color: appTheme.palette.primary.main }}
-                    >
-                      Add a new recipe
-                    </Typography>
-                  </CardContent>
-                </Stack>
-              </Card>
-            </Link>
-            {dataLoaded && hasRecipes && (
+            {!isLoggedIn && (
               <>
-                {allRecipes.map((eachRecipe) => {
-                  return (
-                    <RecipeCard
-                      key={eachRecipe._id}
-                      recipe={eachRecipe}
-                      currentPage="dashboard"
-                    ></RecipeCard>
-                  );
-                })}
+                <NoAccess></NoAccess>
               </>
             )}
-          </Container>
-        )}
+            {isLoggedIn && !dataLoaded && !hasRecipes && (
+              <CircularProgress
+                id="circular-progress-dashboard"
+                size={100}
+                color="success"
+              ></CircularProgress>
+            )}
+            {isLoggedIn && (
+              <Stack
+                direction={'row'}
+                gap={2}
+                sx={{ width: '100%', flexFlow: 'wrap' }}
+              >
+                <Link
+                  to={'/dashboard/CreateRecipe'}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <Card
+                    id="add-recipe-card"
+                    variant="outlined"
+                    sx={{
+                      width: '300px',
+                      height: '520px',
+                      borderRadius: '8px',
+                    }}
+                  >
+                    <Stack spacing={2}>
+                      <div id="add-recipe-plus-icon">
+                        <AddRoundedIcon
+                          color="primary"
+                          style={{ fontSize: 175 }}
+                        ></AddRoundedIcon>
+                      </div>
+                      <CardContent>
+                        <Typography
+                          variant="h4"
+                          sx={{ color: appTheme.palette.primary.main }}
+                        >
+                          Add a new recipe
+                        </Typography>
+                      </CardContent>
+                    </Stack>
+                  </Card>
+                </Link>
+                {dataLoaded && hasRecipes && (
+                  <>
+                    {allRecipes.map((eachRecipe) => {
+                      return (
+                        <RecipeCard
+                          key={eachRecipe._id}
+                          recipe={eachRecipe}
+                          currentPage="dashboard"
+                        ></RecipeCard>
+                      );
+                    })}
+                  </>
+                )}
+              </Stack>
+            )}
+          </Stack>
+        </Container>
       </div>
     </>
   );

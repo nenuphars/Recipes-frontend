@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-import { Stack, Card, CardMedia, CardContent, Typography } from '@mui/material';
+import { Stack, Card, CardContent, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import recipesService from '../services/recipes.services';
 
@@ -151,7 +151,10 @@ function SearchBar({ setPropsRecipes }) {
         </div>
       </div>
       {filteredRecipes.length < allRecipes.length && (
-        <Stack spacing={0} sx={{ width: '30%', position: 'absolute' }}>
+        <Stack
+          spacing={0}
+          sx={{ width: '30%', position: 'absolute', zIndex: 100 }}
+        >
           {filteredRecipes.map((eachRecipe) => {
             return (
               <Link
@@ -167,12 +170,6 @@ function SearchBar({ setPropsRecipes }) {
                     height: '40px',
                   }}
                 >
-                  <CardMedia
-                    component="img"
-                    sx={{ height: '40px', width: '40px' }}
-                    image={eachRecipe.photo_url}
-                    alt=""
-                  />
                   <CardContent>
                     <Typography variant="body2">{eachRecipe.name}</Typography>
                   </CardContent>

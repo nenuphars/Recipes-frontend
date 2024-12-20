@@ -7,7 +7,7 @@ import SearchBar from '../Components/SearchBar';
 import CircularProgress from '@mui/material/CircularProgress';
 import recipesService from '../services/recipes.services';
 import RecipeCard from '../Components/RecipeCard';
-import { Container, Typography } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 
 function AllRecipesPage() {
   const [spinner, setSpinner] = useState([]);
@@ -27,39 +27,49 @@ function AllRecipesPage() {
 
   return (
     <>
-      <div id="AllRecipes" className="page-wrapper">
-        <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
-        {allRecipes.length === 0 && spinner.length > 0 && (
-          <div className="no-recipe-match-container">
-            <Typography variant="h2">No recipe matches your search</Typography>
-            <button
-              id="button-see-all"
-              onClick={() => {
-                location.reload();
-              }}
-            >
-              See all recipes
-            </button>
-          </div>
-        )}
+      <div className="page-wrapper">
+        <Container id="AllRecipes" sx={{ minWidth: '100vw', margin: '0 4rem' }}>
+          <Stack direction={'column'} gap={2} sx={{ width: '100%' }}>
+            <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
+            {allRecipes.length === 0 && spinner.length > 0 && (
+              <div className="no-recipe-match-container">
+                <Typography variant="h2">
+                  No recipe matches your search
+                </Typography>
+                <button
+                  id="button-see-all"
+                  onClick={() => {
+                    location.reload();
+                  }}
+                >
+                  See all recipes
+                </button>
+              </div>
+            )}
 
-        {spinner.length === 0 && allRecipes.length === 0 && (
-          <CircularProgress
-            id="circular-progress-allRecipes"
-            size={100}
-            color="success"
-          ></CircularProgress>
-        )}
-        <Container id="all-recipes-container">
-          {allRecipes.map((eachRecipe, index) => {
-            return (
-              <RecipeCard
-                recipe={eachRecipe}
-                currentPage="recipes"
-                key={index}
-              />
-            );
-          })}
+            {spinner.length === 0 && allRecipes.length === 0 && (
+              <CircularProgress
+                id="circular-progress-allRecipes"
+                size={100}
+                color="success"
+              ></CircularProgress>
+            )}
+            <Stack
+              direction={'row'}
+              gap={2}
+              sx={{ width: '100%', flexFlow: 'wrap' }}
+            >
+              {allRecipes.map((eachRecipe, index) => {
+                return (
+                  <RecipeCard
+                    recipe={eachRecipe}
+                    currentPage="recipes"
+                    key={index}
+                  />
+                );
+              })}
+            </Stack>
+          </Stack>
         </Container>
       </div>
     </>

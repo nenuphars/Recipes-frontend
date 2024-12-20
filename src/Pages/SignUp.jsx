@@ -80,7 +80,10 @@ function Signup() {
         variant="outlined"
         sx={{ display: 'flex', flexDirection: 'column' }}
       >
-        <CardHeader title="Sign Up" />
+        <CardHeader
+          title="Sign Up"
+          titleTypographyProps={{ fontFamily: 'Edu AU VIC WA NT' }}
+        />
         <CardContent>
           <form
             onSubmit={(e) => {
@@ -142,9 +145,7 @@ function Signup() {
                   ),
                 }}
               />
-              <Button variant="contained" type="submit">
-                Submit
-              </Button>
+              <Button variant="contained">Submit</Button>
               {errorMessage && errorMessageElement()}
 
               <Link
