@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 import Logo from '../assets/KARELA(1).png';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { appTheme } from '../themes/theme';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
-import { Stack, Container, Typography } from '@mui/material';
+import { Stack, Container, Typography, Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import json2mq from 'json2mq';
 
@@ -28,6 +28,14 @@ function Navbar() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    setOpen(false);
+  }, []);
 
   return (
     <div
@@ -180,28 +188,32 @@ function Navbar() {
             </Stack>
             {open && (
               <>
-                <Container
+                <Box
                   onClick={() => {
                     handleClose();
                   }}
                   sx={{
                     position: 'absolute',
                     zIndex: 50,
+                    top: 0,
                     padding: '4rem',
                     backdropFilter: 'blur(1px)',
                     width: '100vw',
                     height: '100vh',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
-                  <Container
+                  <Box
                     sx={{
                       zIndex: 100,
-                      width: '90%',
-                      height: '90%',
+                      width: '70vw',
+                      height: '70vh',
                       backgroundColor: appTheme.palette.offwhite.main,
                       border: `1px solid ${appTheme.palette.secondary.main}`,
                       borderRadius: '4px',
-                      alignItems: 'center',
                     }}
                     onClick={(e) => {
                       e.preventDefault();
@@ -210,7 +222,7 @@ function Navbar() {
                     <Stack
                       direction={'column'}
                       spacing={2}
-                      sx={{ alignItems: 'center' }}
+                      // sx={{ alignItems: 'center' }}
                     >
                       <Typography
                         variant="h4"
@@ -295,8 +307,8 @@ function Navbar() {
                         </>
                       )}
                     </Stack>
-                  </Container>
-                </Container>
+                  </Box>
+                </Box>
               </>
             )}
           </>
