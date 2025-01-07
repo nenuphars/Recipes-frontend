@@ -25,7 +25,7 @@ class RecipesService {
   };
   // GET /api/recipes/query
   getRecipeQuery = (query) => {
-    return this.api.get(`/api/recipes/search`, query);
+    return this.api.get(`/api/recipes/search/${query}`);
   };
 
   // GET /api/recipes

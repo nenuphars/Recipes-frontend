@@ -1,71 +1,108 @@
 header {
-  margin: 0px;
+  margin: 0;
   padding: 0;
-  width: 100vw;
-  font-family: "Space Grotesk", sans-serif;
-  height: 4rem;
-  background-color: #f19dc0;
+  top: 0;
+  max-width: 100%;
+  min-height: 4rem;
+  position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: start;
 }
+
 a {
   text-decoration: none;
-
+  font-family: 'Edu AU VIC WA NT';
+  color: #faf8eb;
 }
 
 #nav-links-wrapper {
   width: 100vw;
-  display: grid;
-  grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
   align-items: center;
-  justify-content: center;
+}
+
+.nav-links-right {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 2rem;
+  margin-left: auto;
+  margin-right: 2rem;
 }
 
 .nav-element {
-  color:#faf8eb;
-  font-size: 20px;
   text-align: center;
-  line-height:4rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .nav-element:hover {
   text-decoration: underline;
 }
 
-#home-wrapper{
-  width:100%;
-  display:flex;
+#home-wrapper {
+  width: auto;
+  min-width: 200px;
+  height: 100%;
+  display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
-  height:4rem;
-  line-height:4rem;
+  justify-content: flex-start;
+  line-height: 0;
+  margin-right: 2rem;
 }
 
-#home-link-logo-wrapper{
-  display:flex;
+#home-link-logo-wrapper {
+  display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  margin-right: 12px;
 }
 
 #logo {
- object-fit: cover;
- width:4rem;
+  object-fit: cover;
+  max-width: 5rem;
 }
+
 #logo:hover {
   transform: scale(1.02);
 }
 
-#home-name{
-  font-family: "Chango", sans-serif;
-  font-weight: 400;
-  color:#faf8eb;
-  line-height:4rem;
+#home-name {
+  font-family: 'Edu AU VIC WA NT', sans-serif;
+  font-weight: 500;
+  font-size: 22px;
+  margin-right: 18px;
+  line-height: 0;
 }
 
 .selected-element {
   text-decoration: underline;
+}
+
+.nav-heading {
+  line-height: 1;
+  font-size: 18px;
+}
+
+.modal-link {
+  font-family: 'Gowun Batang', 'sans-serif';
+  color: black;
+}
+
+@media (max-width: 720px) {
+  #nav-links-wrapper {
+    padding: 0 1rem;
+  }
+
+  .nav-links-right {
+    display: none;
+  }
 }

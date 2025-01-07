@@ -1,9 +1,15 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./HomePage.css";
+import { useEffect, useState } from 'react';
+import './HomePage.css';
 import CircularProgress from '@mui/material/CircularProgress';
-import recipesService from "../services/recipes.services";
-import RecipeCard from "../Components/RecipeCard";
+import recipesService from '../services/recipes.services';
+import {
+  Button,
+  Container,
+  Stack,
+  Typography,
+  Card,
+  CardContent,
+} from '@mui/material';
 // import Logo from "../Photos/Logo_fridge.png";
 
 function HomePage() {
@@ -11,9 +17,12 @@ function HomePage() {
   const [randomRecipe, setRandomRecipe] = useState(null);
 
   useEffect(() => {
-    recipesService.getAllRecipes()
+    recipesService
+      .getAllRecipes()
       .then((recipesFromAPI) => {
-        const recipeIds = recipesFromAPI.data.filter((oneRecipe)=>oneRecipe._id)
+        const recipeIds = recipesFromAPI.data.filter(
+          (oneRecipe) => oneRecipe._id
+        );
         setAllRecipes(recipeIds);
       })
       .catch((err) => {
@@ -27,48 +36,107 @@ function HomePage() {
   }, [allRecipes, randomRecipe]);
 
   return (
-    <div id="homepage-container">
-      <div className="homepage-wrapper">
-      <div id="description-wrapper">
-          
-        <p className="homepage-description">
-          Karela is a vegetable that has a special taste and look.<br/>
-          Not everyone will like it for it&apos;s bitterness, but for some it&apos;s a favourite.
-          On </p>
-          <h1 className="homepage-heading">
-          Karela
-        </h1>
-        <p className="homepage-description">
-           You can share recipes in an organised
-          and aesthetic way with friends and family.
-        </p>
-        <h2 className="homepage-description">Don&apos;t know what you&apos;re looking for?</h2>
-        <button
-          id="random-button"
-          size="large"
-          onClick={() => {
-            setRandomRecipe(
-              allRecipes[Math.floor(Math.random() * allRecipes.length)]
-            );
-          }}
+    <div className="page-wrapper">
+      <Container id="homepage-container">
+        <Stack
+          direction="row"
+          sx={{ justifyContent: 'space-between', alignItems: 'center' }}
         >
-          Get a random recipe
-        </button>
-
-      </div>
-      </div>
-      <div className="homepage-wrapper">
-        {!randomRecipe && <p><CircularProgress color="success" size={70} ></CircularProgress></p>}
-        {randomRecipe && (
-          <Link
-            to={`/recipes/${randomRecipe._id}`}
-            key={randomRecipe._id}
-            style={{ textDecoration: "none" }}
+          <Stack
+            direction="column"
+            spacing={2}
+            id="description-wrapper"
+            sx={{ width: '40%', textAlign: 'center' }}
           >
-            <RecipeCard recipe={randomRecipe} currentPage="home"></RecipeCard>
-          </Link>
-        )}
-      </div>
+            <Typography variant="h5" sx={{ fontWeight: 500 }}>
+              KARELA
+            </Typography>
+            <Typography variant="body1" sx={{ marginBottom: '4rem' }}>
+              Here you can share your family classics or discover your
+              friend&apos;s comfort food.
+              <br />
+              Cooking healthy and delicious food isn&apos;t always easy. But
+              Karela is a place for you to share the recipes that you love and
+              know and always come back to them.
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{ fontFamily: 'Edu AU VIC WA NT', fontWeight: 300 }}
+            >
+              Don&apos;t know what you&apos;re looking for?
+            </Typography>
+            <Button
+              id="random-button"
+              size="large"
+              variant="contained"
+              sx={{ width: '40%', alignSelf: 'center' }}
+              onClick={() => {
+                setRandomRecipe(
+                  allRecipes[Math.floor(Math.random() * allRecipes.length)]
+                );
+              }}
+            >
+              Get a random recipe
+            </Button>
+          </Stack>
+          <Stack className="homepage-wrapper" direction={'column'}>
+            {!randomRecipe && (
+              <p>
+                <CircularProgress color="success" size={70}></CircularProgress>
+              </p>
+            )}
+            {randomRecipe && (
+              <Card
+                variant="outlined"
+                sx={{
+                  width: '100%',
+                  height: '520px',
+                  borderRadius: '8px',
+                  padding: '4rem',
+                  textAlign: 'center',
+                }}
+              >
+                <CardContent>
+                  <Stack
+                    spacing={2}
+                    direction={'column'}
+                    sx={{ justifyContent: 'space-around' }}
+                  >
+                    <Typography variant="h4">{randomRecipe.name}</Typography>
+                    <Stack
+                      direction={'row'}
+                      sx={{ justifyContent: 'center' }}
+                      className="homepage-recipe-tag-container"
+                    >
+                      {randomRecipe.tags.map((eachTag) => {
+                        return (
+                          <div className="tag-wrapper" key={eachTag}>
+                            <Typography variant="body2">{eachTag}</Typography>
+                          </div>
+                        );
+                      })}
+                    </Stack>
+                    <Typography variant="body2">
+                      ⏱️ {randomRecipe.duration} mins
+                    </Typography>
+
+                    <Typography variant="body2">
+                      Author: {randomRecipe.creator.user_name}
+                    </Typography>
+
+                    <Typography
+                      variant="h6"
+                      sx={{ fontStyle: 'italic', fontFamily: 'Gowun Batang' }}
+                    >
+                      {randomRecipe.description}
+                    </Typography>
+                  </Stack>
+                </CardContent>
+              </Card>
+            )}
+          </Stack>
+        </Stack>
+      </Container>
     </div>
   );
 }

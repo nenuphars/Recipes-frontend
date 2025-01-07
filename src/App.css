@@ -1,56 +1,75 @@
+@font-face {
+  font-family: 'Gowun Batang';
+  src: url('./fonts/Gowun_Batang/GowunBatang-Regular.ttf');
+}
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Chango&display=swap');
+@font-face {
+  font-family: 'Edu AU VIC WA NT';
+  src: url('./fonts/Edu_AU_VIC_WA_NT_Hand/EduAUVICWANTHand-VariableFont_wght.ttf');
+}
 
-html, body {
-  font-family: 'Space Grotesk', 'Roboto', sans-serif;
+html,
+body {
   margin: 0;
   padding: 0;
+  background-color: #faf8eb;
 }
 
-.base-wrapper{
-  display:flex;
-  top:35vh;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Edu AU VIC WA NT', 'serif';
+}
+.base-wrapper {
+  display: flex;
+  top: 35vh;
   justify-content: center;
-  min-height:100vh;
+  min-height: 100vh;
+  background-color: #faf8eb;
 }
 
-.page-wrapper{
-  margin: 40px 0 60px 60px;
+.page-wrapper {
+  padding: 40px 0 60px 0px;
+  background-color: #faf8eb;
+  max-width: 100vw;
 }
 
-#circular-progress-allRecipes{
-display: flex;
-font-size: 300%;
-margin-left: 50%;
-margin-top: 15%;
+#circular-progress-allRecipes {
+  display: flex;
+  font-size: 300%;
+  margin-left: 50%;
+  margin-top: 15%;
 }
-#allrecipesPage-button-see-all{
-    margin-left: 6%;
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 23px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    background-color: rgb(247, 231, 231);
-    color: #333;
-    border: 2px solid #333;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+#allrecipesPage-button-see-all {
+  margin-left: 6%;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 23px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background-color: rgb(247, 231, 231);
+  color: #333;
+  border: 2px solid #333;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-#allrecipesPage-button-see-all:hover{
-  transform: scale(1.08)
+#allrecipesPage-button-see-all:hover {
+  transform: scale(1.08);
 }
-#no-recipe-macht-container-allrecipepage{
+.no-recipe-match-container {
   margin-left: 10%;
   font-size: 18px;
+  margin: 2rem 0;
 }
-#circular-progress-dashboard{
+#circular-progress-dashboard {
   display: flex;
   font-size: 300%;
   margin-left: 45%;
   margin-top: 15%;
-  }
+}
