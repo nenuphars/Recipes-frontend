@@ -11,6 +11,7 @@ import {
   ButtonGroup,
   Button,
   TextField,
+  Container,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import recipesService from '../services/recipes.services';
@@ -94,7 +95,7 @@ function SearchBar({ setPropsRecipes }) {
 
   return (
     <div id="search-bar-container">
-      <Stack sx={{ width: '70vw' }} gap={2}>
+      <Stack sx={{ width: smallScreen ? '300px' : '616px' }} gap={2}>
         <ButtonGroup variant="text" aria-label="Basic button group">
           <Button
             variant={selectedSearchType === 'name' ? 'contained' : 'outlined'}
