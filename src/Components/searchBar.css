@@ -12,6 +12,11 @@
   justify-content: start;
   height: 18px;
 }
+#stacked-search-type-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 .search-selection-box {
   display: flex;
   padding: 6px;

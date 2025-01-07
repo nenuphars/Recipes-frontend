@@ -70,7 +70,12 @@ function Login() {
     <div id="LoginPage" className="base-wrapper">
       <Card
         variant="outlined"
-        sx={{ display: 'flex', flexDirection: 'column' }}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          borderColor: appTheme.palette.secondary.main,
+          width: { xs: '300px', sm: '400px' },
+        }}
       >
         <CardHeader
           title="Login"
@@ -78,6 +83,7 @@ function Login() {
         />
         <CardContent>
           <form
+            style={{ width: '100%' }}
             action=""
             onSubmit={(e) => {
               handleSubmit(e);

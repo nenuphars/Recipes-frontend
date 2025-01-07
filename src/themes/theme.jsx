@@ -17,6 +17,24 @@ export const appTheme = createTheme({
       'Edu AU VIC WA NT',
       'sans-serif',
     ].join(', '),
+    h1: {
+      fontFamily: 'Edu AU VIC WA NT, sans-serif',
+    },
+    h2: {
+      fontFamily: 'Edu AU VIC WA NT, sans-serif',
+    },
+    h3: {
+      fontFamily: 'Edu AU VIC WA NT, sans-serif',
+    },
+    h4: {
+      fontFamily: 'Edu AU VIC WA NT, sans-serif',
+    },
+    h5: {
+      fontFamily: 'Edu AU VIC WA NT, sans-serif',
+    },
+    h6: {
+      fontFamily: 'Edu AU VIC WA NT, sans-serif',
+    },
   },
   components: {
     MuiCssBaseline: {

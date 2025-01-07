@@ -48,23 +48,16 @@ function HomePage() {
             id="description-wrapper"
             sx={{ width: '40%', textAlign: 'center' }}
           >
-            <Typography
-              variant="h5"
-              sx={{ fontFamily: 'Edu AU VIC WA NT', fontWeight: 500 }}
-            >
+            <Typography variant="h5" sx={{ fontWeight: 500 }}>
               KARELA
             </Typography>
             <Typography variant="body1" sx={{ marginBottom: '4rem' }}>
-              also called Bitter Melon or Bitter Gourd, is a vegetable that has
-              a special taste and look.
-              <br />
-              Not everyone will like it, but for some it&apos;s a favourite.
               Here you can share your family classics or discover your
               friend&apos;s comfort food.
               <br />
               Cooking healthy and delicious food isn&apos;t always easy. But
-              Karela is here to give you a place to share the recipes that you
-              love and know and always come back to them.
+              Karela is a place for you to share the recipes that you love and
+              know and always come back to them.
             </Typography>
             <Typography
               variant="h6"
@@ -109,12 +102,7 @@ function HomePage() {
                     direction={'column'}
                     sx={{ justifyContent: 'space-around' }}
                   >
-                    <Typography
-                      variant="h4"
-                      sx={{ fontFamily: 'Edu AU VIC WA NT' }}
-                    >
-                      {randomRecipe.name}
-                    </Typography>
+                    <Typography variant="h4">{randomRecipe.name}</Typography>
                     <Stack
                       direction={'row'}
                       sx={{ justifyContent: 'center' }}
@@ -136,7 +124,10 @@ function HomePage() {
                       Author: {randomRecipe.creator.user_name}
                     </Typography>
 
-                    <Typography variant="h6" sx={{ fontStyle: 'italic' }}>
+                    <Typography
+                      variant="h6"
+                      sx={{ fontStyle: 'italic', fontFamily: 'Gowun Batang' }}
+                    >
                       {randomRecipe.description}
                     </Typography>
                   </Stack>

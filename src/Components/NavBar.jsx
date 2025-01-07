@@ -6,7 +6,7 @@ import { AuthContext } from '../context/auth.context';
 import { appTheme } from '../themes/theme';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
-import { Stack, Container, Typography, Box } from '@mui/material';
+import { Stack, Typography, Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import json2mq from 'json2mq';
 
@@ -44,9 +44,10 @@ function Navbar() {
         backgroundColor: appTheme.palette.secondary.main,
         color: appTheme.palette.offwhite.main,
         width: '100vw',
+        position: 'relative',
       }}
     >
-      <Container id="nav-links-wrapper">
+      <Box id="nav-links-wrapper">
         <Link
           to="/"
           id="home-wrapper"
@@ -56,17 +57,20 @@ function Navbar() {
           <div id="home-link-logo-wrapper">
             <img id="logo" src={Logo} alt="Karela Logo" />
           </div>
-          <h2 id="home-name">KARELA</h2>
+          <Typography variant="h5" id="home-name">
+            KARELA
+          </Typography>
         </Link>
 
         {!smallScreen && (
-          <>
+          <div className="nav-links-right">
             <Link
               to="/recipes"
               className="nav-element"
               onClick={() => setCurrentPage('recipes')}
             >
-              <h4
+              <Typography
+                variant="h5"
                 className={
                   currentPage === 'recipes'
                     ? 'nav-heading selected-element'
@@ -74,7 +78,7 @@ function Navbar() {
                 }
               >
                 All Recipes
-              </h4>
+              </Typography>
             </Link>
 
             <Link
@@ -82,7 +86,8 @@ function Navbar() {
               className="nav-element"
               onClick={() => setCurrentPage('FAQ')}
             >
-              <h4
+              <Typography
+                variant="h5"
                 className={
                   currentPage === 'FAQ'
                     ? 'nav-heading selected-element'
@@ -90,7 +95,7 @@ function Navbar() {
                 }
               >
                 FAQ
-              </h4>
+              </Typography>
             </Link>
 
             {!isLoggedIn && (
@@ -100,7 +105,8 @@ function Navbar() {
                   className="nav-element"
                   onClick={() => setCurrentPage('login')}
                 >
-                  <h4
+                  <Typography
+                    variant="h5"
                     className={
                       currentPage === 'login'
                         ? 'nav-heading selected-element'
@@ -108,7 +114,7 @@ function Navbar() {
                     }
                   >
                     Login
-                  </h4>
+                  </Typography>
                 </Link>
 
                 <Link
@@ -116,7 +122,8 @@ function Navbar() {
                   className="nav-element"
                   onClick={() => setCurrentPage('signup')}
                 >
-                  <h4
+                  <Typography
+                    variant="h5"
                     className={
                       currentPage === 'signup'
                         ? 'nav-heading selected-element'
@@ -124,7 +131,7 @@ function Navbar() {
                     }
                   >
                     Sign Up
-                  </h4>
+                  </Typography>
                 </Link>
               </>
             )}
@@ -135,7 +142,8 @@ function Navbar() {
                   className="nav-element"
                   onClick={() => setCurrentPage('favorites')}
                 >
-                  <h4
+                  <Typography
+                    variant="h5"
                     className={
                       currentPage === 'favorites'
                         ? 'nav-heading selected-element'
@@ -143,11 +151,13 @@ function Navbar() {
                     }
                   >
                     Favorites
-                  </h4>
+                  </Typography>
                 </Link>
 
                 <Link to="/dashboard" className="nav-element">
-                  <h4 className="nav-heading">Dashboard</h4>
+                  <Typography variant="h5" className="nav-heading">
+                    Dashboard
+                  </Typography>
                 </Link>
               </>
             )}
@@ -160,17 +170,20 @@ function Navbar() {
                 setCurrentPage('home');
               }}
             >
-              <h4 className="nav-heading">Logout</h4>
+              <Typography variant="h5" className="nav-heading">
+                Logout
+              </Typography>
             </Link>
-          </>
+          </div>
         )}
         {smallScreen && (
           <>
-            <Stack
-              direction={'row'}
+            <Box
               sx={{
-                width: '100%',
-                alignItems: 'center',
+                position: 'absolute',
+                right: '16px',
+                top: '50%',
+                transform: 'translateY(-50%)',
               }}
             >
               <IconButton
@@ -185,7 +198,8 @@ function Navbar() {
               >
                 <MenuIcon />
               </IconButton>
-            </Stack>
+            </Box>
+
             {open && (
               <>
                 <Box
@@ -232,6 +246,7 @@ function Navbar() {
                           fontFamily: 'Edu AU VIC WA NT',
                           textAlign: 'center',
                           paddingTop: '2rem',
+                          textDecoration: 'underline',
                         }}
                       >
                         Menu
@@ -313,7 +328,7 @@ function Navbar() {
             )}
           </>
         )}
-      </Container>
+      </Box>
     </div>
   );
 }

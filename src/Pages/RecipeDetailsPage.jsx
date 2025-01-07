@@ -65,7 +65,6 @@ function RecipeDetailsPage() {
                 variant="h2"
                 sx={{
                   textAlign: 'center',
-                  fontFamily: 'Edu AU VIC WA NT',
                   lineHeight: 1.5,
                 }}
               >
@@ -74,13 +73,19 @@ function RecipeDetailsPage() {
               <Stack id="recipe-tags-stack" direction="row">
                 {recipe.tags.map((eachTag) => {
                   return (
-                    <Typography key={eachTag} variant="h6">
+                    <Typography
+                      key={eachTag}
+                      variant="h6"
+                      sx={{ fontFamily: 'Gowun Batang' }}
+                    >
                       {eachTag}
                     </Typography>
                   );
                 })}
               </Stack>
-              <Typography variant="h5">⏱️{recipe.duration} mins</Typography>
+              <Typography variant="h5" sx={{ fontFamily: 'Gowun Batang' }}>
+                ⏱️{recipe.duration} mins
+              </Typography>
             </Stack>
 
             <Stack id="recipe-details-responsive-stack" direction="row">
@@ -99,42 +104,12 @@ function RecipeDetailsPage() {
                   sx={{
                     textAlign: 'center',
                     fontStyle: 'italic',
+                    fontFamily: 'Gowun Batang',
                   }}
                 >
                   {recipe.description}
                 </Typography>
               </Stack>
-
-              {/* <Stack
-                id="recipe-details-image-stack"
-                spacing={2}
-                sx={{
-                  width: { md: '50%', xs: '70%' },
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: '12px auto',
-                }}
-              >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    overflow: 'hidden',
-                    borderRadius: '20px',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '10px',
-                    width: { md: '40vw', xs: '70vw' },
-                    height: { md: '40vw', xs: '70vw' },
-                  }}
-                >
-                  <img
-                    id="recipe-details-photo"
-                    src={recipe.photo_url}
-                    alt={`Photo of ${recipe.name}`}
-                  />
-                </Box>
-              </Stack> */}
             </Stack>
 
             <Stack
@@ -157,7 +132,10 @@ function RecipeDetailsPage() {
                 <ul id="recipe-details-ingredient-list">
                   {recipe.ingredientsList.map((eachObject, index) => (
                     <li key={index}>
-                      <Typography variant="h6">
+                      <Typography
+                        variant="h6"
+                        sx={{ fontFamily: 'Gowun Batang' }}
+                      >
                         {eachObject.ingredient_name} :{' '}
                         {eachObject.ingredient_amount}{' '}
                         {eachObject.ingredient_measuring}
@@ -179,7 +157,9 @@ function RecipeDetailsPage() {
                 <Typography variant="h5" sx={{ marginBottom: '30px' }}>
                   Preparation:
                 </Typography>
-                <Typography variant="h6">{recipe.preparation}</Typography>
+                <Typography variant="h6" sx={{ fontFamily: 'Gowun Batang' }}>
+                  {recipe.preparation}
+                </Typography>
               </Stack>
             </Stack>
           </Stack>

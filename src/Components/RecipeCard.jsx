@@ -54,12 +54,7 @@ function RecipeCard({ recipe, currentPage }) {
 
               <CardContent>
                 <Stack spacing={3}>
-                  <Typography
-                    variant="h6"
-                    sx={{ fontFamily: 'Edu AU VIC WA NT' }}
-                  >
-                    {recipe.name}
-                  </Typography>
+                  <Typography variant="h6">{recipe.name}</Typography>
                   <div className="tag-container">
                     {recipe.tags.map((eachTag) => {
                       return (

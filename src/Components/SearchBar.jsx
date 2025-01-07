@@ -3,17 +3,37 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-import { Stack, Card, CardContent, Typography } from '@mui/material';
+import {
+  Stack,
+  Card,
+  CardContent,
+  Typography,
+  ButtonGroup,
+  Button,
+  TextField,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import recipesService from '../services/recipes.services';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import json2mq from 'json2mq';
+// import { use } from 'react';
+import { appTheme } from '../themes/theme';
 
 function SearchBar({ setPropsRecipes }) {
   const [allRecipes, setAllRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
-  const [searchType, setSearchType] = useState('name');
+  // const [searchType, setSearchType] = useState('name');
+
+  const smallScreen = useMediaQuery(
+    json2mq({
+      maxWidth: 720,
+    })
+  );
 
   // search query state
   const [activeQuery, setActiveQuery] = useState('');
+
+  const [selectedSearchType, setSelectedSearchType] = useState('name');
 
   // gets data once
   useEffect(() => {
@@ -29,155 +49,158 @@ function SearchBar({ setPropsRecipes }) {
       });
   }, []);
 
-  // useEffect that keeps track of the search queries when they are typed
   useEffect(() => {
-    // resets the recipes list when the search is empty
     if (activeQuery === '') {
       setFilteredRecipes(allRecipes);
       setPropsRecipes(allRecipes);
-    }
+    } else {
+      let filtered;
+      const searchTerm = activeQuery.toLowerCase();
 
-    // handles the search for name
-    else if (searchType === 'name') {
-      // setactiveQuery(query)
-      let filteredByName = allRecipes.filter((recipe) => {
-        return recipe.name.toLowerCase().includes(activeQuery.toLowerCase());
-      });
-      setFilteredRecipes(filteredByName);
-      setPropsRecipes(filteredByName);
+      if (selectedSearchType === 'name') {
+        filtered = allRecipes.filter((recipe) =>
+          recipe.name.toLowerCase().includes(searchTerm)
+        );
+      } else if (selectedSearchType === 'ingredient') {
+        filtered = allRecipes.filter((oneRecipe) =>
+          oneRecipe.ingredientsList.some((ingredientObj) =>
+            ingredientObj.ingredient_name.toLowerCase().includes(searchTerm)
+          )
+        );
+      } else if (selectedSearchType === 'tag') {
+        filtered = allRecipes.filter((oneRecipe) =>
+          oneRecipe.tags.some((oneTag) =>
+            oneTag.toLowerCase().includes(searchTerm)
+          )
+        );
+      }
+      setFilteredRecipes(filtered);
+      setPropsRecipes(filtered);
     }
+  }, [activeQuery, selectedSearchType, allRecipes, setPropsRecipes]);
 
-    // handles the search for ingredients
-    else if (searchType === 'ingredient') {
-      // filter the recipes into a new array
-      let filteredByIngredient = allRecipes.filter((oneRecipe) => {
-        // Check if any ingredient in the recipe matches the search term
-        return oneRecipe.ingredientsList.some((ingredientObj) => {
-          return ingredientObj.ingredient_name
-            .toLowerCase()
-            .includes(activeQuery.toLowerCase());
-        });
-      });
-      setFilteredRecipes(filteredByIngredient);
-      setPropsRecipes(filteredByIngredient);
-    }
+  const handleSearchTypeChange = (newType) => {
+    setSelectedSearchType(newType);
+  };
 
-    // handles the search for tags
-    else if (searchType === 'tags') {
-      let filteredByTags = allRecipes.filter((oneRecipe) => {
-        // Check if any tag matches the search term
-        return oneRecipe.tags.some((oneTag) => {
-          return oneTag.toLowerCase().includes(activeQuery.toLowerCase());
-        });
-      });
-      setFilteredRecipes(filteredByTags);
-      setPropsRecipes(filteredByTags);
-    }
-  }, [activeQuery, searchType, allRecipes, setPropsRecipes]);
+  const handleSearchQuery = (e) => {
+    setActiveQuery(e.target.value);
+  };
 
-  function filterSearchbar() {
+  function clearSearch() {
     setFilteredRecipes(allRecipes);
     setActiveQuery('');
   }
 
   return (
     <div id="search-bar-container">
-      <div id="search-form">
-        <div id="search-type-wrapper">
-          <div className="search-type-wrapper">
-            <button
-              id="search-by-name-wrapper"
-              onClick={(e) => {
-                e.preventDefault();
-                setSearchType('name');
-              }}
-              className={
-                searchType === 'name'
-                  ? 'search-selection-box selected'
-                  : 'search-selection-box'
-              }
-            >
-              Search by Name
-            </button>
-          </div>
-          <div className="search-type-wrapper">
-            <button
-              id="search-by-ingredient-wrapper"
-              onClick={(e) => {
-                e.preventDefault();
-                setSearchType('ingredient');
-              }}
-              className={
-                searchType === 'ingredient'
-                  ? 'search-selection-box selected'
-                  : 'search-selection-box'
-              }
-            >
-              Search by Ingredient
-            </button>
-          </div>
-          <div className="search-type-wrapper">
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setSearchType('tags');
-              }}
-              id="search-by-tag-wrapper"
-              className={
-                searchType === 'tags'
-                  ? 'search-selection-box selected'
-                  : 'search-selection-box'
-              }
-            >
-              Search by Tag
-            </button>
-          </div>
-        </div>
-        <div id="search-bar">
-          <SearchIcon id="search-bar-icon"></SearchIcon>
-          <input
-            value={activeQuery}
-            id="search-bar-text"
-            placeholder="Search recipe"
-            type="text"
-            name="search"
-            onChange={(e) => {
-              setActiveQuery(e.target.value);
+      <Stack sx={{ width: '70vw' }} gap={2}>
+        <ButtonGroup variant="text" aria-label="Basic button group">
+          <Button
+            variant={selectedSearchType === 'name' ? 'contained' : 'outlined'}
+            sx={{
+              color: appTheme.palette.offwhite.main,
+              backgroundColor:
+                selectedSearchType === 'name'
+                  ? appTheme.palette.secondary.main
+                  : appTheme.palette.primary.main,
+              '&:hover': {
+                backgroundColor: appTheme.palette.secondary.main,
+              },
             }}
-          />
-          {filteredRecipes.length < allRecipes.length && (
-            <CloseIcon onClick={filterSearchbar}></CloseIcon>
-          )}
-        </div>
-      </div>
-      {filteredRecipes.length < allRecipes.length && (
-        <Stack
-          spacing={0}
-          sx={{ width: '30%', position: 'absolute', zIndex: 100 }}
-        >
-          {filteredRecipes.map((eachRecipe) => {
-            return (
-              <Link
-                to={`/recipes/${eachRecipe._id}`}
-                style={{ color: 'black', textDecoration: 'none' }}
-                key={eachRecipe._id}
-              >
-                <Card
-                  variant="outlined"
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    height: '40px',
-                  }}
+            onClick={() => {
+              handleSearchTypeChange('name');
+            }}
+          >
+            Title
+          </Button>
+          <Button
+            variant={
+              selectedSearchType === 'ingredient' ? 'contained' : 'outlined'
+            }
+            sx={{
+              color: appTheme.palette.offwhite.main,
+              backgroundColor:
+                selectedSearchType === 'ingredient'
+                  ? appTheme.palette.secondary.main
+                  : appTheme.palette.primary.main,
+              '&:hover': {
+                backgroundColor: appTheme.palette.secondary.main,
+              },
+            }}
+            onClick={() => {
+              handleSearchTypeChange('ingredient');
+            }}
+          >
+            Ingredient
+          </Button>
+          <Button
+            variant={selectedSearchType === 'tag' ? 'contained' : 'outlined'}
+            sx={{
+              color: appTheme.palette.offwhite.main,
+              backgroundColor:
+                selectedSearchType === 'tag'
+                  ? appTheme.palette.secondary.main
+                  : appTheme.palette.primary.main,
+              '&:hover': {
+                backgroundColor: appTheme.palette.secondary.main,
+              },
+            }}
+            onClick={() => {
+              handleSearchTypeChange('tag');
+            }}
+          >
+            Tag
+          </Button>
+        </ButtonGroup>
+
+        <TextField
+          label="Search"
+          value={activeQuery}
+          onChange={(e) => handleSearchQuery(e)}
+          InputProps={{
+            input: {
+              startAdornment: <SearchIcon />,
+            },
+            endAdornment: (
+              <Button onClick={clearSearch}>
+                <CloseIcon />
+              </Button>
+            ),
+          }}
+        />
+      </Stack>
+
+      {activeQuery && (
+        <div>
+          <Stack
+            spacing={0}
+            sx={{ width: '30%', position: 'absolute', zIndex: 100 }}
+          >
+            {filteredRecipes.map((eachRecipe) => {
+              return (
+                <Link
+                  to={`/recipes/${eachRecipe._id}`}
+                  style={{ color: 'black', textDecoration: 'none' }}
+                  key={eachRecipe._id}
                 >
-                  <CardContent>
-                    <Typography variant="body2">{eachRecipe.name}</Typography>
-                  </CardContent>
-                </Card>
-              </Link>
-            );
-          })}
-        </Stack>
+                  <Card
+                    variant="outlined"
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      height: '40px',
+                    }}
+                  >
+                    <CardContent>
+                      <Typography variant="body2">{eachRecipe.name}</Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
+          </Stack>
+        </div>
       )}
     </div>
   );

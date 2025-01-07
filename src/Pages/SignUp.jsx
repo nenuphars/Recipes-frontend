@@ -78,7 +78,12 @@ function Signup() {
     <div id="SignupPage" className="base-wrapper">
       <Card
         variant="outlined"
-        sx={{ display: 'flex', flexDirection: 'column' }}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          borderColor: appTheme.palette.secondary.main,
+          width: { xs: '300px', sm: '400px' },
+        }}
       >
         <CardHeader
           title="Sign Up"
@@ -86,6 +91,7 @@ function Signup() {
         />
         <CardContent>
           <form
+            style={{ width: '100%' }}
             onSubmit={(e) => {
               handleSubmit(e);
             }}
