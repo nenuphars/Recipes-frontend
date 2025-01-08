@@ -1,8 +1,11 @@
 
 import "./NoAccess.css";
 import { Button, Card, Stack, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function NoAccess() {
+  const navigate = useNavigate();
+
   return (
     <div className="base-wrapper">
       <Card id="no-access-wrapper">
@@ -11,11 +14,11 @@ function NoAccess() {
         <Typography variant="body1">
           Go to the login page
         </Typography>
-        <Button variant="contained" to="/login">Login</Button>
+        <Button variant="contained" onClick={navigate("/login")}>Login</Button>
         <Typography variant="body1">
           Don&apos;t have an account yet?
         </Typography>
-        <Button variant="contained" to="/signup">Sign Up</Button>
+        <Button variant="contained" onClick={navigate("/signup")}>Sign Up</Button>
 
       </Stack>
       </Card>

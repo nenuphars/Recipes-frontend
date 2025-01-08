@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './Dashboard.css';
 import { Link } from 'react-router-dom';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import SearchBar from '../Components/SearchBar';
+// import SearchBar from '../Components/SearchBar';
 import CircularProgress from '@mui/material/CircularProgress';
 import {
   Card,
@@ -11,7 +11,6 @@ import {
   Typography,
   CardContent,
   Container,
-  Button,
 } from '@mui/material';
 import recipesService from '../services/recipes.services';
 import RecipeCard from '../Components/RecipeCard';
@@ -24,7 +23,7 @@ function Dashboard() {
   const [dataLoaded, setDataLoaded] = useState('');
   const [hasRecipes, setHasRecipes] = useState(true);
 
-  const [spinner, setSpinner] = useState([]);
+  // const [spinner, setSpinner] = useState([]);
 
   const { user, isLoggedIn } = useContext(AuthContext);
 
@@ -36,11 +35,11 @@ function Dashboard() {
         .then((recipes) => {
           setDataLoaded(recipes.data);
           setAllRecipes(recipes.data);
-          setSpinner(recipes.data);
           console.log(recipes.data);
-          if (!recipes.data) {
+          if (recipes.data.length === 0) {
             setHasRecipes(false);
           }
+
         })
         .catch((error) => {
           console.log(error);
@@ -53,37 +52,15 @@ function Dashboard() {
       <div className="page-wrapper">
         <Container id="Dashboard" sx={{ minWidth: '100vw', margin: '0' }}>
           <Stack direction={'column'} gap={2} sx={{ width: '100%' }}>
-            <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
-            {allRecipes.length === 0 && spinner.length > 0 && (
-              <Container className="no-recipe-match-container">
-                <Typography variant="h2">
-                  No recipe matches your search
-                </Typography>
-                <Button
-                  id="button-see-all"
-                  onClick={() => {
-                    location.reload();
-                  }}
-                >
-                  See all recipes
-                </Button>
-              </Container>
-            )}
-
-            {spinner.length === 0 && allRecipes.length === 0 && (
-              <CircularProgress
-                id="circular-progress-allRecipes"
-                size={100}
-                color="success"
-              ></CircularProgress>
-            )}
+            
 
             {!isLoggedIn && (
               <>
                 <NoAccess></NoAccess>
               </>
             )}
-            {isLoggedIn && !dataLoaded && !hasRecipes && (
+            
+            {isLoggedIn && !dataLoaded && hasRecipes && (
               <CircularProgress
                 id="circular-progress-dashboard"
                 size={100}
@@ -96,6 +73,7 @@ function Dashboard() {
                 gap={2}
                 sx={{ width: '100%', flexFlow: 'wrap' }}
               >
+              <Stack direction={'row'}  sx={{alignItems:'center', justifyContent:"space-between", width:"100%"}}>
                 <Link
                   to={'/dashboard/CreateRecipe'}
                   style={{ textDecoration: 'none' }}
@@ -127,6 +105,18 @@ function Dashboard() {
                     </Stack>
                   </Card>
                 </Link>
+                {!hasRecipes && dataLoaded && (
+              
+              <Container className="no-recipe-match-container" >
+                <Typography variant="h2">
+                  Add some recipes
+                </Typography>
+                
+              </Container>
+            
+
+            )}
+              </Stack>
                 {dataLoaded && hasRecipes && (
                   <>
                     {allRecipes.map((eachRecipe) => {

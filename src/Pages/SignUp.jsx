@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import {  useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css';
 import {
@@ -15,7 +15,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import authService from '../services/auth.services';
-import { AuthContext } from '../context/auth.context';
+// import { AuthContext } from '../context/auth.context';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from '../themes/theme';
 
@@ -43,27 +43,24 @@ function Signup() {
     );
   };
 
-  const { authenticateUser } = useContext(AuthContext);
+  // const { authenticateUser } = useContext(AuthContext);
 
-  function handleSubmit() {
-    // e.preventDefault();
-
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log("inside handle submit")
     if (password === repeatPassword) {
+      console.log("passwords match")
       const newUser = {
         user_name: username,
         password: password,
       };
+      console.log("new user: ", newUser)
 
       authService
         .signup(newUser)
-        .then((response) => {
-          const token = response.data.authToken;
-          console.log(token);
-          localStorage.setItem('authToken', token);
+        .then(() => {
 
-          authenticateUser();
-
-          navigate('/dashboard');
+          navigate('/login');
         })
         .catch((err) => {
           console.log(err);
@@ -151,7 +148,7 @@ function Signup() {
                   ),
                 }}
               />
-              <Button variant="contained">Submit</Button>
+              <Button variant="contained" type='submit'>Submit</Button>
               {errorMessage && errorMessageElement()}
 
               <Link
