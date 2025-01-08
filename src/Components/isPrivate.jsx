@@ -11,6 +11,7 @@ import NoAccess from './NoAccess.jsx';
 
 function IsPrivate(props) {
   const { isLoggedIn, isLoading } = useContext(AuthContext);
+  console.log("IsPrivate component loaded")
 
   if (isLoading) return <Loading />;
 

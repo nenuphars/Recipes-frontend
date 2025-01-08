@@ -10,6 +10,7 @@ import Loading from './Loading';
 
 function IsAnon(props) {
   const { isLoggedIn, isLoading } = useContext(AuthContext);
+  console.log("IsAnon component loaded")
 
   if (isLoading) return <Loading />;
 
