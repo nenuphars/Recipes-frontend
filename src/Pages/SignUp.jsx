@@ -45,8 +45,8 @@ function Signup() {
 
   const { authenticateUser } = useContext(AuthContext);
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit() {
+    // e.preventDefault();
 
     if (password === repeatPassword) {
       const newUser = {
