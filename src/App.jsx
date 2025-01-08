@@ -15,30 +15,29 @@ import Signup from './Pages/SignUp';
 import { CssBaseline } from '@mui/material';
 import { appTheme } from './themes/theme';
 import { ThemeProvider } from '@mui/material';
+import IsAnon from './Components/IsAnon';
+import IsPrivate from './Components/IsPrivate';
 
 function App() {
   return (
-    <>
-      <ThemeProvider theme={appTheme}>
-        <CssBaseline enableColorScheme />
-        <Navbar></Navbar>
-        <Routes>
-          <Route path="/" element={<HomePage />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/recipes" element={<AllRecipesPage />}></Route>
-          <Route path="/FAQ" element={<FAQPage />}></Route>
-          <Route path="/recipes/:id" element={<RecipeDetailsPage />}></Route>
-          <Route path="/dashboard" element={<Dashboard />}></Route>
-          <Route path="/dashboard/edit/:id" element={<EditRecipe />}></Route>
-          <Route
-            path="/dashboard/CreateRecipe"
-            element={<CreateRecipePage />}
-          ></Route>
-          <Route path="/*" element={<ErrorPage></ErrorPage>}></Route>
-        </Routes>
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={appTheme}>
+      <CssBaseline enableColorScheme />
+      <Navbar />
+      <Routes>
+      
+        <Route path="/login" element={<IsAnon><Login /></IsAnon>} />
+        <Route path="/signup" element={<IsAnon><Signup /></IsAnon>} />
+        <Route path="/dashboard" element={<IsPrivate><Dashboard /></IsPrivate>} />
+        <Route path="/dashboard/edit/:id" element={<IsPrivate><EditRecipe /></IsPrivate>} />
+        <Route path="/dashboard/CreateRecipe" element={<IsPrivate><CreateRecipePage /></IsPrivate>} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/recipes" element={<AllRecipesPage />} />
+        <Route path="/recipes/:id" element={<RecipeDetailsPage />} />
+        <Route path="/FAQ" element={<FAQPage />} />
+        <Route path="/*" element={<ErrorPage />} />
+        
+      </Routes>
+    </ThemeProvider>
   );
 }
 

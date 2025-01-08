@@ -59,7 +59,7 @@ function AuthProviderWrapper(props) {
   useEffect(() => {
     // 1) check if user still logged in
     authenticateUser();
-  }, []);
+  });
 
   // make states and functions available with context
   return (

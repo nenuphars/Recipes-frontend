@@ -1,18 +1,24 @@
-import { Link } from "react-router-dom";
+
 import "./NoAccess.css";
+import { Button, Card, Stack, Typography } from "@mui/material";
 
 function NoAccess() {
   return (
     <div className="base-wrapper">
-      <div id="no-access-wrapper">
-        <h2>You need to be logged in to view this page</h2>
-        <p>
-          Click <Link to="/login">here</Link> to go to the login page
-        </p>
-        <p>
-          Don&apos;t have an account yet? Sign up <Link to="/signup">here</Link>
-        </p>
-      </div>
+      <Card id="no-access-wrapper">
+      <Stack gap={2}>
+        <Typography variant="h5">You need to be logged in to view this page</Typography>
+        <Typography variant="body1">
+          Go to the login page
+        </Typography>
+        <Button variant="contained" to="/login">Login</Button>
+        <Typography variant="body1">
+          Don&apos;t have an account yet?
+        </Typography>
+        <Button variant="contained" to="/signup">Sign Up</Button>
+
+      </Stack>
+      </Card>
     </div>
   );
 }
