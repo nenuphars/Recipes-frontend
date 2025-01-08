@@ -390,6 +390,7 @@ function EditRecipe() {
 
             <TextField
               multiline
+              minRows={4}
               value={preparation}
               label="Preparation method"
               type="text"

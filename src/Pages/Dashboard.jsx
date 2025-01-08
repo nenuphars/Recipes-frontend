@@ -51,7 +51,7 @@ function Dashboard() {
   return (
     <>
       <div className="page-wrapper">
-        <Container id="Dashboard" sx={{ minWidth: '100vw', margin: '0 4rem' }}>
+        <Container id="Dashboard" sx={{ minWidth: '100vw', margin: '0' }}>
           <Stack direction={'column'} gap={2} sx={{ width: '100%' }}>
             <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
             {allRecipes.length === 0 && spinner.length > 0 && (

@@ -338,6 +338,7 @@ function CreateRecipePage() {
 
           <TextField
             multiline
+            minRows={4}
             label="Preparation method"
             type="text"
             onChange={(e) => {
