@@ -15,7 +15,7 @@ import Signup from './Pages/SignUp';
 import { CssBaseline } from '@mui/material';
 import { appTheme } from './themes/theme';
 import { ThemeProvider } from '@mui/material';
-import IsAnon from './Components/IsAnon';
+import { IsAnon } from './Components';
 import IsPrivate from './Components/IsPrivate';
 
 function App() {
