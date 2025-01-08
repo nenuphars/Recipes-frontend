@@ -1,7 +1,8 @@
 import { useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
-import { Navigate } from 'react-router-dom';
+// import { Navigate } from 'react-router-dom';
 import Loading from './Loading.jsx';
+import NoAccess from './NoAccess.jsx';
 
 // ** is private
 // everything wrapped in this component:
@@ -18,7 +19,7 @@ function IsPrivate(props) {
     return props.children;
     // if not logged in, navigate to login page
   } else {
-    return <Navigate to="/login" />;
+    return <NoAccess />;
   }
 }
 
