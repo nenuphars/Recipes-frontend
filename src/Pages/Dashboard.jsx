@@ -73,7 +73,6 @@ function Dashboard() {
                 gap={2}
                 sx={{ width: '100%', flexFlow: 'wrap' }}
               >
-              <Stack direction={'row'}  sx={{alignItems:'center', justifyContent:"space-between", width:"100%"}}>
                 <Link
                   to={'/dashboard/CreateRecipe'}
                   style={{ textDecoration: 'none' }}
@@ -105,18 +104,8 @@ function Dashboard() {
                     </Stack>
                   </Card>
                 </Link>
-                {!hasRecipes && dataLoaded && (
-              
-              <Container className="no-recipe-match-container" >
-                <Typography variant="h2">
-                  Add some recipes
-                </Typography>
-                
-              </Container>
-            
 
-            )}
-              </Stack>
+
                 {dataLoaded && hasRecipes && (
                   <>
                     {allRecipes.map((eachRecipe) => {
