@@ -1,32 +1,21 @@
-# What the Fridge
+# Karela
 
 ## Description
-You have some ingredients at home, but don't know what to cook? Searching for recipe's online can be overwhelming, when there are a million options to choose from. This app wants to simplify and speed up the process, so that you don't have to endlessly scroll and become hangry before you even start cooking.
+Karela is a unique and uncommon vegetable. Not everyone will like it, but for some it's a favourite. On Karela you can share recipes in an organised and aesthetic way with your friends and family. That way you can always look up family classics or favourites from cooking sessions with your friends, no matter how far apart you live, in an uncomplicated way.
 
-## MVP
-- [x] create structure of files (pages, components, etc.)
-- [x] set up mock backend with recipe data (ID, photo URL, name, ingredients, quantity, preparation steps, tags)
-- [x] Homepage component: explains the main functionality of the webpage
-- [x] users can create a new recipe via a form
-- [x] users can edit existing recipes
-- [x] users can delete a recipe
+## Improvements and Fixes
+- [x] New Styling and layout
+- [x] Error messages on Login Page
+- [x] Custom backend
 
 
-## Extras
-- [x] users can search for a recipe by ingredient
-- [x] users can search for a recipe by tag
-- [ ] users can comment on recipes
+## New Features
+- [ ] Comment section on recipes
+- [ ] Add and remove favourite recipes
+- [x] Login and Sign up
+- [ ] Create a group with your friends and family in order to keep up with their recipes
 
 
 ## Technologies used
 
-HTML, CSS, Javascript, React, Vite
-
-
-
-## Collaborators
-
-[Jorge Centeno Mesa](https://github.com/eljorgecenteno)
-
-[Nadine Rangosch](https://github.com/nenuphars)
-
+HTML, CSS, Javascript, React, MongoDB, NodeJS, Vite

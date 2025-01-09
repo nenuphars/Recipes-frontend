@@ -1,61 +1,126 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState, useContext } from 'react';
 import {
   Button,
-  FormLabel,
   Stack,
   InputAdornment,
-  OutlinedInput,
+  TextField,
   IconButton,
-} from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import DeleteIcon from "@mui/icons-material/Delete";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import { useNavigate, useParams } from "react-router-dom";
-import "./EditRecipe.css";
+  Select,
+  OutlinedInput,
+  MenuItem,
+  FormControl,
+  Box,
+  Chip,
+  useTheme,
+  FormHelperText,
+  Typography,
+} from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import DeleteIcon from '@mui/icons-material/Delete';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import { useNavigate, useParams } from 'react-router-dom';
+import './EditRecipe.css';
+import recipesService from '../services/recipes.services';
+import { AuthContext } from '../context/auth.context';
 
 function EditRecipe() {
   // params to get the id of the recipe
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const { user } = useContext(AuthContext);
+
+  const theme = useTheme();
 
   // states for all form inputs
-  const [name, setName] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
+  const [name, setName] = useState('');
+  // const [photoURL, setPhotoURL] = useState('');
   const [duration, setDuration] = useState(0);
-  const [preparation, setPreparation] = useState("");
-  const [description, setDescription] = useState("");
-  const [servings, setServings] = useState("");
+  const [preparation, setPreparation] = useState('');
+  const [description, setDescription] = useState('');
+  const [servings, setServings] = useState('');
   const [tags, setTags] = useState([]);
-
-  // state for ingredients and amount
   const [ingredients, setIngredients] = useState([
-    { ingredient: "", amount: "" },
+    { ingredient_name: '', ingredient_amount: '', ingredient_measuring: '' },
   ]);
+  // const [creator, setCreator] = useState('');
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
+  let unitOptions = [
+    'g',
+    'kg',
+    'ml',
+    'l',
+    'pinch',
+    'whole',
+    'tbsp',
+    'tsp',
+    'cups',
+    'bunch',
+  ];
+
+  let tagOptions = [
+    'Pasta 🍝',
+    'Comfort food 🛏️',
+    'Chicken 🍗',
+    'Salad 🥗',
+    'Vegetarian 🥣',
+    'Tacos 🌮',
+    'Beef 🥩',
+    'Curry 🍛',
+    'Seafood 🦞',
+    'Grilled ♨️',
+    'Healthy ❤️',
+    'Rice 🍚',
+    'Stew 🍲',
+    'Soup 🍜',
+    'Vegan 🥦',
+    'Quick & Easy ⚡',
+    'Fish 🐟',
+    'Pork 🐖',
+    'Sandwiches 🥪',
+    'Fruity 🍋',
+    'Spicy 🌶️',
+  ];
+
+  function getStyles(tag, tagName, theme) {
+    return {
+      fontWeight: tagName.includes(tag)
+        ? theme.typography.fontWeightMedium
+        : theme.typography.fontWeightRegular,
+    };
+  }
 
   // get data for the current recipe to be modified
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BASE_URL}/Recipes/${id}`)
+    recipesService
+      .getRecipe(id)
       .then((recipeDetails) => {
         console.log(recipeDetails.data);
 
         setName(recipeDetails.data.name);
-        setPhotoURL(recipeDetails.data.photo_URL);
-
-        // remove the "mins" from the duration
-        let numericDuration = recipeDetails.data.duration.split(" ")[0];
-        setDuration(numericDuration);
+        // setPhotoURL(recipeDetails.data.photo_url);
+        setDuration(recipeDetails.data.duration);
 
         setPreparation(recipeDetails.data.preparation);
         setDescription(recipeDetails.data.description);
         setServings(recipeDetails.data.servings);
         setTags(recipeDetails.data.tags);
         setIngredients(recipeDetails.data.ingredientsList);
-
+        // setCreator(recipeDetails.data.creator);
       })
       .catch((err) => {
         console.log(err);
@@ -63,42 +128,77 @@ function EditRecipe() {
   }, [id]);
 
   // function that updates data for arrays when the user is typing
-  const handleIngredientFields = (index, event) => {
+  const handleIngredientFields = (index, event, type) => {
     let data = [...ingredients];
-    data[index][event.target.name] = event.target.value;
-    console.log(data);
+
+    if (event.target.value && type === 'name') {
+      data[index].ingredient_name = event.target.value;
+    }
+    if (event.target.value && type === 'amount') {
+      data[index].ingredient_amount = event.target.value;
+    } else {
+      data[index].ingredient_amount = event.selectedOption;
+    }
+
     setIngredients(data);
   };
 
-  const handleTagField = (index, event) => {
-    let data = [...tags];
-    data[index] = event.target.value;
-    console.log(data);
-    setTags(data);
+  const handleChangeUnit = (index, event) => {
+    const {
+      target: { value },
+    } = event;
+    let data = [...ingredients];
+    data[index].ingredient_measuring = value;
+    // console.log('changed data', data);
+    setIngredients(data);
   };
+
+  const handleChangeTag = (event) => {
+    const {
+      target: { value },
+    } = event;
+    // only execute when there are less than three tags selected
+    // or when the selected value is already in the array i.e. it's being removed
+    if (
+      tags.length < 3 ||
+      tags.includes(event.explicitOriginalTarget.dataset.value)
+    ) {
+      setTags(typeof value === 'string' ? value.split(',') : value);
+    }
+  };
+
+  // const handleDeleteTag = (index) => {
+  //   // e.preventDefault();
+  //   console.log(index);
+  //   let data = [...tags];
+  //   data.splice(index, 1);
+  //   setTags(data);
+  // };
 
   // functions that add a new input field when the user clicks the button
   const addIngredientFields = () => {
-    let newField = { ingredient: "", amount: "" };
+    let newField = {
+      ingredient_name: '',
+      ingredient_amount: '',
+      ingredient_measuring: '',
+    };
     setIngredients([...ingredients, newField]);
-  };
-
-  const addTagField = () => {
-    let newField = "";
-    setTags([...tags, newField]);
   };
 
   // functions that delete an input fields if the user clicks the button
   const deleteIngredientFields = (index) => {
+    if (ingredients.length === 1) {
+      return setIngredients([
+        {
+          ingredient_name: '',
+          ingredient_amount: '',
+          ingredient_measuring: '',
+        },
+      ]);
+    }
     let data = [...ingredients];
     data.splice(index, 1);
     setIngredients(data);
-  };
-
-  const deleteTagField = (index) => {
-    let data = [...tags];
-    data.splice(index, 1);
-    setTags(data);
   };
 
   // function that handles the submit
@@ -108,21 +208,20 @@ function EditRecipe() {
     // object that contains a new/edited recipe
     const newRecipe = {
       name: name,
-      photo_URL: photoURL,
-      duration: duration + " mins",
+      // photo_url: photoURL,
+      duration: duration,
       ingredientsList: ingredients,
       preparation: preparation,
       description: description,
       servings: servings,
       tags: tags,
+      creator: user._id,
     };
 
-    console.log(newRecipe.duration);
-
-    axios
-      .put(`${import.meta.env.VITE_BASE_URL}/Recipes/${id}`, newRecipe)
+    recipesService
+      .updateRecipe(id, newRecipe)
       .then(() => {
-        navigate(`/Allrecipes/${id}`)
+        navigate(`/recipes/${id}`);
       })
       .catch((err) => {
         console.log(err);
@@ -130,10 +229,12 @@ function EditRecipe() {
   }
 
   return (
-    <div id="edit-recipe-container">
-      <h1>Edit Recipe</h1>
+    <div id="EditRecipePage" className="page-wrapper">
+      <Typography variant="h2" sx={{ fontFamily: 'Edu AU VIC WA NT' }}>
+        Edit Recipe
+      </Typography>
       {(!name ||
-        !photoURL ||
+        // !photoURL ||
         !duration ||
         !ingredients ||
         !preparation ||
@@ -141,165 +242,213 @@ function EditRecipe() {
         !servings ||
         !tags) && <p>...loading</p>}
       {(name ||
-        photoURL ||
+        // photoURL ||
         duration ||
         ingredients ||
         preparation ||
         description ||
         servings ||
         tags) && (
-        <Stack id="AddRecipesPage" spacing={2}>
-          <form onSubmit={handleSubmit}>
-            <FormLabel htmlFor="name">Name</FormLabel>
-            <OutlinedInput
-              value={`${name}`}
-              name="name"
-              variant="filled"
-              size="small"
+        <form onSubmit={handleSubmit}>
+          <Stack id="edit-recipe-container" direction={'column'} spacing={4}>
+            <TextField
+              label="Name"
+              value={name}
               type="text"
               onChange={(e) => {
                 setName(e.target.value);
               }}
               required
             />
-            <FormLabel htmlFor="photo">Photo URL</FormLabel>
-            <OutlinedInput
-              value={`${photoURL}`}
-              name="photo"
-              variant="filled"
-              size="small"
+            {/* <TextField
+              label="Photo URL"
+              value={photoURL}
               type="url"
               onChange={(e) => {
                 setPhotoURL(e.target.value);
               }}
-            />
-            <FormLabel htmlFor="duration">Duration</FormLabel>
-            <OutlinedInput
-              value={duration}
-              name="duration"
-              variant="filled"
-              type="number"
-              size="small"
-              onChange={(e) => {
-                setDuration(e.target.value);
-              }}
-              endAdornment={
-                <InputAdornment position="end">mins</InputAdornment>
-              }
-            />
+            /> */}
+            <Stack direction="row" spacing={2}>
+              <TextField
+                label="Duration"
+                value={duration}
+                type="number"
+                onChange={(e) => {
+                  setDuration(e.target.value);
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">mins</InputAdornment>
+                  ),
+                }}
+                sx={{ width: '50%' }}
+              />
 
-            <Stack
-              id="ingredients-amounts-stack"
-              direction="column"
-              spacing={2}
-            >
-              <FormLabel htmlFor="ingredient amount">Ingredient List</FormLabel>
-              {ingredients.map((oneItem, index) => {
-                return (
-                  <Stack key={"ingredient" + index} direction="row" spacing={2}>
-                    <OutlinedInput
-                      value={`${oneItem.ingredient}`}
-                      name="ingredient"
-                      placeholder="ingredient"
-                      onChange={(event) => handleIngredientFields(index, event)}
-                    />
-                    <OutlinedInput
-                      value={`${oneItem.amount}`}
-                      name="amount"
-                      placeholder="amount"
-                      onChange={(event) => handleIngredientFields(index, event)}
-                    />
-                    <IconButton
-                      aria-label="delete"
-                      onClick={() => {
-                        deleteIngredientFields(index);
-                      }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Stack>
-                );
-              })}
-
-              <Button className="add-button" size="medium" variant="text" onClick={(e) => addIngredientFields(e)}>
-                Add more
-              </Button>
+              <TextField
+                value={servings}
+                label="Servings"
+                type="number"
+                onChange={(e) => {
+                  setServings(e.target.value);
+                }}
+                sx={{ width: '50%' }}
+              />
             </Stack>
 
-            <FormLabel htmlFor="preparation">Preparation method</FormLabel>
-            <OutlinedInput
+            <TextField
               multiline
-              value={`${preparation}`}
-              name="preparation"
-              variant="filled"
-              size="normal"
-              type="text"
-              onChange={(e) => {
-                setPreparation(e.target.value);
-              }}
-              required
-            />
-            <FormLabel htmlFor="servings">Servings</FormLabel>
-            <OutlinedInput
-              value={`${servings}`}
-              name="servings"
-              variant="filled"
-              size="small"
-              type="number"
-              onChange={(e) => {
-                setServings(e.target.value);
-              }}
-            />
-            <FormLabel htmlFor="description">Description</FormLabel>
-            <OutlinedInput
-              multiline
-              value={`${description}`}
-              name="description"
-              variant="filled"
-              size="normal"
+              value={description}
+              label="Short description"
               type="text"
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
             />
 
-            <FormLabel htmlFor="Tag">Tags</FormLabel>
-            <Stack id="tags-stack" spacing={2}>
-              {tags.map((oneTag, index) => {
-                return (
-                  <Stack key={index} direction="row" spacing={2}>
-                    <OutlinedInput
-                      name="Tag"
-                      value={oneTag}
-                      onChange={(event) => {
-                        handleTagField(index, event);
-                      }}
-                    />
-                    <IconButton
-                      aria-label="delete"
-                      onClick={() => {
-                        deleteTagField(index);
-                      }}
+            <div className="ingredients-container">
+              <Stack
+                id="ingredients-list-wrapper"
+                direction="column"
+                spacing={2}
+              >
+                <h4>Ingredient List</h4>
+                {ingredients.map((oneItem, index) => {
+                  return (
+                    <Stack
+                      className="ingredients-list-input-row"
+                      key={index}
+                      direction="row"
+                      spacing={2}
                     >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Stack>
-                );
-              })}
-              <Button className="add-button" size="medium" variant="text" onClick={(event) => addTagField(event)}>
-                Add more
-              </Button>
-            </Stack>
-            <Button id="submit-button"
-            size="large"
+                      <TextField
+                        className="ingredient-textfield"
+                        value={oneItem.ingredient_name}
+                        label="Ingredient"
+                        onChange={(event) =>
+                          handleIngredientFields(index, event, 'name')
+                        }
+                        sx={{ width: '50%' }}
+                      />
+                      <TextField
+                        className="ingredient-textfield"
+                        value={oneItem.ingredient_amount}
+                        label="Amount"
+                        type="number"
+                        onChange={(event) =>
+                          handleIngredientFields(index, event, 'amount')
+                        }
+                        sx={{ width: '20%' }}
+                      />
+
+                      <Select
+                        input={<OutlinedInput label="Unit" />}
+                        value={oneItem.ingredient_measuring}
+                        onChange={(event) => handleChangeUnit(index, event)}
+                        MenuProps={MenuProps}
+                      >
+                        {unitOptions.map((oneUnitOption) => (
+                          <MenuItem
+                            key={oneUnitOption}
+                            value={oneUnitOption}
+                            style={getStyles(
+                              oneUnitOption,
+                              oneUnitOption,
+                              theme
+                            )}
+                          >
+                            {oneUnitOption}
+                          </MenuItem>
+                        ))}
+                      </Select>
+
+                      <IconButton
+                        style={
+                          index < 1
+                            ? { display: 'hidden' }
+                            : { display: 'block' }
+                        }
+                        aria-label="delete"
+                        onClick={() => {
+                          deleteIngredientFields(index);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Stack>
+                  );
+                })}
+                <Button
+                  className="add-button"
+                  size="medium"
+                  variant="text"
+                  onClick={(e) => addIngredientFields(e)}
+                >
+                  Add more
+                </Button>
+              </Stack>
+            </div>
+
+            <TextField
+              multiline
+              minRows={4}
+              value={preparation}
+              label="Preparation method"
+              type="text"
+              onChange={(e) => {
+                setPreparation(e.target.value);
+              }}
+              required
+            />
+            <h4>Tags</h4>
+
+            <FormControl sx={{ m: 1, width: 300 }}>
+              <Select
+                multiple
+                value={tags}
+                onChange={(event) => handleChangeTag(event)}
+                input={<OutlinedInput label="Tag" />}
+                MenuProps={MenuProps}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>Select tags</em>;
+                  }
+                  return (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip
+                          key={value}
+                          label={value}
+                          // onClick={() => handleDeleteTag(index)}
+                        />
+                      ))}
+                    </Box>
+                  );
+                }}
+              >
+                {tagOptions.map((oneTagOption) => (
+                  <MenuItem
+                    key={oneTagOption}
+                    value={oneTagOption}
+                    style={getStyles(oneTagOption, tagOptions, theme)}
+                  >
+                    {oneTagOption}
+                  </MenuItem>
+                ))}
+              </Select>
+              <FormHelperText>Max. 3</FormHelperText>
+            </FormControl>
+
+            <Button
+              id="submit-button"
+              size="large"
               onClick={handleSubmit}
               variant="contained"
               endIcon={<SendIcon />}
             >
               Submit
             </Button>
-          </form>
-        </Stack>
+          </Stack>
+        </form>
       )}
     </div>
   );

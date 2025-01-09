@@ -1,17 +1,24 @@
-#create-recipe-container{
-    margin: 20px;
+#create-recipe-container {
+  margin: 20px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 70%;
+}
+.ingredients-list-input-row {
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: 1fr 1fr 1fr 0.2fr;
+  margin: 0.4rem 0;
 }
 
-form{
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
 .add-button {
-    width: 130px;
-    height: 70px;
+  width: 130px;
+  height: 70px;
 }
-.submit-button{
-    align-self: center;
-    width: 300px;
-} 
+.submit-button {
+  align-self: center;
+  width: 300px;
+}

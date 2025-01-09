@@ -1,107 +1,140 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
-import "./AllRecipesPage.css";
-import Card from "@mui/material/Card";
-import { Link } from "react-router-dom";
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from 'react';
+import { useState } from 'react';
+import './Dashboard.css';
+import { Link } from 'react-router-dom';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import SearchBar from "../Components/SearchBar";
+// import SearchBar from '../Components/SearchBar';
 import CircularProgress from '@mui/material/CircularProgress';
+import {
+  Card,
+  Stack,
+  Typography,
+  CardContent,
+  Container,
+} from '@mui/material';
+import recipesService from '../services/recipes.services';
+import RecipeCard from '../Components/RecipeCard';
+import { AuthContext } from '../context/auth.context';
+import NoAccess from '../Components/NoAccess';
+import { appTheme } from '../themes/theme';
 
 function Dashboard() {
-  const [allRecipes, setAllRecipes] = useState("");
-  const [dataLoaded, setDataLoaded] = useState("");
+  const [allRecipes, setAllRecipes] = useState('');
+  const [dataLoaded, setDataLoaded] = useState('');
+  const [hasRecipes, setHasRecipes] = useState(true);
 
-  const navigate = useNavigate();
+  // const [spinner, setSpinner] = useState([]);
 
-  const deleteRecipe = (index) => {
-    axios
-      .delete(`${import.meta.env.VITE_BASE_URL}/Recipes/${index}`)
-      .then((recipes) => {
-        setDataLoaded(recipes.data)
-        setAllRecipes(recipes.data);
-        
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const { user, isLoggedIn } = useContext(AuthContext);
+
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BASE_URL}/Recipes`)
-      .then((recipes) => {
-        setDataLoaded(recipes.data)
-        setAllRecipes(recipes.data);
-        console.log(recipes.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if (user) {
+      console.log('user id', user._id);
+      recipesService
+        .getRecipeQuery(user._id)
+        .then((recipes) => {
+          setDataLoaded(recipes.data);
+          setAllRecipes(recipes.data);
+          console.log(recipes.data);
+          if (recipes.data.length === 0) {
+            setHasRecipes(false);
+          }
+
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [user]);
+
   return (
     <>
-    {!dataLoaded && <CircularProgress id="circular-progress-dashboard" size={100} color="success"></CircularProgress> }
-    {dataLoaded &&  <div>
-    <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
-      <div id="eachRecipeContainer">
-        <Link to={'/dashboard/CreateRecipe'} style={{ textDecoration: "none" }}><Card id="addCard">
-          <div id="AddCardPhoto">
-            <AddRoundedIcon color='primary' style={{ fontSize: 175 }} ></AddRoundedIcon>
-          </div>
+      <div className="page-wrapper">
+        <Container id="Dashboard" sx={{ minWidth: '100vw', margin: '0' }}>
+          <Stack direction={'column'} gap={2} sx={{ width: '100%' }}>
+            
 
-          <h2 id="AddCardText">Add a new recipe </h2>
-        </Card></Link>
-        {allRecipes.map((eachRecipe) => {
-          return (
-            <Link
-              to={`/Allrecipes/${eachRecipe.id}`}
-              key={eachRecipe.id}
-              style={{ textDecoration: "none" }}
-            >
-              <Card id="eachCard">
-                <img
-                  id="eachPhoto"
-                  src={eachRecipe.photo_URL}
-                  alt={`${eachRecipe.name} dish`}
-                />
-                <h2>{eachRecipe.name} </h2>
-
-                <h4>
-                  {" "}
-                  <Link to={`/dashboard/edit/${eachRecipe.id}`} style={{ textDecoration: "none" }}>
-                  <IconButton
-                    aria-label="edit"
-                    onClick={() => {
-                      deleteRecipe(eachRecipe);
-                    }} 
-                  > 
-                    <EditIcon /> 
-                  </IconButton> </Link>{" "}
-                  ⏱️ {eachRecipe.duration}{" "}
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => {
-                      deleteRecipe(eachRecipe.id);
+            {!isLoggedIn && (
+              <>
+                <NoAccess></NoAccess>
+              </>
+            )}
+            
+            {isLoggedIn && !dataLoaded && hasRecipes && (
+              <CircularProgress
+                id="circular-progress-dashboard"
+                size={100}
+                color="success"
+              ></CircularProgress>
+            )}
+            {isLoggedIn && (
+              <Stack
+                direction={'row'}
+                gap={2}
+                sx={{ width: '100%', flexFlow: 'wrap' }}
+              >
+              <Stack direction={'row'}  sx={{alignItems:'center', justifyContent:"space-between", width:"100%"}}>
+                <Link
+                  to={'/dashboard/CreateRecipe'}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <Card
+                    id="add-recipe-card"
+                    variant="outlined"
+                    sx={{
+                      width: '300px',
+                      height: '520px',
+                      borderRadius: '8px',
                     }}
                   >
-                    <DeleteIcon />
-                  </IconButton>
-                </h4>
-                <div id="tagContainer">
-                  {eachRecipe.tags.map((eachTag) => {
-                    return <div className="tag-wrapper" key={eachTag}>{eachTag}</div>;
-                  })}
-                </div>
-              </Card>
-            </Link>
-          );
-        })}</div>
-      </div>}
+                    <Stack spacing={2}>
+                      <div id="add-recipe-plus-icon">
+                        <AddRoundedIcon
+                          color="primary"
+                          style={{ fontSize: 175 }}
+                        ></AddRoundedIcon>
+                      </div>
+                      <CardContent>
+                        <Typography
+                          variant="h4"
+                          sx={{ color: appTheme.palette.primary.main }}
+                        >
+                          Add a new recipe
+                        </Typography>
+                      </CardContent>
+                    </Stack>
+                  </Card>
+                </Link>
+                {!hasRecipes && dataLoaded && (
+              
+              <Container className="no-recipe-match-container" >
+                <Typography variant="h2">
+                  Add some recipes
+                </Typography>
+                
+              </Container>
+            
+
+            )}
+              </Stack>
+                {dataLoaded && hasRecipes && (
+                  <>
+                    {allRecipes.map((eachRecipe) => {
+                      return (
+                        <RecipeCard
+                          key={eachRecipe._id}
+                          recipe={eachRecipe}
+                          currentPage="dashboard"
+                        ></RecipeCard>
+                      );
+                    })}
+                  </>
+                )}
+              </Stack>
+            )}
+          </Stack>
+        </Container>
+      </div>
     </>
   );
 }
