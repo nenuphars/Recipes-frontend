@@ -57,7 +57,11 @@ function Navbar() {
           <div id="home-link-logo-wrapper">
             <img id="logo" src={Logo} alt="Karela Logo" />
           </div>
-          <Typography variant="h5" id="home-name">
+          <Typography
+            variant="h5"
+            id="home-name"
+            className={currentPage === '/' ? 'selected-element' : ''}
+          >
             KARELA
           </Typography>
         </Link>
@@ -154,26 +158,36 @@ function Navbar() {
                   </Typography>
                 </Link>
 
-                <Link to="/dashboard" className="nav-element">
-                  <Typography variant="h5" className="nav-heading">
+                <Link
+                  to="/dashboard"
+                  onClick={() => setCurrentPage('dashboard')}
+                  className="nav-element"
+                >
+                  <Typography
+                    variant="h5"
+                    className={
+                      currentPage === 'dashboard'
+                        ? 'nav-heading selected-element'
+                        : 'nav-heading'
+                    }
+                  >
                     Dashboard
+                  </Typography>
+                </Link>
+                <Link
+                  to="/"
+                  className="nav-element"
+                  onClick={() => {
+                    logOutUser();
+                    setCurrentPage('home');
+                  }}
+                >
+                  <Typography variant="h5" className="nav-heading">
+                    Logout
                   </Typography>
                 </Link>
               </>
             )}
-
-            <Link
-              to="/"
-              className="nav-element"
-              onClick={() => {
-                logOutUser();
-                setCurrentPage('home');
-              }}
-            >
-              <Typography variant="h5" className="nav-heading">
-                Logout
-              </Typography>
-            </Link>
           </div>
         )}
         {smallScreen && (
