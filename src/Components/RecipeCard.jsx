@@ -8,6 +8,7 @@ import {
   Stack,
   CardActionArea,
   Container,
+  Button,
 } from '@mui/material';
 import { useState } from 'react';
 import { IconButton } from '@mui/material';
@@ -19,6 +20,7 @@ import './RecipeCard.css';
 
 function RecipeCard({ recipe, currentPage }) {
   const navigate = useNavigate();
+  const [openDialog, setOpenDialog] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const deleteRecipe = (id) => {
@@ -34,17 +36,18 @@ function RecipeCard({ recipe, currentPage }) {
 
   return (
     <>
-      <Card
-        variant="outlined"
-        sx={{ width: '300px', height: '520px', borderRadius: '8px' }}
-      >
-        {!confirmDelete && (
-          <>
-            <CardActionArea
-              onClick={() => navigate(`/recipes/${recipe._id}`)}
-              sx={{ height: '80%' }}
-            >
-              {/* <CardMedia
+      {!confirmDelete && (
+        <Card
+          variant="outlined"
+          sx={{ width: '300px', height: '520px', borderRadius: '8px' }}
+        >
+          {!openDialog && (
+            <>
+              <CardActionArea
+                onClick={() => navigate(`/recipes/${recipe._id}`)}
+                sx={{ height: '80%' }}
+              >
+                {/* <CardMedia
                 component="img"
                 height="200px"
                 image={recipe.photo_url}
@@ -52,83 +55,100 @@ function RecipeCard({ recipe, currentPage }) {
                 sx={{ borderRadius: '8px' }}
               /> */}
 
-              <CardContent>
-                <Stack spacing={3}>
-                  <Typography variant="h6">{recipe.name}</Typography>
-                  <div className="tag-container">
-                    {recipe.tags.map((eachTag) => {
-                      return (
-                        <div className="tag-wrapper" key={eachTag}>
-                          <Typography variant="body2">{eachTag}</Typography>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <Typography variant="body2">
-                    ⏱️ {recipe.duration} mins
-                  </Typography>
+                <CardContent>
+                  <Stack spacing={3}>
+                    <Typography variant="h6">{recipe.name}</Typography>
+                    <div className="tag-container">
+                      {recipe.tags.map((eachTag) => {
+                        return (
+                          <div className="tag-wrapper" key={eachTag}>
+                            <Typography variant="body2">{eachTag}</Typography>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <Typography variant="body2">
+                      ⏱️ {recipe.duration} mins
+                    </Typography>
 
-                  <Typography variant="body2">
-                    Author: {recipe.creator.user_name}
-                  </Typography>
+                    <Typography variant="body2">
+                      Author: {recipe.creator.user_name}
+                    </Typography>
 
-                  <Typography variant="body2">{recipe.description}</Typography>
-                </Stack>
-              </CardContent>
-            </CardActionArea>
-            {currentPage === 'dashboard' && (
-              <Container
-                sx={{
-                  height: '20%',
-                  marginBottom: 0,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: 2,
-                }}
-              >
-                <IconButton
-                  aria-label="edit"
-                  onClick={() => {
-                    navigate(`/dashboard/edit/${recipe._id}`);
+                    <Typography variant="body2">
+                      {recipe.description}
+                    </Typography>
+                  </Stack>
+                </CardContent>
+              </CardActionArea>
+              {currentPage === 'dashboard' && (
+                <Container
+                  sx={{
+                    height: '20%',
+                    marginBottom: 0,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: 2,
                   }}
                 >
-                  <EditIcon />
-                </IconButton>
+                  <IconButton
+                    aria-label="edit"
+                    onClick={() => {
+                      navigate(`/dashboard/edit/${recipe._id}`);
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
 
-                <IconButton
-                  aria-label="delete"
-                  onClick={() => setConfirmDelete(true)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Container>
-            )}
-          </>
-        )}
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => setOpenDialog(true)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Container>
+              )}
+            </>
+          )}
 
-        {confirmDelete && (
-          <div id="confirm-delete-wrapper">
-            <h4 className="confirm-delete-heading">Are you sure?</h4>
-            <button
-              className="confirm-delete-button"
-              onClick={(e) => {
-                e.preventDefault();
-                deleteRecipe(recipe._id);
+          {openDialog && !confirmDelete && (
+            <CardContent
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
               }}
             >
-              Yes
-            </button>
-            <button
-              className="confirm-delete-button"
-              onClick={() => setConfirmDelete(false)}
-            >
-              No
-            </button>
-          </div>
-        )}
-      </Card>
+              <Stack spacing={3}>
+                <Typography variant="h6" className="confirm-delete-heading">
+                  Are you sure?
+                </Typography>
+                <Button
+                  variant="contained"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setConfirmDelete(true);
+                    deleteRecipe(recipe._id);
+                  }}
+                >
+                  Yes
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setConfirmDelete(false);
+                    setOpenDialog(false);
+                  }}
+                >
+                  No
+                </Button>
+              </Stack>
+            </CardContent>
+          )}
+        </Card>
+      )}
     </>
   );
 }
