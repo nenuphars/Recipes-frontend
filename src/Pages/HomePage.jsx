@@ -10,11 +10,27 @@ import {
   Card,
   CardContent,
 } from '@mui/material';
-// import Logo from "../Photos/Logo_fridge.png";
+import { useNavigate } from 'react-router-dom';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import json2mq from 'json2mq';
 
 function HomePage() {
   const [allRecipes, setAllRecipes] = useState([]);
   const [randomRecipe, setRandomRecipe] = useState(null);
+
+  const navigate = useNavigate();
+
+  // const smallScreen = useMediaQuery(
+  //   json2mq({
+  //     maxWidth: 720,
+  //   })
+  // );
+
+  const mediumScreen = useMediaQuery(
+    json2mq({
+      maxWidth: 1100,
+    })
+  );
 
   useEffect(() => {
     recipesService
@@ -36,50 +52,91 @@ function HomePage() {
   }, [allRecipes, randomRecipe]);
 
   return (
-    <div className="page-wrapper">
+    <div className="base-wrapper">
       <Container id="homepage-container">
         <Stack
-          direction="row"
-          sx={{ justifyContent: 'space-between', alignItems: 'center' }}
+          direction={mediumScreen ? 'column' : 'row'}
+          sx={{ alignItems: 'center' }}
         >
           <Stack
             direction="column"
             spacing={2}
             id="description-wrapper"
-            sx={{ width: '40%', textAlign: 'center' }}
+            sx={{
+              width: { xs: '100%', sm: '80%', md: '75%', lg: '50%' },
+              textAlign: 'center',
+            }}
           >
-            <Typography variant="h5" sx={{ fontWeight: 500 }}>
-              KARELA
-            </Typography>
-            <Typography variant="body1" sx={{ marginBottom: '4rem' }}>
-              Here you can share your family classics or discover your
-              friend&apos;s comfort food.
-              <br />
-              Cooking healthy and delicious food isn&apos;t always easy. But
-              Karela is a place for you to share the recipes that you love and
-              know and always come back to them.
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{ fontFamily: 'Edu AU VIC WA NT', fontWeight: 300 }}
-            >
-              Don&apos;t know what you&apos;re looking for?
-            </Typography>
-            <Button
-              id="random-button"
-              size="large"
-              variant="contained"
-              sx={{ width: '40%', alignSelf: 'center' }}
-              onClick={() => {
-                setRandomRecipe(
-                  allRecipes[Math.floor(Math.random() * allRecipes.length)]
-                );
+            <Card
+              variant="outlined"
+              sx={{
+                width: '100%',
+                height: { md: 'auto', lg: '520px' },
+                borderRadius: {
+                  md: '8px 8px 40px 40px',
+                  lg: '8px 40px 40px 8px',
+                },
+                padding: '2rem',
+                textAlign: 'center',
               }}
             >
-              Get a random recipe
-            </Button>
+              <CardContent>
+                <Stack
+                  spacing={2}
+                  direction={'column'}
+                  // sx={{ justifyContent: 'space-around' }}
+                >
+                  <Typography variant="h3">Welcome to Karela</Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontFamily: 'Gowun Batang',
+                      fontStyle: 'italic',
+                      marginBottom: '4rem',
+                    }}
+                  >
+                    The eternal question: &quot;What shall we eat today?&quot;
+                    <br />
+                    Here you can store your family classics or discover your
+                    friend&apos;s comfort food.
+                    <br />
+                    We offer a place for you to share the recipes that you love
+                    and know and be able to always come back to them.
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontFamily: 'Edu AU VIC WA NT', fontWeight: 500 }}
+                  >
+                    Don&apos;t know what you&apos;re looking for?
+                  </Typography>
+                  <Button
+                    id="random-button"
+                    size="large"
+                    variant="contained"
+                    sx={{
+                      width: '40%',
+                      alignSelf: 'center',
+                      marginTop: '2rem',
+                    }}
+                    onClick={() => {
+                      setRandomRecipe(
+                        allRecipes[
+                          Math.floor(Math.random() * allRecipes.length)
+                        ]
+                      );
+                    }}
+                  >
+                    Get a random recipe
+                  </Button>
+                </Stack>
+              </CardContent>
+            </Card>
           </Stack>
-          <Stack className="homepage-wrapper" direction={'column'}>
+          <Stack
+            className="homepage-wrapper"
+            direction={'column'}
+            sx={{ width: { xs: '100%', sm: '80%', md: '75%', lg: '50%' } }}
+          >
             {!randomRecipe && (
               <p>
                 <CircularProgress color="success" size={70}></CircularProgress>
@@ -90,8 +147,11 @@ function HomePage() {
                 variant="outlined"
                 sx={{
                   width: '100%',
-                  height: '520px',
-                  borderRadius: '8px',
+                  height: { md: 'auto', lg: '520px' },
+                  borderRadius: {
+                    md: '40px 40px 8px 8px',
+                    lg: '40px 8px 8px 40px',
+                  },
                   padding: '4rem',
                   textAlign: 'center',
                 }}
@@ -100,9 +160,13 @@ function HomePage() {
                   <Stack
                     spacing={2}
                     direction={'column'}
-                    sx={{ justifyContent: 'space-around' }}
+                    sx={{
+                      justifyContent: 'space-around',
+                      height: { xs: 'auto', lg: '300px' },
+                    }}
                   >
                     <Typography variant="h4">{randomRecipe.name}</Typography>
+
                     <Stack
                       direction={'row'}
                       sx={{ justifyContent: 'center' }}
@@ -131,6 +195,13 @@ function HomePage() {
                       {randomRecipe.description}
                     </Typography>
                   </Stack>
+                  <Button
+                    variant="outlined"
+                    sx={{ width: '200px', marginTop: '2rem' }}
+                    onClick={() => navigate(`/recipes/${randomRecipe._id}`)}
+                  >
+                    <Typography variant="subtitle1">Go to recipe</Typography>
+                  </Button>
                 </CardContent>
               </Card>
             )}
