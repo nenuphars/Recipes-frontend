@@ -26,6 +26,7 @@ h6 {
 .base-wrapper {
   display: flex;
   top: 35vh;
+  padding-top: 60px;
   justify-content: center;
   min-height: 100vh;
   background-color: #faf8eb;

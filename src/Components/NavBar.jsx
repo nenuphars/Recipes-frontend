@@ -52,6 +52,7 @@ function Navbar() {
           to="/"
           id="home-wrapper"
           className="nav-element"
+          style={{ left: 0, alignSelf: 'start' }}
           onClick={() => setCurrentPage('/')}
         >
           <div id="home-link-logo-wrapper">
@@ -60,7 +61,7 @@ function Navbar() {
           <Typography
             variant="h5"
             id="home-name"
-            className={currentPage === '/' ? 'selected-element' : ''}
+            className={currentPage === 'home' ? 'selected-element' : ''}
           >
             KARELA
           </Typography>
@@ -216,7 +217,7 @@ function Navbar() {
 
             {open && (
               <>
-                <Box
+                <Stack
                   onClick={() => {
                     handleClose();
                   }}
@@ -224,7 +225,8 @@ function Navbar() {
                     position: 'absolute',
                     zIndex: 50,
                     top: 0,
-                    padding: '4rem',
+                    margin: 0,
+                    padding: 0,
                     backdropFilter: 'blur(1px)',
                     width: '100vw',
                     height: '100vh',
@@ -234,17 +236,17 @@ function Navbar() {
                     justifyContent: 'center',
                   }}
                 >
-                  <Box
+                  <Stack
                     sx={{
                       zIndex: 100,
-                      width: '70vw',
-                      height: '70vh',
+                      width: '80vw',
+                      height: '60vh',
                       backgroundColor: appTheme.palette.offwhite.main,
                       border: `1px solid ${appTheme.palette.secondary.main}`,
                       borderRadius: '4px',
                     }}
                     onClick={(e) => {
-                      e.preventDefault();
+                      e.stopPropagation();
                     }}
                   >
                     <Stack
@@ -265,6 +267,23 @@ function Navbar() {
                       >
                         Menu
                       </Typography>
+
+                      <Link
+                        to="/"
+                        className="nav-element"
+                        onClick={() => setCurrentPage('home')}
+                      >
+                        <Typography
+                          variant="h5"
+                          className={
+                            currentPage === 'home'
+                              ? 'modal-link selected-element'
+                              : 'modal-link'
+                          }
+                        >
+                          Home
+                        </Typography>
+                      </Link>
 
                       <Link
                         to="/recipes"
@@ -298,6 +317,38 @@ function Navbar() {
                           FAQ
                         </Typography>
                       </Link>
+                      {isLoggedIn && (
+                        <>
+                          <Link
+                            to="/dashboard"
+                            className="nav-element"
+                            onClick={() => setCurrentPage('dashboard')}
+                          >
+                            <Typography
+                              variant="h5"
+                              className={
+                                currentPage === 'dashboard'
+                                  ? 'modal-link selected-element'
+                                  : 'modal-link'
+                              }
+                            >
+                              Dashboard
+                            </Typography>
+                          </Link>
+                          <Link
+                            className="nav-element"
+                            to={'/'}
+                            onClick={() => {
+                              logOutUser();
+                              setCurrentPage('home');
+                            }}
+                          >
+                            <Typography variant="h5" className="modal-link">
+                              Logout
+                            </Typography>
+                          </Link>
+                        </>
+                      )}
                       {!isLoggedIn && (
                         <>
                           <Link
@@ -336,8 +387,8 @@ function Navbar() {
                         </>
                       )}
                     </Stack>
-                  </Box>
-                </Box>
+                  </Stack>
+                </Stack>
               </>
             )}
           </>
