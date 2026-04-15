@@ -1,8 +1,5 @@
-import './searchBar.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
-import CloseIcon from '@mui/icons-material/Close';
 import {
   Stack,
   Card,
@@ -13,11 +10,12 @@ import {
   TextField,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import recipesService from '../services/recipes.services';
+
 import useMediaQuery from '@mui/material/useMediaQuery';
 import json2mq from 'json2mq';
-// import { use } from 'react';
-import { appTheme } from '../themes/theme';
+import recipesService from '../services/recipes.services.js';
+import { appTheme } from '../themes/theme.js';
+import { Search, Close } from '@mui/icons-material';
 
 function SearchBar({ setPropsRecipes }) {
   const [allRecipes, setAllRecipes] = useState([]);
@@ -27,7 +25,7 @@ function SearchBar({ setPropsRecipes }) {
   const smallScreen = useMediaQuery(
     json2mq({
       maxWidth: 720,
-    })
+    }),
   );
 
   // search query state
@@ -59,19 +57,19 @@ function SearchBar({ setPropsRecipes }) {
 
       if (selectedSearchType === 'name') {
         filtered = allRecipes.filter((recipe) =>
-          recipe.name.toLowerCase().includes(searchTerm)
+          recipe.name.toLowerCase().includes(searchTerm),
         );
       } else if (selectedSearchType === 'ingredient') {
         filtered = allRecipes.filter((oneRecipe) =>
           oneRecipe.ingredientsList.some((ingredientObj) =>
-            ingredientObj.ingredient_name.toLowerCase().includes(searchTerm)
-          )
+            ingredientObj.ingredient_name.toLowerCase().includes(searchTerm),
+          ),
         );
       } else if (selectedSearchType === 'tag') {
         filtered = allRecipes.filter((oneRecipe) =>
           oneRecipe.tags.some((oneTag) =>
-            oneTag.toLowerCase().includes(searchTerm)
-          )
+            oneTag.toLowerCase().includes(searchTerm),
+          ),
         );
       }
       setFilteredRecipes(filtered);
@@ -99,7 +97,7 @@ function SearchBar({ setPropsRecipes }) {
           <Button
             variant={selectedSearchType === 'name' ? 'contained' : 'outlined'}
             sx={{
-              color: appTheme.palette.offwhite.main,
+              color: appTheme.palette.background.default,
               backgroundColor:
                 selectedSearchType === 'name'
                   ? appTheme.palette.secondary.main
@@ -119,7 +117,7 @@ function SearchBar({ setPropsRecipes }) {
               selectedSearchType === 'ingredient' ? 'contained' : 'outlined'
             }
             sx={{
-              color: appTheme.palette.offwhite.main,
+              color: appTheme.palette.background.default,
               backgroundColor:
                 selectedSearchType === 'ingredient'
                   ? appTheme.palette.secondary.main
@@ -137,7 +135,7 @@ function SearchBar({ setPropsRecipes }) {
           <Button
             variant={selectedSearchType === 'tag' ? 'contained' : 'outlined'}
             sx={{
-              color: appTheme.palette.offwhite.main,
+              color: appTheme.palette.background.default,
               backgroundColor:
                 selectedSearchType === 'tag'
                   ? appTheme.palette.secondary.main
@@ -159,12 +157,11 @@ function SearchBar({ setPropsRecipes }) {
           value={activeQuery}
           onChange={(e) => handleSearchQuery(e)}
           InputProps={{
-            input: {
-              startAdornment: <SearchIcon />,
-            },
+            startAdornment: <Search />,
+
             endAdornment: (
               <Button onClick={clearSearch}>
-                <CloseIcon />
+                <Close />
               </Button>
             ),
           }}

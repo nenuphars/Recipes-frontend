@@ -1,14 +1,14 @@
 import { useEffect, useContext, useState } from 'react';
 import { Typography } from '@mui/material';
 
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+// import '@fontsource/roboto/300.css';
+// import '@fontsource/roboto/400.css';
+// import '@fontsource/roboto/500.css';
+// import '@fontsource/roboto/700.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import './EditRecipe.css';
+
 import recipesService from '../services/recipes.services';
-import { AuthContext } from '../context/auth.context';
+import { useAuth } from '../context/auth.context';
 import { RecipeContext } from '../context/recipe.context';
 import RecipeForm from '../Components/RecipeForm';
 
@@ -43,7 +43,7 @@ function EditRecipe() {
     tags,
   } = useContext(RecipeContext);
 
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const [recipeData, setRecipeData] = useState({});
 
@@ -77,51 +77,51 @@ function EditRecipe() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const nameError = validateName(name);
-    const durationError = validateDuration(duration);
-    const servingsError = validateServings(servings);
-    const ingredientErrors = ingredients.map((ing, index) =>
-      validateIngredient(ing, index)
-    );
-    const descriptionError = validateDescription(description);
-    const preparationError = validatePreparation(preparation);
+    // const nameError = validateName(name);
+    // const durationError = validateDuration(duration);
+    // const servingsError = validateServings(servings);
+    // const ingredientErrors = ingredients.map((ing, index) =>
+    //   validateIngredient(ing, index),
+    // );
+    // const descriptionError = validateDescription(description);
+    // const preparationError = validatePreparation(preparation);
 
-    const ingredientsValidation = validateIngredientsList(ingredients);
+    // const ingredientsValidation = validateIngredientsList(ingredients);
 
-    if (!ingredientsValidation.valid) {
-      setErrors((prev) => ({
-        ...prev,
-        generalIngredient: ingredientsValidation.error,
-      }));
-      return;
-    }
+    // if (!ingredientsValidation.valid) {
+    //   setErrors((prev) => ({
+    //     ...prev,
+    //     generalIngredient: ingredientsValidation.error,
+    //   }));
+    //   return;
+    // }
 
-    const hasErrors =
-      nameError ||
-      descriptionError ||
-      preparationError ||
-      durationError ||
-      servingsError ||
-      ingredientErrors.some((err) => err.name || err.amount || err.measuring);
+    // const hasErrors =
+    //   nameError ||
+    //   descriptionError ||
+    //   preparationError ||
+    //   durationError ||
+    //   servingsError ||
+    //   ingredientErrors.some((err) => err.name || err.amount || err.measuring);
 
-    setErrors({
-      name: nameError,
-      duration: durationError,
-      servings: servingsError,
-      ingredients: ingredientErrors,
-      description: descriptionError,
-      preparation: preparationError,
-    });
+    // setErrors({
+    //   name: nameError,
+    //   duration: durationError,
+    //   servings: servingsError,
+    //   ingredients: ingredientErrors,
+    //   description: descriptionError,
+    //   preparation: preparationError,
+    // });
 
-    if (hasErrors) {
-      return;
-    }
+    // if (hasErrors) {
+    //   return;
+    // }
 
     // object that contains a new/edited recipe
     const updatedRecipe = {
       name,
       duration,
-      ingredientsList: ingredientsValidation.cleanedIngredients,
+      ingredients,
       preparation,
       description,
       servings,

@@ -1,31 +1,24 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
-import './Dashboard.css';
 import { Link } from 'react-router-dom';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 // import SearchBar from '../Components/SearchBar';
 import CircularProgress from '@mui/material/CircularProgress';
-import {
-  Card,
-  Stack,
-  Typography,
-  CardContent,
-  Container,
-} from '@mui/material';
-import recipesService from '../services/recipes.services';
-import RecipeCard from '../Components/RecipeCard';
-import { AuthContext } from '../context/auth.context';
-import NoAccess from '../Components/NoAccess';
-import { appTheme } from '../themes/theme';
+import { Card, Stack, Typography, CardContent, Container } from '@mui/material';
+import { useAuth } from '../context/auth.context.jsx';
+import recipesService from '../services/recipes.services.js';
+import NoAccess from '../Components/NoAccess.jsx';
+import { appTheme } from '../themes/theme.js';
+import RecipeCard from '../Components/RecipeCard.jsx';
+import { AddRounded } from '@mui/icons-material';
 
 function Dashboard() {
-  const [allRecipes, setAllRecipes] = useState('');
-  const [dataLoaded, setDataLoaded] = useState('');
+  const [allRecipes, setAllRecipes] = useState(null);
+  const [dataLoaded, setDataLoaded] = useState(null);
   const [hasRecipes, setHasRecipes] = useState(true);
 
   // const [spinner, setSpinner] = useState([]);
 
-  const { user, isLoggedIn } = useContext(AuthContext);
+  const { user, isLoggedIn } = useAuth();
 
   useEffect(() => {
     if (user) {
@@ -39,7 +32,6 @@ function Dashboard() {
           if (recipes.data.length === 0) {
             setHasRecipes(false);
           }
-
         })
         .catch((error) => {
           console.log(error);
@@ -52,14 +44,12 @@ function Dashboard() {
       <div className="page-wrapper">
         <Container id="Dashboard" sx={{ minWidth: '100vw', margin: '0' }}>
           <Stack direction={'column'} gap={2} sx={{ width: '100%' }}>
-            
-
             {!isLoggedIn && (
               <>
                 <NoAccess></NoAccess>
               </>
             )}
-            
+
             {isLoggedIn && !dataLoaded && hasRecipes && (
               <CircularProgress
                 id="circular-progress-dashboard"
@@ -88,10 +78,10 @@ function Dashboard() {
                   >
                     <Stack spacing={2}>
                       <div id="add-recipe-plus-icon">
-                        <AddRoundedIcon
+                        <AddRounded
                           color="primary"
                           style={{ fontSize: 175 }}
-                        ></AddRoundedIcon>
+                        ></AddRounded>
                       </div>
                       <CardContent>
                         <Typography
@@ -104,7 +94,6 @@ function Dashboard() {
                     </Stack>
                   </Card>
                 </Link>
-
 
                 {dataLoaded && hasRecipes && (
                   <>

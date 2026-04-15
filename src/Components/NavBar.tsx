@@ -1,24 +1,22 @@
 import { Link } from 'react-router-dom';
-import './NavBar.css';
-import Logo from '../assets/KARELA(1).png';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/auth.context';
-import { appTheme } from '../themes/theme';
-import MenuIcon from '@mui/icons-material/Menu';
+import { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import { Stack, Typography, Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import json2mq from 'json2mq';
+import { useAuth } from '../context/auth.context.jsx';
+import { appTheme } from '../themes/theme.js';
+import { Menu } from '@mui/icons-material';
 
 function Navbar() {
   const [currentPage, setCurrentPage] = useState('home');
 
-  const { isLoggedIn, logOutUser } = useContext(AuthContext);
+  const { isLoggedIn, logOutUser } = useAuth();
 
   const smallScreen = useMediaQuery(
     json2mq({
       maxWidth: 720,
-    })
+    }),
   );
 
   const [open, setOpen] = useState(false);
@@ -42,21 +40,61 @@ function Navbar() {
       id="nav-container"
       style={{
         backgroundColor: appTheme.palette.secondary.main,
-        color: appTheme.palette.offwhite.main,
         width: '100vw',
         position: 'relative',
       }}
     >
-      <Box id="nav-links-wrapper">
+      <Box
+        id="nav-links-wrapper"
+        sx={{
+          width: '100vw',
+          height: '100%',
+          padding: 0,
+          margin: 0,
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
         <Link
           to="/"
           id="home-wrapper"
+          style={{
+            width: 'auto',
+            minWidth: '200px',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            lineHeight: 0,
+            marginRight: '2rem',
+            left: 0,
+            alignSelf: 'start',
+          }}
           className="nav-element"
-          style={{ left: 0, alignSelf: 'start' }}
           onClick={() => setCurrentPage('/')}
         >
-          <div id="home-link-logo-wrapper">
-            <img id="logo" src={Logo} alt="Karela Logo" />
+          <div
+            id="home-link-logo-wrapper"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              overflow: 'hidden',
+              marginRight: '12px',
+              left: 0,
+            }}
+          >
+            <img
+              id="logo"
+              style={{
+                objectFit: 'cover',
+                maxWidth: '5rem',
+                alignSelf: 'start',
+              }}
+              src={'src/assets/Karela(1).png'}
+              alt="Karela Logo"
+            />
           </div>
           <Typography
             variant="h5"
@@ -68,7 +106,17 @@ function Navbar() {
         </Link>
 
         {!smallScreen && (
-          <div className="nav-links-right">
+          <div
+            className="nav-links-right"
+            style={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'flex-end',
+              gap: '2rem',
+              marginLeft: 'auto',
+              marginRight: '2rem',
+            }}
+          >
             <Link
               to="/recipes"
               className="nav-element"
@@ -205,13 +253,12 @@ function Navbar() {
                 size="large"
                 aria-label="menu"
                 sx={{
-                  color: appTheme.palette.offwhite.main,
                   height: '80%',
                   width: '80%',
                 }}
                 onClick={handleOpen}
               >
-                <MenuIcon />
+                <Menu />
               </IconButton>
             </Box>
 
@@ -241,7 +288,6 @@ function Navbar() {
                       zIndex: 100,
                       width: '80vw',
                       height: '60vh',
-                      backgroundColor: appTheme.palette.offwhite.main,
                       border: `1px solid ${appTheme.palette.secondary.main}`,
                       borderRadius: '4px',
                     }}

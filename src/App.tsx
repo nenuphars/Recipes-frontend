@@ -1,22 +1,21 @@
-import './App.css';
 // import {useState} from 'react'
-import Navbar from './Components/NavBar';
-import { Route, Routes } from 'react-router-dom';
-import HomePage from './Pages/HomePage';
-import AllRecipesPage from './Pages/AllRecipesPage';
-import RecipeDetailsPage from './Pages/RecipeDetailsPage';
-import CreateRecipePage from './Pages/CreateRecipePage';
-import EditRecipe from './Pages/EditRecipe';
-import Dashboard from './Pages/Dashboard';
-import FAQPage from './Pages/FAQPage';
-import ErrorPage from './Pages/ErrorPage';
-import Login from './Pages/Login';
-import Signup from './Pages/SignUp';
+import { ThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
-import { appTheme } from './themes/theme';
-import { ThemeProvider } from '@mui/material';
-import IsAnon from './Components/IsAnon';
-import IsPrivate from './Components/IsPrivate';
+import { Route, Routes } from 'react-router-dom';
+import Navbar from './Components/NavBar.jsx';
+import IsAnon from './Components/IsAnon.jsx';
+import Login from './Pages/Login.js';
+import Signup from './Pages/SignUp.jsx';
+import IsPrivate from './Components/IsPrivate.jsx';
+import Dashboard from './Pages/Dashboard.jsx';
+import EditRecipe from './Pages/EditRecipe.jsx';
+import CreateRecipePage from './Pages/CreateRecipePage.jsx';
+import HomePage from './Pages/HomePage.js';
+import AllRecipesPage from './Pages/AllRecipesPage.jsx';
+import RecipeDetailsPage from './Pages/RecipeDetailsPage.js';
+import FAQPage from './Pages/FAQPage.jsx';
+import ErrorPage from './Pages/ErrorPage.jsx';
+import { appTheme } from './themes/theme.jsx';
 
 function App() {
   return (

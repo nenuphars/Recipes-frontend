@@ -1,14 +1,14 @@
 import { createTheme } from '@mui/material';
-import GowunBatang from '../fonts/Gowun_Batang/GowunBatang-Regular.ttf';
-import EduAUVICWANT from '../fonts/Edu_AU_VIC_WA_NT_Hand/EduAUVICWANTHand-VariableFont_wght.ttf';
+// import { GowunBatang } from '../fonts/Gowun_Batang';
+// import { EduAUVICWANT } from '../fonts/Edu_AU_VIC_WA_NT_Hand/static';
 
 export const appTheme = createTheme({
   palette: {
     primary: { main: '#55996F' },
     secondary: { main: '#f19dc0' },
-    offwhite: { main: '#faf8eb' },
-    red: { main: '#dd596b' },
-    blue: { main: '#5971DD' },
+    background: { default: '#faf8eb' },
+    error: { main: '#dd596b' },
+    info: { main: '#5971DD' },
   },
   typography: {
     fontFamily: [
@@ -36,20 +36,20 @@ export const appTheme = createTheme({
       fontFamily: 'Edu AU VIC WA NT, sans-serif',
     },
   },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: `
-        @font-face {
-          font-family: 'Gowun Batang';
-          font-style: regular;
-          src: url(${GowunBatang});
-        }
-        @font-face {
-          font-family: 'Edu AU VIC WA NT';
-          font-style: regular;
-          src: url(${EduAUVICWANT});
-        }
-      `,
-    },
-  },
+  // components: {
+  //   MuiCssBaseline: {
+  //     styleOverrides: `
+  //       @font-face {
+  //         font-family: 'Gowun Batang';
+  //         font-style: regular;
+  //         src: url(${GowunBatang});
+  //       }
+  //       @font-face {
+  //         font-family: 'Edu AU VIC WA NT';
+  //         font-style: regular;
+  //         src: url(${EduAUVICWANT});
+  //       }
+  //     `,
+  //   },
+  // },
 });

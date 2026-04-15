@@ -1,24 +1,25 @@
 // import React from "react";
-import { useState, useEffect, createContext } from "react";
-import axios from "axios";
+import { useState, useEffect, createContext, useContext } from 'react';
+import axios from 'axios';
+import type { User } from '../types/user.types';
 
 // create the context
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
 // everything wrapped has access to context
-function AuthProviderWrapper(props) {
+export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   // function for checking token in storage: is logged in?
   function authenticateUser() {
     // 1) get token from storage
-    const storedToken = localStorage.getItem("authToken");
+    const storedToken = localStorage.getItem('authToken');
     // A 2) send token to verify route for verification check
     if (storedToken) {
       axios
-        .get(`${import.meta.env.VITE_API_URL}/api/auth/verify`, {
+        .get(`${process.env.VITE_API_URL}/api/auth/verify`, {
           headers: { Authorization: `Bearer ${storedToken}` },
         })
         .then((response) => {
@@ -28,7 +29,7 @@ function AuthProviderWrapper(props) {
           setIsLoggedIn(true);
           setIsLoading(false);
           setUser(user);
-          console.log("user logged in.");
+          console.log('user logged in.');
         })
         .catch((err) => {
           // setIsLoggedIn(false);
@@ -43,14 +44,14 @@ function AuthProviderWrapper(props) {
       setIsLoggedIn(false);
       setIsLoading(false);
       setUser(null);
-      console.log("user not logged in.");
+      console.log('user not logged in.');
     }
   }
 
   // function for logging out
   function logOutUser() {
     // 1) remove token from storage
-    localStorage.removeItem("authToken");
+    localStorage.removeItem('authToken');
     // 2) call authenticate to set logged in as false
     authenticateUser();
   }
@@ -61,15 +62,10 @@ function AuthProviderWrapper(props) {
     authenticateUser();
   }, []);
 
+  const value = { isLoggedIn, isLoading, user, authenticateUser, logOutUser };
   // make states and functions available with context
-  return (
-    <AuthContext.Provider
-      value={{ isLoggedIn, isLoading, user, authenticateUser, logOutUser }}
-    >
-      {props.children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 // export function and context
-export { AuthProviderWrapper, AuthContext };
+export const useAuth = () => useContext(AuthContext);

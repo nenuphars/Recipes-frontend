@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
-import './AllRecipesPage.css';
-// import Card from "@mui/material/Card";
-// import { Link } from "react-router-dom";
-import SearchBar from '../Components/SearchBar';
 import CircularProgress from '@mui/material/CircularProgress';
-import recipesService from '../services/recipes.services';
-import RecipeCard from '../Components/RecipeCard';
+
 import { Container, Stack, Typography } from '@mui/material';
+import recipesService from '../services/recipes.services.js';
+import SearchBar from '../Components/SearchBar.jsx';
+import RecipeCard from '../Components/RecipeCard.jsx';
 
 function AllRecipesPage() {
   const [spinner, setSpinner] = useState([]);

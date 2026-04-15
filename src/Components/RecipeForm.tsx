@@ -16,16 +16,10 @@ import {
   FormHelperText,
   //   Typography,
 } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
-import DeleteIcon from '@mui/icons-material/Delete';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import '../Pages/CreateRecipe.css';
-import { RecipeContext } from '../context/recipe.context';
+import { RecipeContext } from '../context/recipe.context.jsx';
+import { Delete, Send } from '@mui/icons-material';
 
-function RecipeForm({ handleSubmit, page }) {
+function RecipeForm({ handleSubmit, page, recipeData }) {
   const theme = useTheme();
 
   const {
@@ -120,8 +114,8 @@ function RecipeForm({ handleSubmit, page }) {
           type="text"
           value={name}
           onChange={(e) => handleNameChange(e)}
-          error={!!errors.name}
-          helperText={errors.name}
+          error={!!errors.nameError}
+          helperText={errors.nameError}
           required
         />
 
@@ -133,8 +127,8 @@ function RecipeForm({ handleSubmit, page }) {
             type="number"
             value={duration}
             onChange={handleDurationChange}
-            error={!!errors.duration}
-            helperText={errors.duration}
+            error={!!errors.durationError}
+            helperText={errors.durationError}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">mins</InputAdornment>
@@ -149,8 +143,8 @@ function RecipeForm({ handleSubmit, page }) {
             type="number"
             value={servings}
             onChange={handleServingsChange}
-            error={!!errors.servings}
-            helperText={errors.servings}
+            error={!!errors.servingsError}
+            helperText={errors.servingsError}
           />
         </Stack>
 
@@ -162,8 +156,8 @@ function RecipeForm({ handleSubmit, page }) {
           type="text"
           rows={4}
           onChange={handleDescriptionChange}
-          error={!!errors.description}
-          helperText={errors.description}
+          error={!!errors.descriptionError}
+          helperText={errors.descriptionError}
         />
 
         <div className="ingredients-container">
@@ -191,8 +185,8 @@ function RecipeForm({ handleSubmit, page }) {
                         handleIngredientFields(index, event, 'name')
                       }
                       sx={{ width: '50%' }}
-                      error={!!errors.ingredients[index]?.name}
-                      helperText={errors.ingredients[index]?.name}
+                      error={!!errors.ingredientErrors[index]?.name}
+                      helperText={errors.ingredientErrors[index]?.name}
                     />
                     <TextField
                       className="ingredient-textfield"
@@ -203,8 +197,8 @@ function RecipeForm({ handleSubmit, page }) {
                       onChange={(event) =>
                         handleIngredientFields(index, event, 'amount')
                       }
-                      error={!!errors.ingredients[index]?.amount}
-                      helperText={errors.ingredients[index]?.amount}
+                      error={!!errors.ingredientErrors[index]?.amount}
+                      helperText={errors.ingredientErrors[index]?.amount}
                     />
                     <Select
                       input={<OutlinedInput />}
@@ -234,7 +228,7 @@ function RecipeForm({ handleSubmit, page }) {
                         deleteIngredientFields(index);
                       }}
                     >
-                      <DeleteIcon />
+                      <Delete />
                     </IconButton>
                   </Stack>
                 </>
@@ -244,7 +238,7 @@ function RecipeForm({ handleSubmit, page }) {
               className="add-button"
               size="medium"
               variant="text"
-              onClick={(e) => addFields(e)}
+              onClick={(e) => addFields()}
             >
               Add more
             </Button>
@@ -258,8 +252,8 @@ function RecipeForm({ handleSubmit, page }) {
           type="text"
           value={preparation}
           onChange={handlePreparationChange}
-          error={!!errors.preparation}
-          helperText={errors.preparation}
+          error={!!errors.preparationError}
+          helperText={errors.preparationError}
           required
         />
 
@@ -304,14 +298,14 @@ function RecipeForm({ handleSubmit, page }) {
           size="large"
           onClick={handleSubmit}
           variant="contained"
-          endIcon={<SendIcon />}
+          endIcon={<Send />}
           type="submit"
         >
           {page}
         </Button>
-        {errors.generalIngredient && (
+        {errors.generalIngredientError && (
           <Alert severity="error" sx={{ mb: 2 }}>
-            {errors.generalIngredient}
+            {errors.generalIngredientError}
           </Alert>
         )}
       </Stack>

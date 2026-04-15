@@ -1,113 +1,161 @@
-import { useState, createContext } from 'react';
+import React, { useState, createContext } from 'react';
+import {
+  type Recipe,
+  type IngredientsListItem,
+  type tags,
+} from '../types/recipe.types';
+import type { SelectChangeEvent } from '@mui/material';
+
+type IngredientFormValues = {
+  ingredient_name: string;
+  ingredient_amount: string;
+  ingredient_measuring: string;
+};
+
+type IngredientErrors = {
+  name: string;
+  amount: string;
+  measuring: string;
+};
+type FormErrors = {
+  nameError: string;
+  durationError: string;
+  descriptionError: string;
+  servingsError: string;
+  preparationError: string;
+  ingredientErrors: IngredientErrors[];
+  generalIngredientError: string;
+};
 
 // create the context
 const RecipeContext = createContext({
-  validateName: () => {},
-  validateDuration: () => {},
-  validateServings: () => {},
-  validateDescription: () => {},
-  validateIngredient: () => {},
-  validateIngredientsList: () => {},
-  validatePreparation: () => {},
+  validateName: (name: string) => {},
+  validateDuration: (duration: number) => {},
+  validateServings: (servings: number) => {},
+  validateDescription: (description: string) => {},
+  validateIngredient: (ingredient: IngredientFormValues, index: number) => {},
+  validateIngredientsList: (ingredientsList: IngredientFormValues[]) => {},
+  validatePreparation: (preparation: string) => {},
   // Handle change functions
-  handleNameChange: () => {},
-  handleDurationChange: () => {},
-  handleServingsChange: () => {},
-  handleDescriptionChange: () => {},
-  handleIngredientFields: () => {},
-  handlePreparationChange: () => {},
-  handleChangeUnit: () => {},
-  handleChangeTag: () => {},
+  handleNameChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {},
+  handleDurationChange: (e: React.ChangeEvent<HTMLInputElement>) => {},
+  handleServingsChange: (e: React.ChangeEvent<HTMLInputElement>) => {},
+  handleDescriptionChange: (e: React.ChangeEvent<HTMLInputElement>) => {},
+  handleIngredientFields: (
+    index: number,
+    ingredients: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    type: 'name' | 'amount',
+  ) => {},
+  handlePreparationChange: (e: React.ChangeEvent<HTMLInputElement>) => {},
+  handleChangeUnit: (index: number, e: SelectChangeEvent<any>) => {},
+  handleChangeTag: (e: SelectChangeEvent<any>) => {},
   // Add or delete Fields
-  deleteIngredientFields: () => {},
+  deleteIngredientFields: (index: number) => {},
   addFields: () => {},
   // Additional validation
-  isIngredientEmpty: () => {},
-  isIngredientComplete: () => {},
+  isIngredientEmpty: (ingredient: IngredientFormValues) => {},
+  isIngredientComplete: (ingredient: IngredientFormValues) => {},
   // States
   errors: {
-    name: '',
-    duration: '',
-    description: '',
-    servings: '',
-    preparation: '',
-    ingredients: [],
-    generalIngredient: '',
+    nameError: '',
+    durationError: '',
+    descriptionError: '',
+    servingsError: '',
+    preparationError: '',
+    ingredientErrors: [{ name: '', amount: '', measuring: '' }],
+    generalIngredientError: '',
   },
-  recipe: undefined,
+  recipe: null,
   name: '',
   duration: 0,
-  servings: '',
+  servings: 0,
   description: '',
   ingredients: [],
   preparation: '',
   tags: [],
   // State setters
-  setErrors: () => {},
-  setRecipe: () => {},
-  setName: () => {},
-  setDuration: () => {},
-  setServings: () => {},
-  setDescription: () => {},
-  setIngredients: () => {},
-  setPreparation: () => {},
-  setTags: () => {},
+  setErrors: (errors: FormErrors) => {},
+  setRecipe: (recipe: Recipe) => {},
+  setName: (name: string) => {},
+  setDuration: (duration: number) => {},
+  setServings: (servings: number) => {},
+  setDescription: (description: string) => {},
+  setIngredients: (ingredients: IngredientFormValues[]) => {},
+  setPreparation: (preparation: string) => {},
+  setTags: (tags: string[]) => {},
 });
 
-function RecipeProviderWrapper(props) {
+type RecipeProps = {
+  name?: string;
+  duration?: number;
+  preparation?: string;
+  description?: string;
+  servings?: number;
+  tags?: string[];
+  ingredients?: IngredientFormValues[];
+  children: any;
+};
+
+function RecipeProviderWrapper(props: RecipeProps) {
   const [name, setName] = useState('');
-  const [duration, setDuration] = useState('');
+  const [duration, setDuration] = useState<number | null>(null);
   const [preparation, setPreparation] = useState('');
   const [description, setDescription] = useState('');
-  const [servings, setServings] = useState('');
+  const [servings, setServings] = useState(0);
   const [tags, setTags] = useState([]);
-  const [ingredients, setIngredients] = useState([
-    { ingredient_name: '', ingredient_amount: '', ingredient_measuring: '' },
+  const [ingredients, setIngredients] = useState<IngredientFormValues[]>([
+    {
+      ingredient_name: '',
+      ingredient_amount: '',
+      ingredient_measuring: '',
+    },
   ]);
-  const [recipe, setRecipe] = useState(undefined);
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
 
-  const [errors, setErrors] = useState({
-    name: '',
-    duration: '',
-    description: '',
-    servings: '',
-    preparation: '',
-    ingredients: [],
-    generalIngredient: '',
+  const [errors, setErrors] = useState<FormErrors>({
+    nameError: '',
+    durationError: '',
+    descriptionError: '',
+    servingsError: '',
+    preparationError: '',
+    ingredientErrors: [{ name: '', amount: '', measuring: '' }],
+    generalIngredientError: '',
   });
 
   // Validation functions
 
-  const validateName = (value) => {
-    if (!value.trim()) {
+  const validateName = (name: string) => {
+    if (!name.trim()) {
       return 'Please give your recipe a name';
     }
-    if (value.length < 3) {
+    if (name.length < 3) {
       return 'The recipe title must be at least 3 characters';
     }
-    if (value.length > 100) {
+    if (name.length > 100) {
       return 'Please keep the title short (less than 100 characters)';
     }
     return '';
   };
 
-  const validateDuration = (value) => {
-    if (!value) return 'Please tell us how long this dish takes to cook';
-    if (value < 1) return 'Cooking takes time, put in a value above 0';
-    if (value > 1440)
+  const validateDuration = (duration: number) => {
+    if (!duration) return 'Please tell us how long this dish takes to cook';
+    if (duration < 1) return 'Cooking takes time, put in a duration above 0';
+    if (duration > 1440)
       return 'No cooking marathon required, recipes should take less than 24 hours';
     return '';
   };
 
-  const validateDescription = (value) => {
-    if (!value) return 'Please write a short description of the dish';
-    if (value.length < 30) return 'Please put in at least 30 characters';
-    if (value.length > 200)
-      return 'Keep it short, your description should be less thant 200 characters';
+  const validateDescription = (description: string) => {
+    if (!description) return 'Please write a short description of the dish';
+    if (description.length < 30) return 'Please put in at least 30 characters';
+    if (description.length > 200)
+      return 'Keep it short, your description should be less than 200 characters';
     return '';
   };
 
-  const validatePreparation = (value) => {
+  const validatePreparation = (value: string) => {
     if (!value)
       return 'Please describe the preparation method in chronological order';
     if (value.length < 30) return 'Please put in at least 30 characters';
@@ -116,23 +164,24 @@ function RecipeProviderWrapper(props) {
     return '';
   };
 
-  const validateServings = (value) => {
+  const validateServings = (value: number) => {
     if (!value) return 'Please tell us for how many servings this recipe is';
     if (value < 1) return 'Servings must be at least 1';
     if (value > 100) return 'Servings must be less than 100';
     return '';
   };
 
-  const isIngredientComplete = (ingredient) => {
-    return (
+  const isIngredientComplete = (ingredient: IngredientFormValues) => {
+    if (
       ingredient.ingredient_name.trim() !== '' &&
       ingredient.ingredient_amount !== '' &&
       ingredient.ingredient_measuring !== ''
-    );
+    )
+      return true;
   };
 
   // Helper function to check if an ingredient is completely empty
-  const isIngredientEmpty = (ingredient) => {
+  const isIngredientEmpty = (ingredient: IngredientFormValues) => {
     return (
       ingredient.ingredient_name.trim() === '' &&
       ingredient.ingredient_amount === '' &&
@@ -141,20 +190,20 @@ function RecipeProviderWrapper(props) {
   };
 
   // Validate ingredients list as a whole
-  const validateIngredientsList = (ingredientsList) => {
+  const validateIngredientsList = (ingredientsList: IngredientFormValues[]) => {
     // Filter out completely empty ingredients
     const nonEmptyIngredients = ingredientsList.filter(
-      (ing) => !isIngredientEmpty(ing)
+      (ing) => !isIngredientEmpty(ing),
     );
 
     // Check if we have at least one complete ingredient
-    const hasOneCompleteIngredient = nonEmptyIngredients.some((ing) =>
-      isIngredientComplete(ing)
-    );
+    const hasOneCompleteIngredient = nonEmptyIngredients.some((ing) => {
+      return isIngredientComplete(ing);
+    });
 
     // Check for partially filled ingredients
     const hasPartialIngredients = nonEmptyIngredients.some(
-      (ing) => !isIngredientComplete(ing)
+      (ing) => !isIngredientComplete(ing),
     );
 
     if (nonEmptyIngredients.length === 0) {
@@ -189,8 +238,11 @@ function RecipeProviderWrapper(props) {
     };
   };
 
-  const validateIngredient = (ingredient, index) => {
-    const newErrors = [...errors.ingredients];
+  const validateIngredient = (
+    ingredient: IngredientFormValues,
+    index: number,
+  ): IngredientErrors[] => {
+    const newErrors: IngredientErrors[] = [...errors.ingredientErrors];
     newErrors[index] = {
       name: !ingredient.ingredient_name.trim()
         ? 'Please put in the name of the ingredient'
@@ -205,7 +257,9 @@ function RecipeProviderWrapper(props) {
     return newErrors;
   };
 
-  const handleNameChange = (e) => {
+  const handleNameChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const value = e.target.value;
     setName(value);
     setErrors((prev) => ({
@@ -214,8 +268,8 @@ function RecipeProviderWrapper(props) {
     }));
   };
 
-  const handleDurationChange = (e) => {
-    const value = e.target.value;
+  const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
     setDuration(value);
     setErrors((prev) => ({
       ...prev,
@@ -223,7 +277,7 @@ function RecipeProviderWrapper(props) {
     }));
   };
 
-  const handleDescriptionChange = (e) => {
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setDescription(value);
     setErrors((prev) => ({
@@ -232,7 +286,7 @@ function RecipeProviderWrapper(props) {
     }));
   };
 
-  const handlePreparationChange = (e) => {
+  const handlePreparationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setPreparation(value);
     setErrors((prev) => ({
@@ -240,16 +294,19 @@ function RecipeProviderWrapper(props) {
       preparation: validatePreparation(value),
     }));
   };
-  const handleServingsChange = (e) => {
-    const value = e.target.value;
-    setServings(value);
+  const handleServingsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
     setErrors((prev) => ({
       ...prev,
       servings: validateServings(value),
     }));
   };
 
-  const handleIngredientFields = (index, event, type) => {
+  const handleIngredientFields = (
+    index: number,
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    type: 'name' | 'amount',
+  ) => {
     let data = [...ingredients];
 
     switch (type) {
@@ -272,7 +329,7 @@ function RecipeProviderWrapper(props) {
     }));
   };
 
-  const handleChangeUnit = (index, event) => {
+  const handleChangeUnit = (index: number, event: SelectChangeEvent<any>) => {
     const {
       target: { value },
     } = event;
@@ -282,16 +339,13 @@ function RecipeProviderWrapper(props) {
     setIngredients(data);
   };
 
-  const handleChangeTag = (event) => {
+  const handleChangeTag = (e: SelectChangeEvent<string[]>) => {
     const {
       target: { value },
-    } = event;
+    } = e;
     // only execute when there are less than three tags selected
     // or when the selected value is already in the array i.e. it's being removed
-    if (
-      tags.length < 3 ||
-      tags.includes(event.explicitOriginalTarget.dataset.value)
-    ) {
+    if (tags.length < 3 || tags.includes(e.target)) {
       setTags(typeof value === 'string' ? value.split(',') : value);
     }
   };
@@ -305,7 +359,7 @@ function RecipeProviderWrapper(props) {
     setIngredients([...ingredients, newField]);
   };
 
-  const deleteIngredientFields = (index) => {
+  const deleteIngredientFields = (index: number) => {
     if (ingredients.length === 1) {
       return setIngredients([
         {

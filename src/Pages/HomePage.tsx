@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import './HomePage.css';
 import CircularProgress from '@mui/material/CircularProgress';
-import recipesService from '../services/recipes.services';
 import {
   Button,
   Container,
@@ -13,6 +11,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import json2mq from 'json2mq';
+import recipesService from '../services/recipes.services.js';
 
 function HomePage() {
   const [allRecipes, setAllRecipes] = useState([]);
@@ -29,7 +28,7 @@ function HomePage() {
   const mediumScreen = useMediaQuery(
     json2mq({
       maxWidth: 1100,
-    })
+    }),
   );
 
   useEffect(() => {
@@ -37,7 +36,7 @@ function HomePage() {
       .getAllRecipes()
       .then((recipesFromAPI) => {
         const recipeIds = recipesFromAPI.data.filter(
-          (oneRecipe) => oneRecipe._id
+          (oneRecipe) => oneRecipe._id,
         );
         setAllRecipes(recipeIds);
       })
@@ -122,7 +121,7 @@ function HomePage() {
                       setRandomRecipe(
                         allRecipes[
                           Math.floor(Math.random() * allRecipes.length)
-                        ]
+                        ],
                       );
                     }}
                   >

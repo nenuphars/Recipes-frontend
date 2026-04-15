@@ -2,10 +2,9 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import './RecipeDetailsPage.css';
 // import ErrorPage from "./ErrorPage";
-import recipesService from '../services/recipes.services';
 import { Container, Stack, Typography } from '@mui/material';
+import recipesService from '../services/recipes.services.js';
 
 function RecipeDetailsPage() {
   const { id } = useParams();
@@ -26,11 +25,7 @@ function RecipeDetailsPage() {
   return (
     <div id="RecipeDetailsPage" className="page-wrapper">
       {!recipe && (
-        <CircularProgress
-          id="spiner-detailsPage"
-          size={100}
-          color="success"
-        ></CircularProgress>
+        <CircularProgress id="spiner-detailsPage" size={100} color="success" />
       )}
       {recipe && (
         <Container

@@ -12,18 +12,16 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom';
-import recipesService from '../services/recipes.services';
-import './RecipeCard.css';
+import recipesService from '../services/recipes.services.js';
+import { Delete, Edit } from '@mui/icons-material';
 
 function RecipeCard({ recipe, currentPage }) {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const deleteRecipe = (id) => {
+  const deleteRecipe = (id: number) => {
     recipesService
       .deleteRecipe(id)
       .then(() => {
@@ -99,14 +97,14 @@ function RecipeCard({ recipe, currentPage }) {
                       navigate(`/dashboard/edit/${recipe._id}`);
                     }}
                   >
-                    <EditIcon />
+                    <Edit />
                   </IconButton>
 
                   <IconButton
                     aria-label="delete"
                     onClick={() => setOpenDialog(true)}
                   >
-                    <DeleteIcon />
+                    <Delete />
                   </IconButton>
                 </Container>
               )}

@@ -1,19 +1,13 @@
 import { useContext, useEffect } from 'react';
 import { Typography } from '@mui/material';
-
+import recipesService from '../services/recipes.services.js';
 import { useNavigate } from 'react-router-dom';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import './CreateRecipe.css';
-import recipesService from '../services/recipes.services';
-import { AuthContext } from '../context/auth.context';
-import RecipeForm from '../Components/RecipeForm';
-import { RecipeContext } from '../context/recipe.context';
+import { useAuth } from '../context/auth.context.jsx';
+import { RecipeContext } from '../context/recipe.context.jsx';
+import RecipeForm from '../Components/RecipeForm.js';
 
 function CreateRecipePage() {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   // const theme = useTheme();
 
@@ -49,8 +43,8 @@ function CreateRecipePage() {
 
   useEffect(() => {
     setName('');
-    setDuration('');
-    setServings('');
+    setDuration(0);
+    setServings(0);
     setDescription('');
     setIngredients([
       { ingredient_name: '', ingredient_amount: '', ingredient_measuring: '' },
@@ -75,46 +69,46 @@ function CreateRecipePage() {
     const durationError = validateDuration(duration);
     const servingsError = validateServings(servings);
     const ingredientErrors = ingredients.map((ing, index) =>
-      validateIngredient(ing, index)
+      validateIngredient(ing, index),
     );
     const descriptionError = validateDescription(description);
     const preparationError = validatePreparation(preparation);
 
     const ingredientsValidation = validateIngredientsList(ingredients);
 
-    if (!ingredientsValidation.valid) {
-      setErrors((prev) => ({
-        ...prev,
-        generalIngredient: ingredientsValidation.error,
-      }));
-      return;
-    }
+    // if (!ingredientsValidation) {
+    //   setErrors((prev) => ({
+    //     ...prev,
+    //     generalIngredient: ingredientsValidation.error,
+    //   }));
+    //   return;
+    // }
 
-    const hasErrors =
-      nameError ||
-      descriptionError ||
-      preparationError ||
-      durationError ||
-      servingsError ||
-      ingredientErrors.some((err) => err.name || err.amount || err.measuring);
+    // const hasErrors =
+    //   nameError ||
+    //   descriptionError ||
+    //   preparationError ||
+    //   durationError ||
+    //   servingsError ||
+    //   ingredientErrors.some((err) => err.nameError || err.amountError || err.measuringError);
 
-    setErrors({
-      name: nameError,
-      duration: durationError,
-      servings: servingsError,
-      ingredients: ingredientErrors,
-      description: descriptionError,
-      preparation: preparationError,
-    });
+    // setErrors({
+    //   nameError: nameError,
+    //   duration: durationError,
+    //   servings: servingsError,
+    //   ingredients: ingredientErrors,
+    //   description: descriptionError,
+    //   preparation: preparationError,
+    // });
 
-    if (hasErrors) {
-      return;
-    }
+    // if (hasErrors) {
+    //   return;
+    // }
 
     const newRecipe = {
       name,
       duration,
-      ingredientsList: ingredientsValidation.cleanedIngredients,
+      ingredients,
       preparation,
       description,
       servings,

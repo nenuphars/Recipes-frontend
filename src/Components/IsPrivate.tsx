@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { AuthContext } from '../context/auth.context';
 // import { Navigate } from 'react-router-dom';
 import Loading from './Loading.jsx';
 import NoAccess from './NoAccess.jsx';
+import { useAuth } from '../context/auth.context.js';
 
 // ** is private
 // everything wrapped in this component:
@@ -10,8 +10,8 @@ import NoAccess from './NoAccess.jsx';
 // --> users should only be able to reach privtae pages when logged in.
 
 function IsPrivate(props) {
-  const { isLoggedIn, isLoading } = useContext(AuthContext);
-  console.log("IsPrivate component loaded")
+  const { isLoggedIn, isLoading } = useAuth();
+  console.log('IsPrivate component loaded');
 
   if (isLoading) return <Loading />;
 

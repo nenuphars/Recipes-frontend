@@ -1,29 +1,29 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Login.css';
-import authService from '../services/auth.services';
-import { AuthContext } from '../context/auth.context';
-import { useNavigate } from 'react-router-dom';
-import { Button, TextField, InputAdornment, IconButton } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
+  Button,
+  TextField,
   Card,
-  Stack,
   CardHeader,
   CardContent,
   Typography,
+  Stack,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
-import { appTheme } from '../themes/theme';
 
-function Login() {
+// import { AuthContext } from '../context/auth.context';
+import { useNavigate } from 'react-router-dom';
+import authService from '../services/auth.services.js';
+import { appTheme } from '../themes/theme.jsx';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+function Signup() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
-
-  const { authenticateUser } = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,31 +31,6 @@ function Login() {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const body = {
-      user_name: username,
-      password: password,
-    };
-
-    authService
-      .login(body)
-      .then((response) => {
-        const token = response.data.authToken;
-        console.log(token);
-        localStorage.setItem('authToken', token);
-
-        authenticateUser();
-
-        navigate('/dashboard');
-      })
-      .catch((err) => {
-        setErrorMessage(err.response.data.message);
-        console.log(err.response.data.message);
-      });
   };
 
   const errorMessageElement = () => {
@@ -66,8 +41,35 @@ function Login() {
     );
   };
 
+  // const { authenticateUser } = useContext(AuthContext);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log('inside handle submit');
+    if (password === repeatPassword) {
+      console.log('passwords match');
+      const newUser = {
+        user_name: username,
+        password: password,
+      };
+      console.log('new user: ', newUser);
+
+      authService
+        .signup(newUser)
+        .then(() => {
+          navigate('/login');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setErrorMessage("passwords don't match");
+      console.log(errorMessage);
+    }
+  }
+
   return (
-    <div id="LoginPage" className="base-wrapper">
+    <div id="SignupPage" className="base-wrapper">
       <Card
         variant="outlined"
         sx={{
@@ -78,13 +80,12 @@ function Login() {
         }}
       >
         <CardHeader
-          title="Login"
+          title="Sign Up"
           titleTypographyProps={{ fontFamily: 'Edu AU VIC WA NT' }}
         />
         <CardContent>
           <form
             style={{ width: '100%' }}
-            action=""
             onSubmit={(e) => {
               handleSubmit(e);
             }}
@@ -101,10 +102,33 @@ function Login() {
               <TextField
                 label="password"
                 required
-                type={showPassword ? 'text' : 'password'}
                 value={password}
+                type={showPassword ? 'text' : 'password'}
                 onChange={(e) => {
                   setPassword(e.target.value);
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                label="repeat password"
+                required
+                value={repeatPassword}
+                type={showPassword ? 'text' : 'password'}
+                onChange={(e) => {
+                  setRepeatPassword(e.target.value);
                 }}
                 InputProps={{
                   endAdornment: (
@@ -125,12 +149,13 @@ function Login() {
                 Submit
               </Button>
               {errorMessage && errorMessageElement()}
+
               <Link
-                to="/signup"
+                to="/login"
                 style={{ color: appTheme.palette.primary.main }}
               >
                 <Typography variant="body2">
-                  Don&apos;t have an account yet?
+                  Already have an account?
                 </Typography>
               </Link>
             </Stack>
@@ -141,4 +166,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;

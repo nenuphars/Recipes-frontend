@@ -35,7 +35,7 @@ class RecipesService {
 
   // GET /api/recipes
   getAllRecipes = () => {
-    return this.api.get('api/recipes');
+    return this.api.get('/api/recipes');
   };
 
   // PUT /api/recipes/id

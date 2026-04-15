@@ -1,6 +1,5 @@
-import FAQSearchBar from '../Components/FAQSearchbar';
-import './FAQPage.css';
-import { useState } from 'react';
+import FAQSearchBar from '../Components/FAQSearchBar';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 
 const faq = [
   //cuestions and answers
@@ -65,8 +64,8 @@ const faq = [
 ];
 
 function FAQPage() {
-  const [showAnswer, setShowAnswer] = useState(false); //for opening the question
-  const [plusOrLess, setPlusOrLess] = useState(true); //for opening the + and -
+  const [showAnswer, setShowAnswer] = useState(null); //for opening the question
+  const [plusOrLess, setPlusOrLess] = useState(null); //for opening the + and -
   const [filteredFAQ, setFilteredFAQ] = useState(faq);
   const [allFaq, setAllfaq] = useState(faq);
   const [valueEntered, setValueEntered] = useState('');
