@@ -10,6 +10,7 @@ import NoAccess from '../Components/NoAccess.jsx';
 import { appTheme } from '../themes/theme.js';
 import RecipeCard from '../Components/RecipeCard.jsx';
 import { AddRounded } from '@mui/icons-material';
+import './Dashboard.css';
 
 function Dashboard() {
   const [allRecipes, setAllRecipes] = useState(null);
@@ -41,7 +42,7 @@ function Dashboard() {
 
   return (
     <>
-      <div className="page-wrapper">
+      <Container className="page-wrapper" sx={{ p: '40px', maxWidth: '100vw' }}>
         <Container id="Dashboard" sx={{ minWidth: '100vw', margin: '0' }}>
           <Stack direction={'column'} gap={2} sx={{ width: '100%' }}>
             {!isLoggedIn && (
@@ -112,7 +113,7 @@ function Dashboard() {
             )}
           </Stack>
         </Container>
-      </div>
+      </Container>
     </>
   );
 }

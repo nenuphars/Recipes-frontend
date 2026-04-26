@@ -14,8 +14,9 @@ import { Link } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import json2mq from 'json2mq';
 import recipesService from '../services/recipes.services.js';
-import { appTheme } from '../themes/theme.js';
+import { appTheme } from '../themes/theme';
 import { Search, Close } from '@mui/icons-material';
+import './searchBar.css';
 
 function SearchBar({ setPropsRecipes }) {
   const [allRecipes, setAllRecipes] = useState([]);

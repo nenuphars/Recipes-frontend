@@ -1,17 +1,19 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
-import { Stack, Typography, Box } from '@mui/material';
+import { Stack, Typography, Box, useTheme, Container } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import json2mq from 'json2mq';
 import { useAuth } from '../context/auth.context.jsx';
 import { appTheme } from '../themes/theme.js';
 import { Menu } from '@mui/icons-material';
+import './NavBar.css';
 
 function Navbar() {
   const [currentPage, setCurrentPage] = useState('home');
 
   const { isLoggedIn, logOutUser } = useAuth();
+  const theme = useTheme();
 
   const smallScreen = useMediaQuery(
     json2mq({
@@ -36,7 +38,7 @@ function Navbar() {
   }, []);
 
   return (
-    <div
+    <Box
       id="nav-container"
       style={{
         backgroundColor: appTheme.palette.secondary.main,
@@ -44,79 +46,52 @@ function Navbar() {
         position: 'relative',
       }}
     >
-      <Box
-        id="nav-links-wrapper"
-        sx={{
-          width: '100vw',
-          height: '100%',
-          padding: 0,
-          margin: 0,
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
+      <Box id="nav-links-wrapper">
         <Link
           to="/"
           id="home-wrapper"
           style={{
-            width: 'auto',
-            minWidth: '200px',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            lineHeight: 0,
-            marginRight: '2rem',
-            left: 0,
-            alignSelf: 'start',
+            textDecoration: 'none',
+            color: theme.palette.primary.main,
           }}
           className="nav-element"
           onClick={() => setCurrentPage('/')}
         >
-          <div
-            id="home-link-logo-wrapper"
-            style={{
+          <Container
+            sx={{
+              width: 'auto',
+              minWidth: '200px',
+              // height: '100%',
               display: 'flex',
-              justifyContent: 'center',
+              flexDirection: 'row',
               alignItems: 'center',
-              overflow: 'hidden',
-              marginRight: '12px',
+              justifyContent: 'flex-start',
+              lineHeight: 0,
+              marginRight: '2rem',
               left: 0,
+              alignSelf: 'start',
             }}
           >
-            <img
-              id="logo"
-              style={{
-                objectFit: 'cover',
-                maxWidth: '5rem',
-                alignSelf: 'start',
-              }}
-              src={'src/assets/Karela(1).png'}
-              alt="Karela Logo"
-            />
-          </div>
-          <Typography
-            variant="h5"
-            id="home-name"
-            className={currentPage === 'home' ? 'selected-element' : ''}
-          >
-            KARELA
-          </Typography>
+            <Box id="home-link-logo-wrapper">
+              <img
+                id="logo"
+                style={{
+                  objectFit: 'cover',
+                  maxWidth: '5rem',
+                  alignSelf: 'start',
+                }}
+                src={'src/assets/Karela(1).png'}
+                alt="Karela Logo"
+              />
+            </Box>
+            <Typography variant="h5" id="home-name">
+              KARELA
+            </Typography>
+          </Container>
         </Link>
 
         {!smallScreen && (
-          <div
-            className="nav-links-right"
-            style={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'flex-end',
-              gap: '2rem',
-              marginLeft: 'auto',
-              marginRight: '2rem',
-            }}
-          >
+          <Box className="nav-links-right">
             <Link
               to="/recipes"
               className="nav-element"
@@ -237,7 +212,7 @@ function Navbar() {
                 </Link>
               </>
             )}
-          </div>
+          </Box>
         )}
         {smallScreen && (
           <>
@@ -290,6 +265,7 @@ function Navbar() {
                       height: '60vh',
                       border: `1px solid ${appTheme.palette.secondary.main}`,
                       borderRadius: '4px',
+                      backgroundColor: theme.palette.background.default,
                     }}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -298,7 +274,7 @@ function Navbar() {
                     <Stack
                       direction={'column'}
                       spacing={2}
-                      // sx={{ alignItems: 'center' }}
+                      sx={{ alignItems: 'center' }}
                     >
                       <Typography
                         variant="h4"
@@ -317,7 +293,10 @@ function Navbar() {
                       <Link
                         to="/"
                         className="nav-element"
-                        onClick={() => setCurrentPage('home')}
+                        onClick={() => {
+                          setCurrentPage('home');
+                          handleClose();
+                        }}
                       >
                         <Typography
                           variant="h5"
@@ -334,7 +313,10 @@ function Navbar() {
                       <Link
                         to="/recipes"
                         className="nav-element"
-                        onClick={() => setCurrentPage('recipes')}
+                        onClick={() => {
+                          setCurrentPage('recipes');
+                          handleClose();
+                        }}
                       >
                         <Typography
                           variant="h5"
@@ -350,7 +332,10 @@ function Navbar() {
                       <Link
                         to="/FAQ"
                         className="nav-element"
-                        onClick={() => setCurrentPage('FAQ')}
+                        onClick={() => {
+                          setCurrentPage('FAQ');
+                          handleClose();
+                        }}
                       >
                         <Typography
                           variant="h5"
@@ -368,7 +353,10 @@ function Navbar() {
                           <Link
                             to="/dashboard"
                             className="nav-element"
-                            onClick={() => setCurrentPage('dashboard')}
+                            onClick={() => {
+                              setCurrentPage('dashboard');
+                              handleClose();
+                            }}
                           >
                             <Typography
                               variant="h5"
@@ -387,6 +375,7 @@ function Navbar() {
                             onClick={() => {
                               logOutUser();
                               setCurrentPage('home');
+                              handleClose();
                             }}
                           >
                             <Typography variant="h5" className="modal-link">
@@ -400,7 +389,10 @@ function Navbar() {
                           <Link
                             to="/login"
                             className="nav-element"
-                            onClick={() => setCurrentPage('login')}
+                            onClick={() => {
+                              setCurrentPage('login');
+                              handleClose();
+                            }}
                           >
                             <Typography
                               variant="h5"
@@ -417,7 +409,10 @@ function Navbar() {
                           <Link
                             to="/signup"
                             className="nav-element"
-                            onClick={() => setCurrentPage('signup')}
+                            onClick={() => {
+                              setCurrentPage('signup');
+                              handleClose();
+                            }}
                           >
                             <Typography
                               variant="h5"
@@ -440,7 +435,7 @@ function Navbar() {
           </>
         )}
       </Box>
-    </div>
+    </Box>
   );
 }
 

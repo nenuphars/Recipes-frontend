@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { Container, Stack, Typography } from '@mui/material';
+import { Button, Container, Stack, Typography } from '@mui/material';
 import recipesService from '../services/recipes.services.js';
-import SearchBar from '../Components/SearchBar.jsx';
-import RecipeCard from '../Components/RecipeCard.jsx';
+import SearchBar from '../Components/SearchBar.js';
+import RecipeCard from '../Components/RecipeCard.js';
+import './AllRecipesPage.css';
 
 function AllRecipesPage() {
   const [spinner, setSpinner] = useState([]);
@@ -25,7 +26,7 @@ function AllRecipesPage() {
 
   return (
     <>
-      <div className="page-wrapper">
+      <Container className="page-wrapper" sx={{ p: '40px', maxWidth: '100vw' }}>
         <Container id="AllRecipes" sx={{ minWidth: '100vw', margin: '0' }}>
           <Stack direction={'column'} gap={2} sx={{ width: '100%' }}>
             <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
@@ -34,14 +35,14 @@ function AllRecipesPage() {
                 <Typography variant="h2">
                   No recipe matches your search
                 </Typography>
-                <button
+                <Button
                   id="button-see-all"
                   onClick={() => {
                     location.reload();
                   }}
                 >
                   See all recipes
-                </button>
+                </Button>
               </div>
             )}
 
@@ -69,7 +70,7 @@ function AllRecipesPage() {
             </Stack>
           </Stack>
         </Container>
-      </div>
+      </Container>
     </>
   );
 }

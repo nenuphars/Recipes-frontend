@@ -1,6 +1,6 @@
 export type IngredientsListItem = {
   ingredientName: string;
-  ingredientAmount: number;
+  ingredientAmount: string;
   ingredientMeasuring: string;
 };
 
@@ -9,7 +9,7 @@ export type Comment = {
   content: string;
   datePublished: Date;
 };
-export const tags = [
+const TAG_OPTIONS = [
   'Pasta 🍝',
   'Comfort food 🛏️',
   'Chicken 🍗',
@@ -31,7 +31,9 @@ export const tags = [
   'Sandwiches 🥪',
   'Fruity 🍋',
   'Spicy 🌶️',
-];
+] as const;
+
+export type Tag = (typeof TAG_OPTIONS)[number];
 
 export type Recipe = {
   name: string;
@@ -44,4 +46,25 @@ export type Recipe = {
   tags?: string[];
   creator?: string;
   comments?: Comment[];
+};
+
+export type IngredientFormValues = {
+  ingredient_name: string;
+  ingredient_amount: string;
+  ingredient_measuring: string;
+};
+
+export type IngredientErrors = {
+  name: string;
+  amount: string;
+  measuring: string;
+};
+export type RecipeFormErrors = {
+  nameError: string;
+  durationError: string;
+  descriptionError: string;
+  servingsError: string;
+  preparationError: string;
+  ingredientErrors: IngredientErrors[];
+  generalIngredientError: string;
 };

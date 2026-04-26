@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import './ErrorPage.css';
+
 function ErrorPage() {
   return (
     <div id="errorPage-container">

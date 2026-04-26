@@ -1,7 +1,13 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Form, Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, InputAdornment, IconButton } from '@mui/material';
+import {
+  Button,
+  TextField,
+  InputAdornment,
+  IconButton,
+  Container,
+} from '@mui/material';
 
 import {
   Card,
@@ -14,6 +20,7 @@ import { useAuth } from '../context/auth.context.jsx';
 import authService from '../services/auth.services.js';
 import { appTheme } from '../themes/theme.jsx';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import './Login.css';
 
 function Login() {
   const [username, setUsername] = useState<string>('');
@@ -32,7 +39,7 @@ function Login() {
     event.preventDefault();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const body = {
@@ -51,22 +58,22 @@ function Login() {
 
         navigate('/dashboard');
       })
-      .catch((err) => {
-        setErrorMessage(err.response.data.message);
-        console.log(err.response.data.message);
+      .catch((err: any) => {
+        // setErrorMessage(err.response.data.message);
+        console.log(err);
       });
   };
 
   const errorMessageElement = () => {
     return (
-      <h3 className="" style={{ color: 'red' }}>
+      <Typography variant="caption" sx={{ color: 'red' }}>
         {errorMessage}
-      </h3>
+      </Typography>
     );
   };
 
   return (
-    <div id="LoginPage" className="base-wrapper">
+    <Container id="LoginPage" className="base-wrapper">
       <Card
         variant="outlined"
         sx={{
@@ -82,8 +89,6 @@ function Login() {
         />
         <CardContent>
           <form
-            style={{ width: '100%' }}
-            action=""
             onSubmit={(e) => {
               handleSubmit(e);
             }}
@@ -136,7 +141,7 @@ function Login() {
           </form>
         </CardContent>
       </Card>
-    </div>
+    </Container>
   );
 }
 

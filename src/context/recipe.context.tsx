@@ -1,9 +1,5 @@
 import React, { useState, createContext } from 'react';
-import {
-  type Recipe,
-  type IngredientsListItem,
-  type tags,
-} from '../types/recipe.types';
+import { type Recipe } from '../types/recipe.types';
 import type { SelectChangeEvent } from '@mui/material';
 
 type IngredientFormValues = {
@@ -40,7 +36,9 @@ const RecipeContext = createContext({
   handleNameChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {},
-  handleDurationChange: (e: React.ChangeEvent<HTMLInputElement>) => {},
+  handleDurationChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {},
   handleServingsChange: (e: React.ChangeEvent<HTMLInputElement>) => {},
   handleDescriptionChange: (e: React.ChangeEvent<HTMLInputElement>) => {},
   handleIngredientFields: (
@@ -100,7 +98,7 @@ type RecipeProps = {
 
 function RecipeProviderWrapper(props: RecipeProps) {
   const [name, setName] = useState('');
-  const [duration, setDuration] = useState<number | null>(null);
+  const [duration, setDuration] = useState(0);
   const [preparation, setPreparation] = useState('');
   const [description, setDescription] = useState('');
   const [servings, setServings] = useState(0);

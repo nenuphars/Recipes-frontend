@@ -1,16 +1,13 @@
 import { useContext, useEffect } from 'react';
-import { Typography } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 import recipesService from '../services/recipes.services.js';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth.context.jsx';
 import { RecipeContext } from '../context/recipe.context.jsx';
 import RecipeForm from '../Components/RecipeForm.js';
+import './CreateRecipe.css';
 
 function CreateRecipePage() {
-  const { user } = useAuth();
-
-  // const theme = useTheme();
-
   const {
     validateName,
     validateDuration,
@@ -105,38 +102,38 @@ function CreateRecipePage() {
     //   return;
     // }
 
-    const newRecipe = {
-      name,
-      duration,
-      ingredients,
-      preparation,
-      description,
-      servings,
-      tags,
-      creator: user._id,
-    };
+    // const newRecipe = {
+    //   name,
+    //   duration,
+    //   ingredients,
+    //   preparation,
+    //   description,
+    //   servings,
+    //   tags,
+    //   creator: user._id,
+    // };
 
-    recipesService
-      .createRecipe(newRecipe)
-      .then(() => {
-        navigate('/dashboard');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // recipesService
+    //   .createRecipe(newRecipe)
+    //   .then(() => {
+    //     navigate('/dashboard');
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }
 
   return (
-    <div id="CreateRecipePage" className="page-wrapper">
+    <Container
+      id="CreateRecipePage"
+      className="page-wrapper"
+      sx={{ p: '40px', maxWidth: '100vw' }}
+    >
       <Typography variant="h2" sx={{ fontFamily: 'Edu AU VIC WA NT' }}>
         Create a new recipe
       </Typography>
-      <RecipeForm
-        handleSubmit={handleSubmit}
-        recipeData={recipe}
-        page={'Create'}
-      />
-    </div>
+      <RecipeForm page={'create'} />
+    </Container>
   );
 }
 

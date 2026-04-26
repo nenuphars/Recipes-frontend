@@ -1,5 +1,7 @@
+import { Button, Container, IconButton, Typography } from '@mui/material';
 import FAQSearchBar from '../Components/FAQSearchBar';
 import { useState, type Dispatch, type SetStateAction } from 'react';
+import './FAQPage.css';
 
 const faq = [
   //cuestions and answers
@@ -70,20 +72,23 @@ function FAQPage() {
   const [allFaq, setAllfaq] = useState(faq);
   const [valueEntered, setValueEntered] = useState('');
 
-  function ShowResponseFunction(index) {
+  function ShowResponseFunction(index: number) {
     if (showAnswer !== index) {
       // if the one we click is not equal to the index ,makes it hidden and -
       setShowAnswer(index);
       setPlusOrLess(index);
     } else {
       // else makes the if in the return false, so classmame stays like response hidden and not response
-      setShowAnswer('');
-      setPlusOrLess('');
+      setShowAnswer(null);
+      setPlusOrLess(null);
     }
   }
+
   return (
-    <div id="general-container-faq">
-      <h1 id="title-faq">Frequently Asked Questions</h1>
+    <Container id="general-container-faq">
+      <Typography variant="h3" id="title-faq">
+        Frequently Asked Questions
+      </Typography>
       <FAQSearchBar
         faq={faq}
         filteredFAQ={filteredFAQ}
@@ -94,9 +99,9 @@ function FAQPage() {
         setValueEntered={setValueEntered}
       ></FAQSearchBar>
       {filteredFAQ.length === 0 && (
-        <h3 id="no-result">
+        <Typography variant="h4" id="no-result">
           No result matches your search{' '}
-          <button
+          <Button
             id="no-result-button"
             onClick={() => {
               setFilteredFAQ(allFaq);
@@ -104,10 +109,10 @@ function FAQPage() {
             }}
           >
             See all questions
-          </button>
-        </h3>
+          </Button>
+        </Typography>
       )}
-      <div
+      <Container
         id={
           filteredFAQ.length > 0
             ? 'questions-container'
@@ -116,29 +121,35 @@ function FAQPage() {
       >
         {filteredFAQ.length > 0 &&
           filteredFAQ.map((eachFaq, i) => (
-            <div className="eachQuestion" key={i}>
+            <Container className="eachQuestion" key={i}>
               {/* Onclick h2 gives both useStates the actual i value. then conditions will run as false and will be - and classname=hidden */}
-              <h2 onClick={() => ShowResponseFunction(i)} className="question">
+              <Typography
+                variant="h4"
+                onClick={() => ShowResponseFunction(i)}
+                className="question"
+              >
                 {eachFaq.question}{' '}
                 {plusOrLess !== i ? (
-                  <span id="expandSymbol">+</span>
+                  <IconButton id="expandSymbol">+</IconButton>
                 ) : (
-                  <span id="expandSymbol">-</span>
+                  <IconButton id="expandSymbol">-</IconButton>
                 )}{' '}
-              </h2>
-              <div>
-                <p
+              </Typography>
+
+              <Container>
+                <Typography
+                  variant="body1"
                   className={`response ${
                     showAnswer !== i && 'response-hidden'
                   }`}
                 >
                   {eachFaq.answer}
-                </p>
-              </div>
-            </div>
+                </Typography>
+              </Container>
+            </Container>
           ))}
-      </div>
-    </div>
+      </Container>
+    </Container>
   );
 }
 

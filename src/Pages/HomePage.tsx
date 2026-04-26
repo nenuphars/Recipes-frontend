@@ -7,15 +7,19 @@ import {
   Typography,
   Card,
   CardContent,
+  useTheme,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import json2mq from 'json2mq';
 import recipesService from '../services/recipes.services.js';
+import './HomePage.css';
 
 function HomePage() {
   const [allRecipes, setAllRecipes] = useState([]);
   const [randomRecipe, setRandomRecipe] = useState(null);
+
+  const theme = useTheme();
 
   const navigate = useNavigate();
 
@@ -51,8 +55,15 @@ function HomePage() {
   }, [allRecipes, randomRecipe]);
 
   return (
-    <div className="base-wrapper">
-      <Container id="homepage-container">
+    <Container>
+      <Container
+        sx={{
+          backgroundVolor: '#faf8eb',
+          width: '100vw',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
         <Stack
           direction={mediumScreen ? 'column' : 'row'}
           sx={{ alignItems: 'center' }}
@@ -94,20 +105,9 @@ function HomePage() {
                       marginBottom: '4rem',
                     }}
                   >
-                    The eternal question: &quot;What shall we eat today?&quot;
-                    <br />
-                    Here you can store your family classics or discover your
-                    friend&apos;s comfort food.
-                    <br />
-                    We offer a place for you to share the recipes that you love
-                    and know and be able to always come back to them.
+                    Search and share recipes
                   </Typography>
-                  <Typography
-                    variant="h6"
-                    sx={{ fontFamily: 'Edu AU VIC WA NT', fontWeight: 500 }}
-                  >
-                    Don&apos;t know what you&apos;re looking for?
-                  </Typography>
+
                   <Button
                     id="random-button"
                     size="large"
@@ -132,9 +132,12 @@ function HomePage() {
             </Card>
           </Stack>
           <Stack
-            className="homepage-wrapper"
-            direction={'column'}
-            sx={{ width: { xs: '100%', sm: '80%', md: '75%', lg: '50%' } }}
+            sx={{
+              alignItems: 'center',
+              justifyContent: 'space-evenly',
+              direction: 'column',
+              width: { xs: '100%', sm: '80%', md: '75%', lg: '50%' },
+            }}
           >
             {!randomRecipe && (
               <p>
@@ -207,7 +210,7 @@ function HomePage() {
           </Stack>
         </Stack>
       </Container>
-    </div>
+    </Container>
   );
 }
 

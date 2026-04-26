@@ -10,6 +10,7 @@ import {
   Stack,
   InputAdornment,
   IconButton,
+  Container,
 } from '@mui/material';
 
 // import { AuthContext } from '../context/auth.context';
@@ -17,6 +18,8 @@ import { useNavigate } from 'react-router-dom';
 import authService from '../services/auth.services.js';
 import { appTheme } from '../themes/theme.jsx';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import './Login.css';
+
 function Signup() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -35,9 +38,9 @@ function Signup() {
 
   const errorMessageElement = () => {
     return (
-      <h3 className="" style={{ color: 'red' }}>
+      <Typography variant="caption" sx={{ color: 'red' }}>
         {errorMessage}
-      </h3>
+      </Typography>
     );
   };
 
@@ -69,7 +72,22 @@ function Signup() {
   }
 
   return (
-    <div id="SignupPage" className="base-wrapper">
+    <Container
+      id="SignupPage"
+      className="base-wrapper"
+      sx={{
+        width: '100vw',
+        height: '100%',
+        backgroundColor: '#faf8eb',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        paddingTop: '60px',
+        alignItems: 'center',
+        // position: 'absolute',
+        // top: 0,
+      }}
+    >
       <Card
         variant="outlined"
         sx={{
@@ -162,7 +180,7 @@ function Signup() {
           </form>
         </CardContent>
       </Card>
-    </div>
+    </Container>
   );
 }
 

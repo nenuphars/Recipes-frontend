@@ -5,6 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 // import ErrorPage from "./ErrorPage";
 import { Container, Stack, Typography } from '@mui/material';
 import recipesService from '../services/recipes.services.js';
+import './RecipeDetailsPage.css';
 
 function RecipeDetailsPage() {
   const { id } = useParams();

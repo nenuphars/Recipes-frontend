@@ -15,6 +15,7 @@ import { IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import recipesService from '../services/recipes.services.js';
 import { Delete, Edit } from '@mui/icons-material';
+import './RecipeCard.css';
 
 function RecipeCard({ recipe, currentPage }) {
   const navigate = useNavigate();

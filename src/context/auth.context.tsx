@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
     // A 2) send token to verify route for verification check
     if (storedToken) {
       axios
-        .get(`${process.env.VITE_API_URL}/api/auth/verify`, {
+        .get(`${import.meta.env.VITE_API_URL}/api/auth/verify`, {
           headers: { Authorization: `Bearer ${storedToken}` },
         })
         .then((response) => {
