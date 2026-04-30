@@ -22,13 +22,21 @@ import { Delete, Send } from '@mui/icons-material';
 import {
   type IngredientErrors,
   type IngredientFormValues,
+  type Recipe,
   type RecipeFormErrors,
+  type RecipeRequest,
   type Tag,
+  type Unit,
 } from '../types/recipe.types.js';
-import recipesService from '../services/recipes.services.js';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth.context.js';
 import Loading from './Loading.js';
+import {
+  createRecipe,
+  getRecipe,
+  updateRecipe,
+} from '../services/recipes.services.js';
+import { appTheme } from '../themes/theme.js';
 
 type props = {
   page: 'create' | 'edit';
@@ -36,7 +44,6 @@ type props = {
 };
 
 function RecipeForm({ page, recipeId }: props) {
-  const theme = useTheme();
   const navigate = useNavigate();
   if (recipeId) {
     console.log('RECIPE ID', recipeId);
@@ -54,11 +61,11 @@ function RecipeForm({ page, recipeId }: props) {
     },
   };
 
-  function getStyles(tag, tagName, theme) {
+  function getStyles(tag: Tag | Unit, tagName: string) {
     return {
       fontWeight: tagName.includes(tag)
-        ? theme.typography.fontWeightMedium
-        : theme.typography.fontWeightRegular,
+        ? appTheme.typography.fontWeightRegular
+        : appTheme.typography.fontWeightRegular,
     };
   }
 
@@ -120,23 +127,23 @@ function RecipeForm({ page, recipeId }: props) {
   });
 
   useEffect(() => {
-    if (page == 'edit') {
-      const getRecipe = async () => {
+    if (page == 'edit' && recipeId) {
+      const fetchRecipe = async (recipeId: string) => {
         try {
-          const response = await recipesService.getRecipe(recipeId);
-          console.log('Recipe data was fetched:', response.data);
-          setName(response.data.name);
-          setDuration(response.data.duration);
-          setServings(response.data.servings);
-          setDescription(response.data.description);
-          setPreparation(response.data.preparation);
-          setIngredients(response.data.ingredientsList);
-          setTags(response.data.tags);
+          const response: Recipe = await getRecipe(recipeId);
+          console.log('Recipe data was fetched:', response);
+          setName(response.name);
+          setDuration(response.duration.toString());
+          setServings(response.servings.toString());
+          setDescription(response.description);
+          setPreparation(response.preparation);
+          setIngredients(response.ingredientsList);
+          setTags(response.tags);
         } catch (error) {
           console.log('Error while fetching recipe data', error);
         }
       };
-      getRecipe();
+      fetchRecipe(recipeId);
       setLoading(false);
     } else {
       setLoading(false);
@@ -332,7 +339,7 @@ function RecipeForm({ page, recipeId }: props) {
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     type: 'name' | 'amount',
   ) => {
-    let data = [...ingredients];
+    let data: IngredientFormValues[] = [...ingredients];
 
     switch (type) {
       case 'name':
@@ -354,11 +361,11 @@ function RecipeForm({ page, recipeId }: props) {
     }));
   };
 
-  const handleChangeUnit = (index: number, event: SelectChangeEvent<any>) => {
+  const handleChangeUnit = (index: number, event: SelectChangeEvent<Unit>) => {
     const {
       target: { value },
     } = event;
-    let data = [...ingredients];
+    let data: IngredientFormValues[] = [...ingredients];
     data[index].ingredient_measuring = value;
     // console.log('changed data', data);
     setIngredients(data);
@@ -401,20 +408,19 @@ function RecipeForm({ page, recipeId }: props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (page == 'edit' && recipeId) {
-      const updatedRecipe = {
+    if (page == 'edit' && recipeId && user) {
+      const updatedRecipe: RecipeRequest = {
         name,
         duration: Number(duration),
         ingredientsList: ingredients,
         preparation,
         description,
-        servings,
+        servings: Number(servings),
         tags,
-        creator: user._id,
+        creator: { _id: user._id, user_name: user.user_name },
       };
 
-      recipesService
-        .updateRecipe(recipeId, updatedRecipe)
+      updateRecipe(recipeId, updatedRecipe)
         .then(() => {
           navigate(`/recipes/${recipeId}`);
         })
@@ -422,26 +428,27 @@ function RecipeForm({ page, recipeId }: props) {
           console.log(err);
         });
     } else {
-      const newRecipe = {
-        name,
-        duration: Number(duration),
-        ingredientsList: ingredients,
-        preparation,
-        description,
-        servings,
-        tags,
-        creator: user._id,
-      };
+      if (user?._id) {
+        const newRecipe: RecipeRequest = {
+          name,
+          duration: Number(duration),
+          ingredientsList: ingredients,
+          preparation,
+          description,
+          servings: Number(servings),
+          tags,
+          creator: { _id: user?._id, user_name: user?.user_name },
+        };
 
-      recipesService
-        .createRecipe(newRecipe)
-        .then(() => {
-          console.log('new recipe:', newRecipe);
-          navigate('/dashboard');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        createRecipe(newRecipe)
+          .then(() => {
+            console.log('new recipe:', newRecipe);
+            navigate('/dashboard');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     }
   };
 
@@ -567,11 +574,7 @@ function RecipeForm({ page, recipeId }: props) {
                           <MenuItem
                             key={oneUnitOption}
                             value={oneUnitOption}
-                            style={getStyles(
-                              oneUnitOption,
-                              oneUnitOption,
-                              theme,
-                            )}
+                            style={getStyles(oneUnitOption, oneUnitOption)}
                           >
                             {oneUnitOption}
                           </MenuItem>
@@ -645,7 +648,7 @@ function RecipeForm({ page, recipeId }: props) {
                 <MenuItem
                   key={oneTagOption}
                   value={oneTagOption}
-                  style={getStyles(oneTagOption, tagOptions, theme)}
+                  style={getStyles(oneTagOption, tagOptions)}
                 >
                   {oneTagOption}
                 </MenuItem>

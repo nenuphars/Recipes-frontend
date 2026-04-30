@@ -1,71 +1,67 @@
-// import React from "react";
-import { useState, useEffect, createContext, useContext } from 'react';
-import axios from 'axios';
-import type { User } from '../types/user.types';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from 'react';
+import axiosInstance from '../services/axios';
 
-// create the context
-const AuthContext = createContext(null);
-
-// everything wrapped has access to context
-export function AuthProvider({ children }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<User | null>(null);
-
-  // function for checking token in storage: is logged in?
-  function authenticateUser() {
-    // 1) get token from storage
-    const storedToken = localStorage.getItem('authToken');
-    // A 2) send token to verify route for verification check
-    if (storedToken) {
-      axios
-        .get(`${import.meta.env.VITE_API_URL}/api/auth/verify`, {
-          headers: { Authorization: `Bearer ${storedToken}` },
-        })
-        .then((response) => {
-          // A 3) save sent user data
-          const user = response.data;
-          // A 4) update the context states
-          setIsLoggedIn(true);
-          setIsLoading(false);
-          setUser(user);
-          console.log('user logged in.');
-        })
-        .catch((err) => {
-          // setIsLoggedIn(false);
-          // setIsLoading(false);
-          // setUser(null);
-          console.log(err.response.data.message);
-          // if tokens dont match, logout user
-          logOutUser();
-        });
-      // B 2) no token available: user not logged in
-    } else {
-      setIsLoggedIn(false);
-      setIsLoading(false);
-      setUser(null);
-      console.log('user not logged in.');
-    }
-  }
-
-  // function for logging out
-  function logOutUser() {
-    // 1) remove token from storage
-    localStorage.removeItem('authToken');
-    // 2) call authenticate to set logged in as false
-    authenticateUser();
-  }
-
-  // whenever this context is rendered
-  useEffect(() => {
-    // 1) check if user still logged in
-    authenticateUser();
-  }, []);
-
-  const value = { isLoggedIn, isLoading, user, authenticateUser, logOutUser };
-  // make states and functions available with context
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+interface User {
+  _id: string;
+  user_name: string;
 }
 
-// export function and context
-export const useAuth = () => useContext(AuthContext);
+interface AuthContextType {
+  user?: User;
+  isLoggedIn: boolean;
+  isLoading: boolean;
+  setToken: (token: string, user: User) => void;
+  removeToken: () => void;
+}
+
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User>();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // On app load, verify the token is still valid
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsLoading(false);
+      return;
+    }
+
+    axiosInstance
+      .get<User>('/auth/verify') // adjust to your actual verify endpoint
+      .then((res) => setUser(res.data))
+      .catch(() => localStorage.removeItem('token'))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  const setToken = (token: string, user: User) => {
+    localStorage.setItem('authToken', token);
+    setUser(user);
+  };
+
+  const removeToken = () => {
+    localStorage.removeItem('authToken');
+    setUser(undefined);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{ user, isLoggedIn: !!user, isLoading, setToken, removeToken }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth must be used inside AuthProvider');
+  return context;
+};

@@ -4,23 +4,22 @@ import { useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 // import ErrorPage from "./ErrorPage";
 import { Container, Stack, Typography } from '@mui/material';
-import recipesService from '../services/recipes.services.js';
+
 import './RecipeDetailsPage.css';
+import { getRecipe } from '../services/recipes.services';
+import type { Recipe } from '../types/recipe.types';
 
 function RecipeDetailsPage() {
   const { id } = useParams();
 
-  const [recipe, setRecipe] = useState(null);
+  const [recipe, setRecipe] = useState<Recipe>();
 
   useEffect(() => {
-    recipesService
-      .getRecipe(id)
-      .then((response) => {
-        setRecipe(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
+    if (id) {
+      getRecipe(id).then((recipe) => {
+        setRecipe(recipe);
       });
+    }
   }, [id]);
 
   return (

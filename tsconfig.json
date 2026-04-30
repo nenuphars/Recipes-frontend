@@ -22,6 +22,7 @@
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
+    "allowImportingTsExtensions": true,
     // "strictNullChecks": true,
     // "exactOptionalPropertyTypes": true,
 
@@ -34,7 +35,7 @@
     // "noPropertyAccessFromIndexSignature": true,
 
     // Recommended Options
-    "strict": false,
+    "strict": true,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,

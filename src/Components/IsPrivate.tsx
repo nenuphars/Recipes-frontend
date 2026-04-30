@@ -1,27 +1,19 @@
-import { useContext } from 'react';
-// import { Navigate } from 'react-router-dom';
-import Loading from './Loading.jsx';
-import NoAccess from './NoAccess.jsx';
-import { useAuth } from '../context/auth.context.js';
+import { Navigate } from 'react-router-dom';
+import Loading from './Loading';
+import { useAuth } from '../context/auth.context';
+import type { ReactNode } from 'react';
 
-// ** is private
-// everything wrapped in this component:
-// only show children if * logged in *
-// --> users should only be able to reach privtae pages when logged in.
+interface IsPrivateProps {
+  children: ReactNode;
+}
 
-function IsPrivate(props) {
+function IsPrivate({ children }: IsPrivateProps) {
   const { isLoggedIn, isLoading } = useAuth();
-  console.log('IsPrivate component loaded');
 
   if (isLoading) return <Loading />;
+  if (isLoggedIn) return <>{children}</>;
 
-  // if logged in, show the content
-  if (isLoggedIn) {
-    return props.children;
-    // if not logged in, navigate to login page
-  } else {
-    return <NoAccess />;
-  }
+  return <Navigate to="/login" replace />; // replaces NoAccess with a redirect
 }
 
 export default IsPrivate;

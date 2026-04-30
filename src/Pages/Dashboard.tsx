@@ -4,32 +4,31 @@ import { Link } from 'react-router-dom';
 // import SearchBar from '../Components/SearchBar';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Card, Stack, Typography, CardContent, Container } from '@mui/material';
-import { useAuth } from '../context/auth.context.jsx';
-import recipesService from '../services/recipes.services.js';
+import { useAuth } from '../context/auth.context';
 import NoAccess from '../Components/NoAccess.jsx';
 import { appTheme } from '../themes/theme.js';
 import RecipeCard from '../Components/RecipeCard.jsx';
 import { AddRounded } from '@mui/icons-material';
 import './Dashboard.css';
+import { searchRecipeQuery } from '../services/recipes.services';
+import type { Recipe } from '../types/recipe.types.js';
 
 function Dashboard() {
-  const [allRecipes, setAllRecipes] = useState(null);
-  const [dataLoaded, setDataLoaded] = useState(null);
+  const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
+  // const [dataLoaded, setDataLoaded] = useState(null);
   const [hasRecipes, setHasRecipes] = useState(true);
 
-  // const [spinner, setSpinner] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { user, isLoggedIn } = useAuth();
 
   useEffect(() => {
     if (user) {
-      console.log('user id', user._id);
-      recipesService
-        .getRecipeQuery(user._id)
+      searchRecipeQuery(user._id)
         .then((recipes) => {
-          setDataLoaded(recipes.data);
-          setAllRecipes(recipes.data);
-          console.log(recipes.data);
+          setAllRecipes(recipes);
+          setIsLoading(false);
+          console.log(recipes);
           if (recipes.data.length === 0) {
             setHasRecipes(false);
           }
@@ -51,7 +50,7 @@ function Dashboard() {
               </>
             )}
 
-            {isLoggedIn && !dataLoaded && hasRecipes && (
+            {isLoggedIn && isLoading && hasRecipes && (
               <CircularProgress
                 id="circular-progress-dashboard"
                 size={100}
@@ -96,9 +95,9 @@ function Dashboard() {
                   </Card>
                 </Link>
 
-                {dataLoaded && hasRecipes && (
+                {!isLoading && hasRecipes && allRecipes && (
                   <>
-                    {allRecipes.map((eachRecipe) => {
+                    {allRecipes.map((eachRecipe: Recipe) => {
                       return (
                         <RecipeCard
                           key={eachRecipe._id}

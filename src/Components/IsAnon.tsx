@@ -8,9 +8,9 @@ import Loading from './Loading.jsx';
 // only show children if * not logged in *
 // --> users should not be able to reach login page when logged in.
 
-type props = { isLoggedIn: boolean; isLoading: boolean };
+type Props = { children: any };
 
-function IsAnon(props) {
+function IsAnon(props: Props) {
   const { isLoggedIn, isLoading } = useAuth();
   console.log('IsAnon component loaded');
 

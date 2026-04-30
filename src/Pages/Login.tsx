@@ -17,10 +17,10 @@ import {
   Typography,
 } from '@mui/material';
 import { useAuth } from '../context/auth.context.jsx';
-import authService from '../services/auth.services.js';
 import { appTheme } from '../themes/theme.jsx';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import './Login.css';
+import { login } from '../services/auth.services.ts';
 
 function Login() {
   const [username, setUsername] = useState<string>('');
@@ -28,8 +28,7 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const navigate = useNavigate();
-
-  const { authenticateUser } = useAuth();
+  const { setToken } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -39,29 +38,20 @@ function Login() {
     event.preventDefault();
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const body = {
+    const user = {
       user_name: username,
       password: password,
     };
-
-    authService
-      .login(body)
-      .then((response) => {
-        const token = response.data.authToken;
-        console.log(response);
-        localStorage.setItem('authToken', token);
-
-        authenticateUser();
-
-        navigate('/dashboard');
-      })
-      .catch((err: any) => {
-        // setErrorMessage(err.response.data.message);
-        console.log(err);
-      });
+    try {
+      const data = await login(user);
+      setToken(data.authToken, data.user);
+      navigate('/dashboard');
+    } catch (error) {
+      console.log('Error occured when trying to log in: ', error);
+    }
   };
 
   const errorMessageElement = () => {

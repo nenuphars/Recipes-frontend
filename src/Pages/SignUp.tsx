@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Button,
@@ -15,10 +15,10 @@ import {
 
 // import { AuthContext } from '../context/auth.context';
 import { useNavigate } from 'react-router-dom';
-import authService from '../services/auth.services.js';
 import { appTheme } from '../themes/theme.jsx';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import './Login.css';
+import { signup } from '../services/auth.services.ts';
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -32,7 +32,7 @@ function Signup() {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (event) => {
+  const handleMouseDownPassword = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
@@ -46,7 +46,7 @@ function Signup() {
 
   // const { authenticateUser } = useContext(AuthContext);
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     console.log('inside handle submit');
     if (password === repeatPassword) {
@@ -57,8 +57,7 @@ function Signup() {
       };
       console.log('new user: ', newUser);
 
-      authService
-        .signup(newUser)
+      signup(username, password)
         .then(() => {
           navigate('/login');
         })
@@ -130,8 +129,8 @@ function Signup() {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
+                        onClick={() => handleClickShowPassword}
+                        onMouseDown={() => handleMouseDownPassword}
                         edge="end"
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -153,8 +152,8 @@ function Signup() {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
+                        onClick={() => handleClickShowPassword}
+                        onMouseDown={() => handleMouseDownPassword}
                         edge="end"
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}

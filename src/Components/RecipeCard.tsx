@@ -13,18 +13,23 @@ import {
 import { useState } from 'react';
 import { IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import recipesService from '../services/recipes.services.js';
 import { Delete, Edit } from '@mui/icons-material';
 import './RecipeCard.css';
+import { deleteRecipe } from '../services/recipes.services';
+import type { Recipe } from '../types/recipe.types';
 
-function RecipeCard({ recipe, currentPage }) {
+type RecipeCardProps = {
+  recipe: Recipe;
+  currentPage: 'dashboard' | 'recipes';
+};
+
+function RecipeCard({ recipe, currentPage }: RecipeCardProps) {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const deleteRecipe = (id: number) => {
-    recipesService
-      .deleteRecipe(id)
+  const deletion = (id: string) => {
+    deleteRecipe(id)
       .then(() => {
         navigate('/dashboard');
       })
@@ -129,7 +134,7 @@ function RecipeCard({ recipe, currentPage }) {
                   onClick={(e) => {
                     e.preventDefault();
                     setConfirmDelete(true);
-                    deleteRecipe(recipe._id);
+                    deletion(recipe._id);
                   }}
                 >
                   Yes

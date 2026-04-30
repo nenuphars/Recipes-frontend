@@ -12,7 +12,7 @@ import './NavBar.css';
 function Navbar() {
   const [currentPage, setCurrentPage] = useState('home');
 
-  const { isLoggedIn, logOutUser } = useAuth();
+  const { isLoggedIn, removeToken } = useAuth();
   const theme = useTheme();
 
   const smallScreen = useMediaQuery(
@@ -202,7 +202,7 @@ function Navbar() {
                   to="/"
                   className="nav-element"
                   onClick={() => {
-                    logOutUser();
+                    removeToken();
                     setCurrentPage('home');
                   }}
                 >
@@ -373,7 +373,7 @@ function Navbar() {
                             className="nav-element"
                             to={'/'}
                             onClick={() => {
-                              logOutUser();
+                              removeToken();
                               setCurrentPage('home');
                               handleClose();
                             }}

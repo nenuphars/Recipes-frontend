@@ -1,36 +1,42 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-
 import { Button, Container, Stack, Typography } from '@mui/material';
-import recipesService from '../services/recipes.services.js';
+import { getAllRecipes } from '../services/recipes.services.js';
 import SearchBar from '../Components/SearchBar.js';
 import RecipeCard from '../Components/RecipeCard.js';
 import './AllRecipesPage.css';
+import type { Recipe } from '../types/recipe.types.js';
 
 function AllRecipesPage() {
-  const [spinner, setSpinner] = useState([]);
-  const [allRecipes, setAllRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
+  const [isFiltering, setIsFiltering] = useState(false);
 
   useEffect(() => {
-    recipesService
-      .getAllRecipes()
+    getAllRecipes()
       .then((recipes) => {
-        setSpinner(recipes.data);
-        setAllRecipes(recipes.data);
+        setAllRecipes(recipes);
+        if (allRecipes.length >= 1) {
+          setLoading(false);
+        }
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
-  }, []);
+  }, [isFiltering]);
 
   return (
     <>
       <Container className="page-wrapper" sx={{ p: '40px', maxWidth: '100vw' }}>
         <Container id="AllRecipes" sx={{ minWidth: '100vw', margin: '0' }}>
           <Stack direction={'column'} gap={2} sx={{ width: '100%' }}>
-            <SearchBar setPropsRecipes={setAllRecipes}></SearchBar>
-            {allRecipes.length === 0 && spinner.length > 0 && (
+            <SearchBar
+              setAllRecipes={setAllRecipes}
+              setIsFiltering={setIsFiltering}
+            ></SearchBar>
+            {allRecipes.length === 0 && !loading && isFiltering && (
               <div className="no-recipe-match-container">
                 <Typography variant="h2">
                   No recipe matches your search
@@ -38,7 +44,7 @@ function AllRecipesPage() {
                 <Button
                   id="button-see-all"
                   onClick={() => {
-                    location.reload();
+                    setIsFiltering(false);
                   }}
                 >
                   See all recipes
@@ -46,7 +52,7 @@ function AllRecipesPage() {
               </div>
             )}
 
-            {spinner.length === 0 && allRecipes.length === 0 && (
+            {!allRecipes && loading && (
               <CircularProgress
                 id="circular-progress-allRecipes"
                 size={100}
@@ -58,15 +64,16 @@ function AllRecipesPage() {
               gap={2}
               sx={{ width: '100%', flexFlow: 'wrap' }}
             >
-              {allRecipes.map((eachRecipe, index) => {
-                return (
-                  <RecipeCard
-                    recipe={eachRecipe}
-                    currentPage="recipes"
-                    key={index}
-                  />
-                );
-              })}
+              {allRecipes &&
+                allRecipes.map((eachRecipe, index) => {
+                  return (
+                    <RecipeCard
+                      recipe={eachRecipe}
+                      currentPage="recipes"
+                      key={index}
+                    />
+                  );
+                })}
             </Stack>
           </Stack>
         </Container>

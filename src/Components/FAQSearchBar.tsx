@@ -1,21 +1,31 @@
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
+import type { FAQpair } from '../types/faq.types';
+import type { Dispatch, SetStateAction } from 'react';
 
-function FAQSearchBar(props) {
-  const { filteredFAQ, allFaq, setFilteredFAQ, valueEntered, setValueEntered } =
+type FAQSearchBarProps = {
+  filteredFAQ: FAQpair[];
+  allFAQ: FAQpair[];
+  setFilteredFAQ: Dispatch<SetStateAction<FAQpair[]>>;
+  valueEntered: string;
+  setValueEntered: Dispatch<SetStateAction<string>>;
+};
+
+function FAQSearchBar(props: FAQSearchBarProps) {
+  const { filteredFAQ, allFAQ, setFilteredFAQ, valueEntered, setValueEntered } =
     props;
 
-  function searchByName(nameImput) {
-    if (nameImput === '') {
+  function searchByName(nameInput: string) {
+    if (nameInput === '') {
       setValueEntered('');
-      setFilteredFAQ(allFaq);
+      setFilteredFAQ(allFAQ);
     }
 
-    let resultFiltered = allFaq.filter((eachFaq) => {
-      return eachFaq.question.toLowerCase().includes(nameImput);
+    let resultFiltered = allFAQ.filter((eachFaq) => {
+      return eachFaq.question.toLowerCase().includes(nameInput);
     });
 
-    setValueEntered(nameImput);
+    setValueEntered(nameInput);
     setFilteredFAQ(resultFiltered);
     console.log(resultFiltered);
   }

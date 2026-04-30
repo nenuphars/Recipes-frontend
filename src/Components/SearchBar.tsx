@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import { useEffect } from 'react';
 import {
   Stack,
@@ -8,19 +8,28 @@ import {
   ButtonGroup,
   Button,
   TextField,
+  Container,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import json2mq from 'json2mq';
-import recipesService from '../services/recipes.services.js';
 import { appTheme } from '../themes/theme';
 import { Search, Close } from '@mui/icons-material';
 import './searchBar.css';
+import { getAllRecipes } from '../services/recipes.services';
+import type { Recipe } from '../types/recipe.types';
 
-function SearchBar({ setPropsRecipes }) {
-  const [allRecipes, setAllRecipes] = useState([]);
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
+type SearchType = 'name' | 'ingredient' | 'tag';
+
+type SearchBarProps = {
+  setAllRecipes: Dispatch<SetStateAction<Recipe[]>>;
+  setIsFiltering: Dispatch<SetStateAction<boolean>>;
+};
+
+function SearchBar({ setAllRecipes, setIsFiltering }: SearchBarProps) {
+  const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
+
   // const [searchType, setSearchType] = useState('name');
 
   const smallScreen = useMediaQuery(
@@ -31,17 +40,18 @@ function SearchBar({ setPropsRecipes }) {
 
   // search query state
   const [activeQuery, setActiveQuery] = useState('');
-
-  const [selectedSearchType, setSelectedSearchType] = useState('name');
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [selectedSearchType, setSelectedSearchType] =
+    useState<SearchType>('name');
 
   // gets data once
   useEffect(() => {
-    recipesService
-      .getAllRecipes()
-      .then((recipes) => {
-        setAllRecipes(recipes.data);
-        setFilteredRecipes(recipes.data);
-        console.log(recipes.data);
+    getAllRecipes()
+      .then((recipes: Recipe[]) => {
+        setAllRecipes(recipes);
+        setRecipes(recipes);
+        setFilteredRecipes(recipes);
+        console.log(recipes);
       })
       .catch((error) => {
         console.log(error);
@@ -49,45 +59,52 @@ function SearchBar({ setPropsRecipes }) {
   }, []);
 
   useEffect(() => {
-    if (activeQuery === '') {
-      setFilteredRecipes(allRecipes);
-      setPropsRecipes(allRecipes);
-    } else {
-      let filtered;
+    if (activeQuery !== '') {
+      setIsFiltering(true);
       const searchTerm = activeQuery.toLowerCase();
 
       if (selectedSearchType === 'name') {
-        filtered = allRecipes.filter((recipe) =>
+        const filtered = recipes.filter((recipe) =>
           recipe.name.toLowerCase().includes(searchTerm),
         );
+        setFilteredRecipes(filtered);
+        setAllRecipes(filtered);
       } else if (selectedSearchType === 'ingredient') {
-        filtered = allRecipes.filter((oneRecipe) =>
+        const filtered = recipes.filter((oneRecipe) =>
           oneRecipe.ingredientsList.some((ingredientObj) =>
             ingredientObj.ingredient_name.toLowerCase().includes(searchTerm),
           ),
         );
+        setFilteredRecipes(filtered);
+        setAllRecipes(filtered);
       } else if (selectedSearchType === 'tag') {
-        filtered = allRecipes.filter((oneRecipe) =>
+        const filtered = recipes.filter((oneRecipe) =>
           oneRecipe.tags.some((oneTag) =>
             oneTag.toLowerCase().includes(searchTerm),
           ),
         );
+        setFilteredRecipes(filtered);
+        setAllRecipes(filtered);
       }
-      setFilteredRecipes(filtered);
-      setPropsRecipes(filtered);
+    } else {
+      setFilteredRecipes(recipes);
+      setIsFiltering(false);
     }
-  }, [activeQuery, selectedSearchType, allRecipes, setPropsRecipes]);
+  }, [activeQuery, selectedSearchType, recipes, setAllRecipes]);
 
-  const handleSearchTypeChange = (newType) => {
+  const handleSearchTypeChange = (newType: SearchType) => {
     setSelectedSearchType(newType);
   };
 
-  const handleSearchQuery = (e) => {
+  const handleSearchQuery = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setActiveQuery(e.target.value);
   };
 
   function clearSearch() {
-    setFilteredRecipes(allRecipes);
+    setFilteredRecipes(recipes);
+    setIsFiltering(false);
     setActiveQuery('');
   }
 
@@ -170,35 +187,38 @@ function SearchBar({ setPropsRecipes }) {
       </Stack>
 
       {activeQuery && (
-        <div>
-          <Stack
-            spacing={0}
-            sx={{ width: '30%', position: 'absolute', zIndex: 100 }}
-          >
-            {filteredRecipes.map((eachRecipe) => {
-              return (
-                <Link
-                  to={`/recipes/${eachRecipe._id}`}
-                  style={{ color: 'black', textDecoration: 'none' }}
-                  key={eachRecipe._id}
+        <Stack
+          spacing={0}
+          sx={{
+            width: smallScreen ? '300px' : '616px',
+            position: 'absolute',
+            zIndex: 100,
+          }}
+        >
+          {filteredRecipes.map((eachRecipe) => {
+            return (
+              <Link
+                to={`/recipes/${eachRecipe._id}`}
+                style={{ color: 'black', textDecoration: 'none' }}
+                key={eachRecipe._id}
+              >
+                <Card
+                  variant="outlined"
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    height: '40px',
+                    width: 'inherit',
+                  }}
                 >
-                  <Card
-                    variant="outlined"
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      height: '40px',
-                    }}
-                  >
-                    <CardContent>
-                      <Typography variant="body2">{eachRecipe.name}</Typography>
-                    </CardContent>
-                  </Card>
-                </Link>
-              );
-            })}
-          </Stack>
-        </div>
+                  <CardContent>
+                    <Typography variant="body2">{eachRecipe.name}</Typography>
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
+        </Stack>
       )}
     </div>
   );

@@ -1,14 +1,35 @@
-export type IngredientsListItem = {
-  ingredientName: string;
-  ingredientAmount: string;
-  ingredientMeasuring: string;
-};
-
 export type Comment = {
   author: string;
   content: string;
   datePublished: Date;
 };
+
+export type Creator = {
+  _id: string;
+  user_name: string;
+  recipes?: Recipe[];
+  favorites?: Recipe[];
+};
+
+export type RecipeRequestCreator = {
+  _id: string;
+  user_name: string;
+};
+
+const UNIT_OPTIONS = [
+  'g',
+  'kg',
+  'ml',
+  'l',
+  'pinch',
+  'whole',
+  'tbsp',
+  'tsp',
+  'cups',
+  'bunch',
+];
+export type Unit = (typeof UNIT_OPTIONS)[number];
+
 const TAG_OPTIONS = [
   'Pasta 🍝',
   'Comfort food 🛏️',
@@ -35,23 +56,44 @@ const TAG_OPTIONS = [
 
 export type Tag = (typeof TAG_OPTIONS)[number];
 
-export type Recipe = {
-  name: string;
-  photoUrl?: string;
-  duration: number;
-  ingredientsList: IngredientsListItem[];
-  preparation: string;
-  description: string;
-  servings: number;
-  tags?: string[];
-  creator?: string;
-  comments?: Comment[];
+export type IngredientsListItem = {
+  ingredientName: string;
+  ingredientAmount: string;
+  ingredientMeasuring: Unit;
 };
 
 export type IngredientFormValues = {
   ingredient_name: string;
   ingredient_amount: string;
-  ingredient_measuring: string;
+  ingredient_measuring: Unit;
+};
+
+// Full type for requests and responses from API
+export type Recipe = {
+  _id: string;
+  name: string;
+  photoUrl?: string;
+  duration: number;
+  ingredientsList: IngredientFormValues[];
+  preparation: string;
+  description: string;
+  servings: number;
+  tags: Tag[];
+  creator: Creator;
+  comments?: Comment[];
+};
+
+export type RecipeRequest = {
+  name: string;
+  photoUrl?: string;
+  duration: number;
+  ingredientsList: IngredientFormValues[];
+  preparation: string;
+  description: string;
+  servings: number;
+  tags: Tag[];
+  creator: RecipeRequestCreator;
+  comments?: Comment[];
 };
 
 export type IngredientErrors = {

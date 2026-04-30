@@ -2,8 +2,9 @@ import { Button, Container, IconButton, Typography } from '@mui/material';
 import FAQSearchBar from '../Components/FAQSearchBar';
 import { useState, type Dispatch, type SetStateAction } from 'react';
 import './FAQPage.css';
+import type { FAQpair } from '../types/faq.types';
 
-const faq = [
+const faq: FAQpair[] = [
   //cuestions and answers
   {
     question: `What is Karela Created for?`,
@@ -66,10 +67,10 @@ const faq = [
 ];
 
 function FAQPage() {
-  const [showAnswer, setShowAnswer] = useState(null); //for opening the question
-  const [plusOrLess, setPlusOrLess] = useState(null); //for opening the + and -
-  const [filteredFAQ, setFilteredFAQ] = useState(faq);
-  const [allFaq, setAllfaq] = useState(faq);
+  const [showAnswer, setShowAnswer] = useState<number>(); //for opening the question
+  const [plusOrLess, setPlusOrLess] = useState<number>(); //for opening the + and -
+  const [filteredFAQ, setFilteredFAQ] = useState<FAQpair[]>(faq);
+  const [allFAQ, setAllFAQ] = useState<FAQpair[]>(faq);
   const [valueEntered, setValueEntered] = useState('');
 
   function ShowResponseFunction(index: number) {
@@ -79,8 +80,8 @@ function FAQPage() {
       setPlusOrLess(index);
     } else {
       // else makes the if in the return false, so classmame stays like response hidden and not response
-      setShowAnswer(null);
-      setPlusOrLess(null);
+      setShowAnswer(undefined);
+      setPlusOrLess(undefined);
     }
   }
 
@@ -90,11 +91,9 @@ function FAQPage() {
         Frequently Asked Questions
       </Typography>
       <FAQSearchBar
-        faq={faq}
         filteredFAQ={filteredFAQ}
-        allFaq={allFaq}
+        allFAQ={allFAQ}
         setFilteredFAQ={setFilteredFAQ}
-        setAllfaq={setAllfaq}
         valueEntered={valueEntered}
         setValueEntered={setValueEntered}
       ></FAQSearchBar>
@@ -104,7 +103,7 @@ function FAQPage() {
           <Button
             id="no-result-button"
             onClick={() => {
-              setFilteredFAQ(allFaq);
+              setFilteredFAQ(allFAQ);
               setValueEntered('');
             }}
           >

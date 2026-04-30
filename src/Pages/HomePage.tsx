@@ -12,12 +12,13 @@ import {
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import json2mq from 'json2mq';
-import recipesService from '../services/recipes.services.js';
 import './HomePage.css';
+import { getAllRecipes } from '../services/recipes.services';
+import type { Recipe } from '../types/recipe.types';
 
 function HomePage() {
   const [allRecipes, setAllRecipes] = useState([]);
-  const [randomRecipe, setRandomRecipe] = useState(null);
+  const [randomRecipe, setRandomRecipe] = useState<Recipe>();
 
   const theme = useTheme();
 
@@ -36,11 +37,10 @@ function HomePage() {
   );
 
   useEffect(() => {
-    recipesService
-      .getAllRecipes()
+    getAllRecipes()
       .then((recipesFromAPI) => {
-        const recipeIds = recipesFromAPI.data.filter(
-          (oneRecipe) => oneRecipe._id,
+        const recipeIds = recipesFromAPI.filter(
+          (oneRecipe: Recipe) => oneRecipe._id,
         );
         setAllRecipes(recipeIds);
       })
@@ -50,8 +50,12 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    setRandomRecipe(allRecipes[Math.floor(Math.random() * allRecipes.length)]);
-    console.log(randomRecipe);
+    if (allRecipes) {
+      setRandomRecipe(
+        allRecipes[Math.floor(Math.random() * allRecipes.length)],
+      );
+      console.log(randomRecipe);
+    }
   }, [allRecipes, randomRecipe]);
 
   return (

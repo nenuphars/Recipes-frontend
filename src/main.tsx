@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/auth.context.jsx';
 import { RecipeProviderWrapper } from './context/recipe.context.jsx';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <AuthProvider>
     <RecipeProviderWrapper>
       <BrowserRouter>
