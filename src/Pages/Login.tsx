@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
@@ -7,6 +7,7 @@ import {
   InputAdornment,
   IconButton,
   Container,
+  Alert,
 } from '@mui/material';
 
 import {
@@ -21,6 +22,9 @@ import { appTheme } from '../themes/theme.jsx';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import './Login.css';
 import { login } from '../services/auth.services.ts';
+import LoginSchema from '../validation/login-validation.ts';
+import z from 'zod';
+import axios from 'axios';
 
 function Login() {
   const [username, setUsername] = useState<string>('');
@@ -41,25 +45,36 @@ function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    setErrorMessage('');
+
     const user = {
       user_name: username,
       password: password,
     };
+
+    const userValidation = LoginSchema.safeParse(user);
+    if (!userValidation.success) {
+      setErrorMessage(z.prettifyError(userValidation.error));
+      return; // bail early, never calls the API
+    }
+
     try {
       const data = await login(user);
       setToken(data.authToken, data.user);
       navigate('/dashboard');
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverMessage =
+          error.response?.data?.message ||
+          error.response?.data?.error ||
+          `Something went wrong (${error.response?.status ?? 'no response'})`;
+
+        setErrorMessage(serverMessage);
+      } else {
+        setErrorMessage('An unexpected error occurred.');
+      }
       console.log('Error occured when trying to log in: ', error);
     }
-  };
-
-  const errorMessageElement = () => {
-    return (
-      <Typography variant="caption" sx={{ color: 'red' }}>
-        {errorMessage}
-      </Typography>
-    );
   };
 
   return (
@@ -78,14 +93,11 @@ function Login() {
           titleTypographyProps={{ fontFamily: 'Edu AU VIC WA NT' }}
         />
         <CardContent>
-          <form
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
-          >
+          <form onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <TextField
                 label="username"
+                type="text"
                 required
                 value={username}
                 onChange={(e) => {
@@ -115,10 +127,14 @@ function Login() {
                   ),
                 }}
               />
-              <Button variant="contained" type="submit">
+              <Button type="submit" variant="contained">
                 Submit
               </Button>
-              {errorMessage && errorMessageElement()}
+              {errorMessage && (
+                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>
+                  {errorMessage}
+                </Alert>
+              )}
               <Link
                 to="/signup"
                 style={{ color: appTheme.palette.primary.main }}

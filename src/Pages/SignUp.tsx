@@ -11,6 +11,7 @@ import {
   InputAdornment,
   IconButton,
   Container,
+  Alert,
 } from '@mui/material';
 
 // import { AuthContext } from '../context/auth.context';
@@ -19,6 +20,9 @@ import { appTheme } from '../themes/theme.jsx';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import './Login.css';
 import { signup } from '../services/auth.services.ts';
+import UserSchema from '../validation/user-validation.ts';
+import z from 'zod';
+import axios from 'axios';
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -30,45 +34,54 @@ function Signup() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = () => {
+    setShowPassword((show) => !show);
+  };
 
-  const handleMouseDownPassword = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleMouseDownPassword = (event: React.MouseEvent) => {
     event.preventDefault();
   };
 
-  const errorMessageElement = () => {
-    return (
-      <Typography variant="caption" sx={{ color: 'red' }}>
-        {errorMessage}
-      </Typography>
-    );
-  };
-
-  // const { authenticateUser } = useContext(AuthContext);
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('inside handle submit');
+    setErrorMessage('');
+
+    if (password !== repeatPassword) {
+      console.log('Passwords dont match');
+      setErrorMessage('Passwords dont match');
+      return;
+    }
+
     if (password === repeatPassword) {
-      console.log('passwords match');
+      console.log('Passwords match');
       const newUser = {
         user_name: username,
         password: password,
       };
       console.log('new user: ', newUser);
+      const validateSignup = UserSchema.safeParse(newUser);
+      if (!validateSignup.success) {
+        setErrorMessage(z.prettifyError(validateSignup.error));
+        return;
+      }
+      try {
+        const data = await signup(username, password);
+        navigate('/login');
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          const serverMessage =
+            error.response?.data?.message ||
+            error.response?.data?.error ||
+            `Something went wrong (${error.response?.status ?? 'no response'})`;
 
-      signup(username, password)
-        .then(() => {
-          navigate('/login');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      setErrorMessage("passwords don't match");
-      console.log(errorMessage);
+          setErrorMessage(serverMessage);
+        } else {
+          setErrorMessage('An unexpected error occurred.');
+        }
+        console.log('Error occured when trying to sign up: ', error);
+      }
     }
-  }
+  };
 
   return (
     <Container
@@ -101,12 +114,7 @@ function Signup() {
           titleTypographyProps={{ fontFamily: 'Edu AU VIC WA NT' }}
         />
         <CardContent>
-          <form
-            style={{ width: '100%' }}
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
-          >
+          <form style={{ width: '100%' }} onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <TextField
                 label="username"
@@ -129,8 +137,8 @@ function Signup() {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => handleClickShowPassword}
-                        onMouseDown={() => handleMouseDownPassword}
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -152,8 +160,8 @@ function Signup() {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => handleClickShowPassword}
-                        onMouseDown={() => handleMouseDownPassword}
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -165,7 +173,11 @@ function Signup() {
               <Button variant="contained" type="submit">
                 Submit
               </Button>
-              {errorMessage && errorMessageElement()}
+              {errorMessage && (
+                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>
+                  {errorMessage}
+                </Alert>
+              )}
 
               <Link
                 to="/login"

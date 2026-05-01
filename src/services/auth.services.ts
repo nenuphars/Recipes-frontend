@@ -2,11 +2,23 @@ import axiosInstance from './axios';
 import config from './axios-config';
 import type { LoginPayload, LoginResponse } from '../types/auth.types';
 
-export const signup = (user_name: string, password: string) => {
-  return axiosInstance.post(`${config.ApiUrl}/api/auth/signup`, {
-    user_name,
-    password,
-  });
+export const signup = async (
+  user_name: string,
+  password: string,
+): Promise<LoginResponse | any> => {
+  try {
+    const response = await axiosInstance.post(
+      `${config.ApiUrl}/api/auth/signup`,
+      {
+        user_name,
+        password,
+      },
+    );
+    return response.data;
+  } catch (err: any) {
+    console.log('An error occured during signup: ', err);
+    throw err;
+  }
 };
 
 export const login = async (
@@ -19,9 +31,9 @@ export const login = async (
     );
 
     return response.data;
-  } catch (err) {
+  } catch (err: any) {
     console.log('An error occured during login: ', err);
-    return err;
+    throw err;
   }
 };
 
