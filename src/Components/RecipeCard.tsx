@@ -17,6 +17,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import './RecipeCard.css';
 import { deleteRecipe } from '../services/recipes.services';
 import type { Recipe } from '../types/recipe.types';
+import { useAuth } from '../context/auth.context';
 
 type RecipeCardProps = {
   recipe: Recipe;
@@ -25,6 +26,7 @@ type RecipeCardProps = {
 
 function RecipeCard({ recipe, currentPage }: RecipeCardProps) {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [openDialog, setOpenDialog] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -59,7 +61,7 @@ function RecipeCard({ recipe, currentPage }: RecipeCardProps) {
                 sx={{ borderRadius: '8px' }}
               /> */}
 
-                <CardContent>
+                <CardContent sx={{ height: '80%' }}>
                   <Stack spacing={3}>
                     <Typography variant="h6">{recipe.name}</Typography>
                     <div className="tag-container">
@@ -79,13 +81,14 @@ function RecipeCard({ recipe, currentPage }: RecipeCardProps) {
                       Author: {recipe.creator.user_name}
                     </Typography>
 
-                    <Typography variant="body2">
+                    <Typography sx={{ height: '50%' }} variant="body2">
                       {recipe.description}
                     </Typography>
                   </Stack>
                 </CardContent>
               </CardActionArea>
-              {currentPage === 'dashboard' && (
+              {(currentPage === 'dashboard' ||
+                recipe.creator._id === user?._id) && (
                 <Container
                   sx={{
                     height: '20%',

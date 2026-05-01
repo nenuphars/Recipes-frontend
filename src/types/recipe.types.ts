@@ -64,7 +64,7 @@ export type IngredientsListItem = {
 
 export type IngredientFormValues = {
   ingredient_name: string;
-  ingredient_amount: string;
+  ingredient_amount: number;
   ingredient_measuring: Unit;
 };
 
